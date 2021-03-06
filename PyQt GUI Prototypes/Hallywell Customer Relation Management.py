@@ -6,6 +6,7 @@ import sys
 # FIXME: Learn what most of the lines of code do so we can better manipulate it
 # FIXME: Restructure code for more readability and less warnings
 
+
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
@@ -61,8 +62,8 @@ class Ui_MainWindow(object):
     # Gets data from SQL Server and displays it onto the GUI when load data is pressed
     # NB. Before running code make sure the enter the missing data such as table and database names
     def onclick(self):
-        table_data = [[item for item in row] for row in server_connection('SELECT * FROM ENTER DATABASE NAME.dbo.ENTER TABLE NAME')]
-        table_headers = [[item for item in row] for row in server_connection('SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = \'ENTER TABLE NAME\'')]
+        table_data = [[item for item in row] for row in server_connection('SELECT * FROM CIS3365_Project.dbo.Orders')]
+        table_headers = [[item for item in row] for row in server_connection('SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = \'Orders\'')]
         col = 0
         for row_data in table_headers:
             for data in row_data:
@@ -77,8 +78,8 @@ class Ui_MainWindow(object):
 # NB. Before running code make sure the enter the missing data such as database and server names
 def server_connection(command):
     conn = pyodbc.connect('Driver={SQL Server};'
-                          'Server=ENTER SERVER NAME;'
-                          'Database=ENTER DATABASE NAME;'
+                          'Server=LAPTOP-S6PL64NB;'
+                          'Database=CIS3365_Project;'
                           'Trusted_Connection=yes;')
     cursor = conn.cursor()
     cursor.execute(command)
