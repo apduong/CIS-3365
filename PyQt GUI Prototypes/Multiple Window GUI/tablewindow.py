@@ -7,6 +7,8 @@ class Ui_tablewindow(object):
     def setupUi(self, tablewindow):
         # Stores selected table from text file
         self.table = trans_data('shared.txt')
+        # Stores the amount of attributes and attribute names
+        self.headers = self.create_attributes()
         tablewindow.setObjectName("tablewindow")
         tablewindow.resize(1112, 808)
         self.centralwidget = QtWidgets.QWidget(tablewindow)
@@ -43,15 +45,25 @@ class Ui_tablewindow(object):
         self.tableWidget = QtWidgets.QTableWidget(self.scrollAreaWidgetContents)
         self.tableWidget.setGeometry(QtCore.QRect(390, 180, 671, 481))
         self.tableWidget.setObjectName("tableWidget")
-        self.attribute1 = QtWidgets.QLabel(self.scrollAreaWidgetContents)
-        self.attribute1.setGeometry(QtCore.QRect(20, 180, 121, 20))
-        font = QtGui.QFont()
-        font.setPointSize(10)
-        self.attribute1.setFont(font)
-        self.attribute1.setObjectName("attribute1")
-        self.lineEdit = QtWidgets.QLineEdit(self.scrollAreaWidgetContents)
-        self.lineEdit.setGeometry(QtCore.QRect(160, 180, 151, 21))
-        self.lineEdit.setObjectName("lineEdit")
+        dimension_label = QtCore.QRect(20, 180, 121, 20)
+        self.label_names = []
+        for i in range(self.headers[0]):
+            attribute = QtWidgets.QLabel(self.scrollAreaWidgetContents)
+            attribute.setGeometry(dimension_label)
+            font = QtGui.QFont()
+            font.setPointSize(10)
+            attribute.setFont(font)
+            attribute.setObjectName(f"attribute{i+1}")
+            dimension_label.translate(0, 40)
+            self.label_names.append(attribute)
+        self.lineEdit_names = []
+        dimension_input = QtCore.QRect(160, 180, 151, 21)
+        for i in range(self.headers[0]):
+            lineEdit = QtWidgets.QLineEdit(self.scrollAreaWidgetContents)
+            lineEdit.setGeometry(dimension_input)
+            lineEdit.setObjectName("lineEdit")
+            dimension_input.translate(0, 40)
+            self.lineEdit_names.append(lineEdit)
         self.next_button = QtWidgets.QPushButton(self.scrollAreaWidgetContents)
         self.next_button.setGeometry(QtCore.QRect(280, 610, 93, 28))
         self.next_button.setObjectName("next_button")
@@ -89,8 +101,10 @@ class Ui_tablewindow(object):
         tablewindow.setWindowTitle(_translate("tablewindow", "MainWindow"))
         self.label.setText(_translate("tablewindow", "Hallywell"))
         self.label_2.setText(_translate("tablewindow", "Customer Relationship Management"))
-        self.attribute1.setText(_translate("tablewindow", "Enter attribute:"))
-        self.lineEdit.setPlaceholderText(_translate("tablewindow", "Please enter attribute"))
+        for i, name in enumerate(self.label_names):
+            name.setText(_translate("tablewindow", f"Enter {self.headers[1][i][0]}:"))
+        for name in self.lineEdit_names:
+            name.setPlaceholderText(_translate("tablewindow", "Please enter attribute"))
         self.next_button.setText(_translate("tablewindow", "Next"))
         self.prev_button.setText(_translate("tablewindow", "Previous"))
         self.display_button.setText(_translate("tablewindow", "Display Current"))
@@ -99,6 +113,16 @@ class Ui_tablewindow(object):
         self.update_button.setText(_translate("tablewindow", "Update"))
         self.delete_button.setText(_translate("tablewindow", "Delete"))
         self.statuslabel.setText(_translate("tablewindow", "Please Click To Load Data"))
+
+    # returns the amount of attributes and attribute names from a table
+    def create_attributes(self):
+        column_total = 0
+        table_headers = [[item for item in row] for row in (server_connection(
+            ("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME='%s'" % self.table)))]
+        for i, _ in enumerate(table_headers):
+            column_total += 1
+        return column_total, table_headers
+
 
     def load_data(self):
         column_total = 0
@@ -127,8 +151,8 @@ class Ui_tablewindow(object):
 # Enter your information specific to your local server for now
 def server_connection(command):
     conn = pyodbc.connect('Driver={SQL Server};'  # Leave this as is
-                          'Server=ENTER SERVER NAME;'  # Enter your local Server Name
-                          'Database=ENTER DATABASE NAME;'  # Enter your Database Name
+                          'Server=ENTER YOUR SERVER;'  # Enter your local Server Name
+                          'Database=ENTER YOUR DATABASE;'  # Enter your Database Name
                           'Trusted_Connection=yes;')  # Leave this as is
     cursor = conn.cursor()
     cursor.execute(command)
