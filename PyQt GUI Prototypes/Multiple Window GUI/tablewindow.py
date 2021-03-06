@@ -75,7 +75,7 @@ class Ui_tablewindow(object):
         self.delete_button.setGeometry(QtCore.QRect(280, 680, 93, 28))
         self.delete_button.setObjectName("delete_button")
         self.statuslabel = QtWidgets.QLabel(self.scrollAreaWidgetContents)
-        self.statuslabel.setGeometry(QtCore.QRect(500, 680, 500, 16))
+        self.statuslabel.setGeometry(QtCore.QRect(500, 680, 200, 16))
         self.statuslabel.setObjectName("statuslabel")
         self.scrollArea.setWidget(self.scrollAreaWidgetContents)
         self.horizontalLayout.addWidget(self.scrollArea)
