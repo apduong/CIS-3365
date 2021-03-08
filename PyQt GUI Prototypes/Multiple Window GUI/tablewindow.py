@@ -126,7 +126,7 @@ class Ui_tablewindow(object):
 
     def load_data(self):
         column_total = 0
-        row_total = 0
+        row_total = 1  # This takes into consideration the row for the attributes
         table_data = [[item for item in row] for row in
                       (server_connection(f"SELECT * FROM CIS3365_Project.dbo.{self.table}"))]
         table_headers = [[item for item in row] for row in (server_connection(
@@ -151,8 +151,8 @@ class Ui_tablewindow(object):
 # Enter your information specific to your local server for now
 def server_connection(command):
     conn = pyodbc.connect('Driver={SQL Server};'  # Leave this as is
-                          'Server=ENTER YOUR SERVER;'  # Enter your local Server Name
-                          'Database=ENTER YOUR DATABASE;'  # Enter your Database Name
+                          'Server=LAPTOP-S6PL64NB;'  # Enter your local Server Name
+                          'Database=CIS3365_Project;'  # Enter your Database Name
                           'Trusted_Connection=yes;')  # Leave this as is
     cursor = conn.cursor()
     cursor.execute(command)
