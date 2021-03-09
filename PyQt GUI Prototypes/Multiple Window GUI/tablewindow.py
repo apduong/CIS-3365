@@ -1,136 +1,114 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
 import pyodbc
-import sys
 
 
-class Ui_tablewindow(object):
-    def setupUi(self, tablewindow):
-        # Stores selected table from text file
-        self.table = trans_data('shared.txt')
-        # Stores the amount of attributes and attribute names
-        self.headers = self.create_attributes()
-        tablewindow.setObjectName("tablewindow")
-        tablewindow.resize(1112, 808)
-        self.centralwidget = QtWidgets.QWidget(tablewindow)
-        self.centralwidget.setObjectName("centralwidget")
-        self.horizontalLayout = QtWidgets.QHBoxLayout(self.centralwidget)
-        self.horizontalLayout.setObjectName("horizontalLayout")
-        self.scrollArea = QtWidgets.QScrollArea(self.centralwidget)
-        self.scrollArea.setStyleSheet("QMainWindow{background-color: rgb(170, 255, 255);}")
-        self.scrollArea.setWidgetResizable(True)
-        self.scrollArea.setObjectName("scrollArea")
+class UiTableWindow(object):
+    def __init__(self, table):
+        self.selected_table = table
+        self.table_attributes = self.create_attributes()
+        super(UiTableWindow, self).__init__()
+        self.table_window = QtWidgets.QMainWindow()
+        self.central_widget = QtWidgets.QWidget(self.table_window)
+        self.horizontalLayout = QtWidgets.QHBoxLayout(self.central_widget)
+        self.scrollArea = QtWidgets.QScrollArea(self.central_widget)
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 1088, 784))
-        self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.label = QtWidgets.QLabel(self.scrollAreaWidgetContents)
+        self.label_2 = QtWidgets.QLabel(self.scrollAreaWidgetContents)
+        self.tableWidget = QtWidgets.QTableWidget(self.scrollAreaWidgetContents)
+        self.label_names, self.lineEdit_names = [], []
+        self.dimension_label = QtCore.QRect(20, 180, 200, 20)
+        self.dimension_input = QtCore.QRect(230, 180, 151, 21)
+        self.next_button = QtWidgets.QPushButton(self.scrollAreaWidgetContents)
+        self.prev_button = QtWidgets.QPushButton(self.scrollAreaWidgetContents)
+        self.display_button = QtWidgets.QPushButton(self.scrollAreaWidgetContents)
+        self.showdata_button = QtWidgets.QPushButton(self.scrollAreaWidgetContents)
+        self.create_button = QtWidgets.QPushButton(self.scrollAreaWidgetContents)
+        self.update_button = QtWidgets.QPushButton(self.scrollAreaWidgetContents)
+        self.delete_button = QtWidgets.QPushButton(self.scrollAreaWidgetContents)
+        self.statuslabel = QtWidgets.QLabel(self.scrollAreaWidgetContents)
+
+    def setup_ui(self):
+        self.table_window.setObjectName("TableWindow")
+        self.table_window.resize(1920, 1080)
+        self.scrollArea.setWidgetResizable(True)
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 1088, 784))
         self.label.setGeometry(QtCore.QRect(470, 10, 172, 45))
-        font = QtGui.QFont()
-        font.setFamily("Arial")
-        font.setPointSize(24)
-        font.setBold(True)
-        font.setWeight(75)
-        self.label.setFont(font)
+        self.label.setFont(self.set_font("Arial", 24, 75, True))
         self.label.setAlignment(QtCore.Qt.Alignment.AlignCenter)
         self.label.setObjectName("label")
-        self.label_2 = QtWidgets.QLabel(self.scrollAreaWidgetContents)
         self.label_2.setGeometry(QtCore.QRect(290, 60, 520, 34))
-        font = QtGui.QFont()
-        font.setFamily("Arial")
-        font.setPointSize(18)
-        font.setBold(True)
-        font.setWeight(75)
-        self.label_2.setFont(font)
+        self.label_2.setFont(self.set_font("Arial", 18, 75, True))
         self.label_2.setAlignment(QtCore.Qt.Alignment.AlignCenter)
         self.label_2.setObjectName("label_2")
-        self.tableWidget = QtWidgets.QTableWidget(self.scrollAreaWidgetContents)
         self.tableWidget.setGeometry(QtCore.QRect(390, 180, 671, 481))
         self.tableWidget.setObjectName("tableWidget")
-        dimension_label = QtCore.QRect(20, 180, 121, 20)
-        self.label_names = []
-        for i in range(self.headers[0]):
-            attribute = QtWidgets.QLabel(self.scrollAreaWidgetContents)
-            attribute.setGeometry(dimension_label)
-            font = QtGui.QFont()
-            font.setPointSize(10)
-            attribute.setFont(font)
-            attribute.setObjectName(f"attribute{i+1}")
-            dimension_label.translate(0, 40)
-            self.label_names.append(attribute)
-        self.lineEdit_names = []
-        dimension_input = QtCore.QRect(160, 180, 151, 21)
-        for i in range(self.headers[0]):
-            lineEdit = QtWidgets.QLineEdit(self.scrollAreaWidgetContents)
-            lineEdit.setGeometry(dimension_input)
-            lineEdit.setObjectName("lineEdit")
-            dimension_input.translate(0, 40)
-            self.lineEdit_names.append(lineEdit)
-        self.next_button = QtWidgets.QPushButton(self.scrollAreaWidgetContents)
+        self.create()
         self.next_button.setGeometry(QtCore.QRect(280, 610, 93, 28))
         self.next_button.setObjectName("next_button")
-        self.prev_button = QtWidgets.QPushButton(self.scrollAreaWidgetContents)
         self.prev_button.setGeometry(QtCore.QRect(20, 610, 93, 28))
         self.prev_button.setObjectName("prev_button")
-        self.display_button = QtWidgets.QPushButton(self.scrollAreaWidgetContents)
         self.display_button.setGeometry(QtCore.QRect(150, 610, 101, 28))
         self.display_button.setObjectName("display_button")
-        self.showdata_button = QtWidgets.QPushButton(self.scrollAreaWidgetContents)
         self.showdata_button.setGeometry(QtCore.QRect(700, 670, 101, 28))
         self.showdata_button.setObjectName("showdata_button")
         self.showdata_button.clicked.connect(self.load_data)
-        self.create_button = QtWidgets.QPushButton(self.scrollAreaWidgetContents)
         self.create_button.setGeometry(QtCore.QRect(20, 680, 93, 28))
         self.create_button.setObjectName("create_button")
-        self.update_button = QtWidgets.QPushButton(self.scrollAreaWidgetContents)
         self.update_button.setGeometry(QtCore.QRect(160, 680, 93, 28))
         self.update_button.setObjectName("update_button")
-        self.delete_button = QtWidgets.QPushButton(self.scrollAreaWidgetContents)
         self.delete_button.setGeometry(QtCore.QRect(280, 680, 93, 28))
         self.delete_button.setObjectName("delete_button")
-        self.statuslabel = QtWidgets.QLabel(self.scrollAreaWidgetContents)
         self.statuslabel.setGeometry(QtCore.QRect(500, 680, 200, 16))
         self.statuslabel.setObjectName("statuslabel")
         self.scrollArea.setWidget(self.scrollAreaWidgetContents)
         self.horizontalLayout.addWidget(self.scrollArea)
-        tablewindow.setCentralWidget(self.centralwidget)
+        self.table_window.setCentralWidget(self.central_widget)
+        self.translate_ui()
+        QtCore.QMetaObject.connectSlotsByName(self.table_window)
+        self.table_window.show()
 
-        self.retranslateUi(tablewindow)
-        QtCore.QMetaObject.connectSlotsByName(tablewindow)
-
-    def retranslateUi(self, tablewindow):
+    def translate_ui(self):
         _translate = QtCore.QCoreApplication.translate
-        tablewindow.setWindowTitle(_translate("tablewindow", "MainWindow"))
-        self.label.setText(_translate("tablewindow", "Hallywell"))
-        self.label_2.setText(_translate("tablewindow", "Customer Relationship Management"))
+        self.table_window.setWindowTitle(_translate("TableWindow", f"{self.selected_table}'s Table Data"))
+        self.label.setText(_translate("TableWindow", "Hallywell"))
+        self.label_2.setText(_translate("TableWindow", "Customer Relationship Management"))
         for i, name in enumerate(self.label_names):
-            name.setText(_translate("tablewindow", f"Enter {self.headers[1][i][0]}:"))
+            name.setText(_translate("TableWindow", f"Enter {self.table_attributes[1][i][0]}:"))
         for name in self.lineEdit_names:
-            name.setPlaceholderText(_translate("tablewindow", "Please enter attribute"))
-        self.next_button.setText(_translate("tablewindow", "Next"))
-        self.prev_button.setText(_translate("tablewindow", "Previous"))
-        self.display_button.setText(_translate("tablewindow", "Display Current"))
-        self.showdata_button.setText(_translate("tablewindow", "Show ALL Data"))
-        self.create_button.setText(_translate("tablewindow", "Create New"))
-        self.update_button.setText(_translate("tablewindow", "Update"))
-        self.delete_button.setText(_translate("tablewindow", "Delete"))
-        self.statuslabel.setText(_translate("tablewindow", "Please Click To Load Data"))
+            name.setPlaceholderText(_translate("TableWindow", "Please enter attribute"))
+        self.next_button.setText(_translate("TableWindow", "Next"))
+        self.prev_button.setText(_translate("TableWindow", "Previous"))
+        self.display_button.setText(_translate("TableWindow", "Display Current"))
+        self.showdata_button.setText(_translate("TableWindow", "Show ALL Data"))
+        self.create_button.setText(_translate("TableWindow", "Create New"))
+        self.update_button.setText(_translate("TableWindow", "Update"))
+        self.delete_button.setText(_translate("TableWindow", "Delete"))
+        self.statuslabel.setText(_translate("TableWindow", "Please Click To Load Data"))
 
-    # returns the amount of attributes and attribute names from a table
-    def create_attributes(self):
-        column_total = 0
-        table_headers = [[item for item in row] for row in (server_connection(
-            ("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME='%s'" % self.table)))]
-        for i, _ in enumerate(table_headers):
-            column_total += 1
-        return column_total, table_headers
-
+    # Create the correct amount of input and labels depending on the amount of attributes
+    def create(self):
+        for i in range(self.table_attributes[0]):
+            attribute = QtWidgets.QLabel(self.scrollAreaWidgetContents)
+            attribute.setGeometry(self.dimension_label)
+            font = QtGui.QFont()
+            font.setPointSize(10)
+            attribute.setFont(font)
+            attribute.setObjectName(f"attribute{i + 1}")
+            self.dimension_label.translate(0, 40)
+            self.label_names.append(attribute)
+            line_edit = QtWidgets.QLineEdit(self.scrollAreaWidgetContents)
+            line_edit.setGeometry(self.dimension_input)
+            line_edit.setObjectName("lineEdit")
+            self.dimension_input.translate(0, 40)
+            self.lineEdit_names.append(line_edit)
 
     def load_data(self):
         column_total = 0
         row_total = 1  # This takes into consideration the row for the attributes
         table_data = [[item for item in row] for row in
-                      (server_connection(f"SELECT * FROM CIS3365_Project.dbo.{self.table}"))]
+                      (server_connection(f"SELECT * FROM CIS3365_Project.dbo.{self.selected_table}"))]
         table_headers = [[item for item in row] for row in (server_connection(
-            ("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME='%s'" % self.table)))]
+            ("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME='%s'" % self.selected_table)))]
         for i, _ in enumerate(table_data):
             row_total += 1
         for i, _ in enumerate(table_headers):
@@ -147,29 +125,30 @@ class Ui_tablewindow(object):
                 self.tableWidget.setItem(row_number + 1, column_number, QtWidgets.QTableWidgetItem(str(data)))
         self.statuslabel.setText("Data has been loaded successfully")
 
+    def set_font(self, family, size, weight, bold=True):
+        font = QtGui.QFont()
+        font.setFamily(family)
+        font.setPointSize(size)
+        font.setWeight(weight)
+        font.setBold(bold)
+        return font
+
+    # Returns the amount of attributes and attribute names from a table
+    def create_attributes(self):
+        column_total = 0
+        table_headers = [[item for item in row] for row in (server_connection(
+            ("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME='%s'" % self.selected_table)))]
+        for i, _ in enumerate(table_headers):
+            column_total += 1
+        return column_total, table_headers
+
 
 # Enter your information specific to your local server for now
 def server_connection(command):
     conn = pyodbc.connect('Driver={SQL Server};'  # Leave this as is
-                          'Server=LAPTOP-S6PL64NB;'  # Enter your local Server Name
-                          'Database=CIS3365_Project;'  # Enter your Database Name
+                          'Server=ENTER SERVER NAME;'  # Enter your local Server Name
+                          'Database=ENTER DATABASE NAME;'  # Enter your Database Name
                           'Trusted_Connection=yes;')  # Leave this as is
     cursor = conn.cursor()
     cursor.execute(command)
     return cursor
-
-
-# Reads selected table from text file
-def trans_data(file_name):
-    data = open(file_name, 'r')
-    choice = data.read()
-    return choice
-
-
-if __name__ == "__main__":
-    app = QtWidgets.QApplication(sys.argv)
-    tablewindow = QtWidgets.QMainWindow()
-    ui = Ui_tablewindow()
-    ui.setupUi(tablewindow)
-    tablewindow.show()
-    sys.exit(app.exec())
