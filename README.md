@@ -45,3 +45,5 @@ Project is: _in progress_
 * Autumn Waters
 
 * Krystyan Severin
+
+* Elaine Wilde
