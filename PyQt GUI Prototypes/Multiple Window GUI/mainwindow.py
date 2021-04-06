@@ -84,6 +84,7 @@ def server_connection(command):
 # Stores all table names from the database
 def table_data():
     tables = []
+    # Change database name in SQL code as well
     for row in server_connection(
             'SELECT * FROM CIS3365_Project.INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = \'BASE TABLE\''):
         for i, item in enumerate(row):

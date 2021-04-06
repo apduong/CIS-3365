@@ -9,7 +9,7 @@ class UiTableWindow(object):
         super(UiTableWindow, self).__init__()
         self.table_window = QtWidgets.QMainWindow()
         self.central_widget = QtWidgets.QWidget(self.table_window)
-        self.horizontalLayout = QtWidgets.QHBoxLayout(self.central_widget)
+        self.verticalLayout = QtWidgets.QVBoxLayout(self.central_widget)
         self.scrollArea = QtWidgets.QScrollArea(self.central_widget)
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
         self.label = QtWidgets.QLabel(self.scrollAreaWidgetContents)
@@ -29,7 +29,7 @@ class UiTableWindow(object):
 
     def setup_ui(self):
         self.table_window.setObjectName("TableWindow")
-        self.table_window.resize(1920, 1080)
+        self.table_window.resize(1024, 768)
         self.scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 1088, 784))
         self.label.setGeometry(QtCore.QRect(470, 10, 172, 45))
@@ -61,8 +61,8 @@ class UiTableWindow(object):
         self.statuslabel.setGeometry(QtCore.QRect(500, 680, 200, 16))
         self.statuslabel.setObjectName("statuslabel")
         self.scrollArea.setWidget(self.scrollAreaWidgetContents)
-        self.horizontalLayout.addWidget(self.scrollArea)
-        self.table_window.setCentralWidget(self.central_widget)
+        self.verticalLayout.addWidget(self.scrollArea)
+        self.table_window.setCentralWidget(self.scrollArea)
         self.translate_ui()
         QtCore.QMetaObject.connectSlotsByName(self.table_window)
         self.table_window.show()
@@ -105,6 +105,7 @@ class UiTableWindow(object):
     def load_data(self):
         column_total = 0
         row_total = 1  # This takes into consideration the row for the attributes
+        # Change database name in SQL code here as well
         table_data = [[item for item in row] for row in
                       (server_connection(f"SELECT * FROM CIS3365_Project.dbo.{self.selected_table}"))]
         table_headers = [[item for item in row] for row in (server_connection(
