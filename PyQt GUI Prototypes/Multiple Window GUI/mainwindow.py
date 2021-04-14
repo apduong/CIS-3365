@@ -73,8 +73,8 @@ class UiMainWindow(object):
 # Enter your information specific to your local server for now
 def server_connection(command):
     conn = pyodbc.connect('Driver={SQL Server};'  # Leave this as is
-                          'Server=ENTER SERVER NAME;'  # Enter your local Server Name
-                          'Database=ENTER DATABASE NAME;'  # Enter your Database Name
+                          'Server=LAPTOP-S6PL64NB;'  # Enter your local Server Name
+                          'Database=Project_Data;'  # Enter your Database Name
                           'Trusted_Connection=yes;')  # Leave this as is
     cursor = conn.cursor()
     cursor.execute(command)
@@ -86,7 +86,7 @@ def table_data():
     tables = []
     # Change database name in SQL code as well
     for row in server_connection(
-            'SELECT * FROM CIS3365_Project.INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = \'BASE TABLE\''):
+            'SELECT * FROM Project_Data.INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = \'BASE TABLE\''):
         for i, item in enumerate(row):
             if i == 2:
                 tables.append(item)
@@ -98,3 +98,4 @@ if __name__ == '__main__':
     gui = UiMainWindow(table_data())
     gui.setup_ui()
     sys.exit(app.exec())
+

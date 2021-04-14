@@ -163,7 +163,7 @@ def get_table_names():
     for row in data:
         for i, name in enumerate(row):
             if i == 2:
-                table_names.append(name.replace("_", " ").title())
+                table_names.append(name)
     return table_names
 
 

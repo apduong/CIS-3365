@@ -1,5 +1,7 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
 import resources as src
+import numpy
+from datetime import datetime
 
 # Ensure that you fill out the necessary information in the resources file
 # and your local database name in some SQL codes
@@ -124,7 +126,9 @@ class UiTableWindow(object):
                                           "background-color:rgba(143, 160, 201, 90); font-weight:bold; "
                                           "border: 1px solid black; border-radius: 10px;}")
         self.add_pushButton.setObjectName("add_pushButton")
+        self.add_pushButton.clicked.connect(self.add_data)
         self.horizontalLayout_3.addWidget(self.add_pushButton)
+        self.update_pushButton.clicked.connect(self.update_data)
         self.update_pushButton.setMinimumSize(QtCore.QSize(0, 30))
         self.update_pushButton.setMaximumSize(QtCore.QSize(180, 16777215))
         font = QtGui.QFont()
@@ -138,6 +142,7 @@ class UiTableWindow(object):
                                              "border: 1px solid black; border-radius: 10px;}")
         self.update_pushButton.setObjectName("update_pushButton")
         self.horizontalLayout_3.addWidget(self.update_pushButton)
+        self.update_pushButton.clicked.connect(self.update_data)
         self.del_pushButton.setMinimumSize(QtCore.QSize(0, 30))
         self.del_pushButton.setMaximumSize(QtCore.QSize(180, 16777215))
         font = QtGui.QFont()
@@ -150,6 +155,7 @@ class UiTableWindow(object):
                                           "background-color:rgba(143, 160, 201, 90); font-weight:bold; "
                                           "border: 1px solid black; border-radius: 10px;}")
         self.del_pushButton.setObjectName("del_pushButton")
+        self.del_pushButton.clicked.connect(self.delete_data)
         self.horizontalLayout_3.addWidget(self.del_pushButton)
         self.verticalLayout.addWidget(self.frame_4)
         self.scrollArea.setWidget(self.scrollAreaWidgetContents)
@@ -159,6 +165,7 @@ class UiTableWindow(object):
         QtCore.QMetaObject.connectSlotsByName(self.table_window)
         self.display_data()
         self.table_window.show()
+
 
     def translate_ui(self):
         _translate = QtCore.QCoreApplication.translate
@@ -209,7 +216,7 @@ class UiTableWindow(object):
                 table_attributes.append(name.replace("_", " ").title())
                 column_total += 1
         cursor = src.server_connection().cursor()
-        data = cursor.execute(f"SELECT * FROM Project_Data.dbo.{self.selected_table}")
+        data = cursor.execute(f"SELECT * FROM Project_Data.dbo.[{self.selected_table}]")
         table_data = [[item for item in row] for row in data]
         return table_attributes, table_data, column_total
 
@@ -236,10 +243,100 @@ class UiTableWindow(object):
                 self.tableWidget.setItem(row_number + 1, column_number, QtWidgets.QTableWidgetItem(str(data)))
 
     def current_data(self):
-        row_ID = int((self.lineEdit.text()))
+        row_id = int((self.lineEdit.text()))
         table_data = self.retrieve_data()
         row_data = table_data[1]
         for i, data in enumerate(row_data):
-            if row_data[i][0] == row_ID:
+            if row_data[i][0] == row_id:
                 for x, names in enumerate(self.lineEdit_names):
                     names.setText(str(row_data[i][x]))
+
+    def get_data_types(self):
+        data_types = []
+        cursor = src.server_connection().cursor()
+        data = cursor.execute(f"SELECT DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME='%s'" %
+                              self.selected_table)
+        for row in data:
+            data_types.append(row[0])
+        return data_types
+
+    def get_form_data(self):
+        edited_data = []
+        for data, names in enumerate(self.lineEdit_names):
+            edited_data.append(names.text())
+        data_types = self.get_data_types()
+        return edited_data, data_types
+
+    def format_data(self):
+        form_data = self.get_form_data()
+        data_types = form_data[1]
+        edited_data = form_data[0]
+        update_data = []
+        for row, data in zip(edited_data, data_types):
+            if data == 'int':
+                update_data.append(int(row))
+            elif data == 'Decimal' or data == 'decimal':
+                update_data.append(float(row))
+            elif data == 'bigint':
+                update_data.append((numpy.float64(row)))
+            elif data == 'date':
+                update_data.append(datetime.strptime(row, '%Y-%m-%d'))
+            else:
+                update_data.append(row)
+        return update_data
+
+    def update_data(self):
+        row_id = int((self.lineEdit.text()))
+        cursor = src.server_connection().cursor()
+        data = cursor.execute("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME='%s'" %
+                              self.selected_table)
+        headers = []
+        for i, name in enumerate(data):
+            headers.append(name[0])
+        update_data = self.format_data()
+        cnxn = src.server_connection()
+        cursor = cnxn.cursor()
+        for i, data in enumerate(update_data):
+            cursor.execute(f"UPDATE [{self.selected_table}] SET {headers[i]} = ? WHERE {headers[0]} = ?",
+                           data, row_id)
+            cnxn.commit()
+        print("Updated Record")
+        self.translate_ui()
+        self.display_data()
+
+    def add_data(self):
+        cursor = src.server_connection().cursor()
+        data = cursor.execute("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME='%s'" %
+                              self.selected_table)
+        headers = []
+        for name in data:
+            headers.append(name[0])
+        new_data = self.format_data()
+        cnxn = src.server_connection()
+        cursor = cnxn.cursor()
+        cursor.execute(f"INSERT INTO [{self.selected_table}]({headers[0]})VALUES (?)", new_data[0])
+        cnxn.commit()
+        cnxn = src.server_connection()
+        cursor = cnxn.cursor()
+        for i, data in enumerate(new_data):
+            if i > 0:
+                cursor.execute(f"UPDATE [{self.selected_table}] SET {headers[i]} = ? WHERE {headers[0]} = ?",
+                               data, new_data[0])
+            cnxn.commit()
+            print("Added Record")
+        self.display_data()
+
+    def delete_data(self):
+        row_id = int((self.lineEdit.text()))
+        cursor = src.server_connection().cursor()
+        data = cursor.execute("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME='%s'" %
+                              self.selected_table)
+        headers = []
+        for name in data:
+            headers.append(name[0])
+        cnxn = src.server_connection()
+        cursor = cnxn.cursor()
+        cursor.execute(f"DELETE FROM [{self.selected_table}] WHERE {headers[0]} = ?", row_id)
+        cnxn.commit()
+        print("Record Deleted")
+        self.display_data()
