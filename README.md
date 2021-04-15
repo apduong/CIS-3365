@@ -3,7 +3,7 @@
 ## Table of contents
 * [General info](#general-info)
 * [Technologies](#technologies)
-* [Frameworks](#frameworks)
+* [Frameworks/Libraries](#frameworks/libraries)
 * [Contents](#contents)
 * [Features](#features)
 * [Status](#status)
@@ -15,10 +15,15 @@ The main goal of this project phrase is to develop a fully functional GUI to int
 ## Technologies
 * Python 3.8
 
-## Frameworks
-* PyQt6*
+## Frameworks/Libraries
+* PyQt6
+* pyodbc
+
 ## Contents
-TBA
+#### Hallywell CRMS v1
+* This folder contains the official files of our GUI design. The main.py file is the core file for the GUI application.
+#### GUI TEST & PyQt GUI Prototypes
+* This folder contains test files from our developmental stages
 
 ## Features
 Basic CRUD functionality
