@@ -434,7 +434,7 @@ QLineEdit::hover{border-radius: 0;}</string>
                  <cursorShape>PointingHandCursor</cursorShape>
                 </property>
                 <property name="text">
-                 <string>Update Color</string>
+                 <string>Update Size</string>
                 </property>
                </widget>
               </item>

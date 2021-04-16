@@ -219,7 +219,7 @@ class Ui_ProductSizeDetail(object):
         self.label_5.setText(_translate("ProductSizeDetail", "Size Description"))
         self.label_4.setText(_translate("ProductSizeDetail", "Select Size to Edit"))
         self.lineEdit_desc.setPlaceholderText(_translate("ProductSizeDetail", "Size Description Here"))
-        self.updateButton.setText(_translate("ProductSizeDetail", "Update Color"))
+        self.updateButton.setText(_translate("ProductSizeDetail", "Update Size"))
         self.deleteButton.setText(_translate("ProductSizeDetail", "Delete Size"))
 
 

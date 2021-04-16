@@ -1,4 +1,4 @@
-# Form implementation generated from reading ui file 'ProductTypeDetail.ui'
+# Form implementation generated from reading ui file 'ProductHistoryDetail.ui'
 #
 # Created by: PyQt6 UI code generator 6.0.2
 #
@@ -9,15 +9,15 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
 
 
-class Ui_ProductTypeDetail(object):
-    def setupUi(self, ProductTypeDetail):
-        ProductTypeDetail.setObjectName("ProductTypeDetail")
-        ProductTypeDetail.resize(852, 489)
+class Ui_ProductHistoryDetail(object):
+    def setupUi(self, ProductHistoryDetail):
+        ProductHistoryDetail.setObjectName("ProductHistoryDetail")
+        ProductHistoryDetail.resize(852, 489)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap("hallywell_icon.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
-        ProductTypeDetail.setWindowIcon(icon)
-        ProductTypeDetail.setStyleSheet("background-color:#D0DBE8")
-        self.centralwidget = QtWidgets.QWidget(ProductTypeDetail)
+        ProductHistoryDetail.setWindowIcon(icon)
+        ProductHistoryDetail.setStyleSheet("background-color:#D0DBE8")
+        self.centralwidget = QtWidgets.QWidget(ProductHistoryDetail)
         self.centralwidget.setObjectName("centralwidget")
         self.verticalLayout = QtWidgets.QVBoxLayout(self.centralwidget)
         self.verticalLayout.setObjectName("verticalLayout")
@@ -207,33 +207,33 @@ class Ui_ProductTypeDetail(object):
         self.verticalLayout_2.addWidget(self.frame_2)
         self.scrollArea.setWidget(self.scrollAreaWidgetContents)
         self.verticalLayout.addWidget(self.scrollArea)
-        ProductTypeDetail.setCentralWidget(self.centralwidget)
+        ProductHistoryDetail.setCentralWidget(self.centralwidget)
 
-        self.retranslateUi(ProductTypeDetail)
-        QtCore.QMetaObject.connectSlotsByName(ProductTypeDetail)
+        self.retranslateUi(ProductHistoryDetail)
+        QtCore.QMetaObject.connectSlotsByName(ProductHistoryDetail)
 
-    def retranslateUi(self, ProductTypeDetail):
+    def retranslateUi(self, ProductHistoryDetail):
         _translate = QtCore.QCoreApplication.translate
-        ProductTypeDetail.setWindowTitle(_translate("ProductTypeDetail", "Product Type Details"))
-        self.Form_Name.setText(_translate("ProductTypeDetail", "<html><head/><body><p><span style=\" font-weight:600;\">Product</span> Type Details</p></body></html>"))
-        self.label_title.setText(_translate("ProductTypeDetail", "<strong>HallyWell</strong> \n"
+        ProductHistoryDetail.setWindowTitle(_translate("ProductHistoryDetail", "Product History Detail"))
+        self.Form_Name.setText(_translate("ProductHistoryDetail", "<html><head/><body><p><span style=\" font-weight:600;\">Product</span> History Details</p></body></html>"))
+        self.label_title.setText(_translate("ProductHistoryDetail", "<strong>HallyWell</strong> \n"
 "Linen Company"))
-        self.label.setText(_translate("ProductTypeDetail", "Add New Type"))
-        self.addButton.setText(_translate("ProductTypeDetail", "Add Type"))
-        self.lineEdit_new.setPlaceholderText(_translate("ProductTypeDetail", "Enter New Type"))
-        self.label_3.setText(_translate("ProductTypeDetail", "OR"))
-        self.label_5.setText(_translate("ProductTypeDetail", "Type Description"))
-        self.label_4.setText(_translate("ProductTypeDetail", "Select Type to Edit"))
-        self.lineEdit_desc.setPlaceholderText(_translate("ProductTypeDetail", "Type Description Here"))
-        self.updateButton.setText(_translate("ProductTypeDetail", "Update Type"))
-        self.deleteButton.setText(_translate("ProductTypeDetail", "Delete Type"))
+        self.label.setText(_translate("ProductHistoryDetail", "Add New History"))
+        self.addButton.setText(_translate("ProductHistoryDetail", "Add History"))
+        self.lineEdit_new.setPlaceholderText(_translate("ProductHistoryDetail", "Enter New History"))
+        self.label_3.setText(_translate("ProductHistoryDetail", "OR"))
+        self.label_5.setText(_translate("ProductHistoryDetail", "History Description"))
+        self.label_4.setText(_translate("ProductHistoryDetail", "Select History to Edit"))
+        self.lineEdit_desc.setPlaceholderText(_translate("ProductHistoryDetail", "History Description Here"))
+        self.updateButton.setText(_translate("ProductHistoryDetail", "Update History"))
+        self.deleteButton.setText(_translate("ProductHistoryDetail", "Delete History"))
 
 
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
-    ProductTypeDetail = QtWidgets.QMainWindow()
-    ui = Ui_ProductTypeDetail()
-    ui.setupUi(ProductTypeDetail)
-    ProductTypeDetail.show()
+    ProductHistoryDetail = QtWidgets.QMainWindow()
+    ui = Ui_ProductHistoryDetail()
+    ui.setupUi(ProductHistoryDetail)
+    ProductHistoryDetail.show()
     sys.exit(app.exec())

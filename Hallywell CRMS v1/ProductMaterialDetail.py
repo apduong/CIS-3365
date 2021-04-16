@@ -1,4 +1,4 @@
-# Form implementation generated from reading ui file 'ProductTypeDetail.ui'
+# Form implementation generated from reading ui file 'ProductMaterialDetail.ui'
 #
 # Created by: PyQt6 UI code generator 6.0.2
 #
@@ -9,15 +9,15 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
 
 
-class Ui_ProductTypeDetail(object):
-    def setupUi(self, ProductTypeDetail):
-        ProductTypeDetail.setObjectName("ProductTypeDetail")
-        ProductTypeDetail.resize(852, 489)
+class Ui_ProductMaterialDetail(object):
+    def setupUi(self, ProductMaterialDetail):
+        ProductMaterialDetail.setObjectName("ProductMaterialDetail")
+        ProductMaterialDetail.resize(852, 489)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap("hallywell_icon.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
-        ProductTypeDetail.setWindowIcon(icon)
-        ProductTypeDetail.setStyleSheet("background-color:#D0DBE8")
-        self.centralwidget = QtWidgets.QWidget(ProductTypeDetail)
+        ProductMaterialDetail.setWindowIcon(icon)
+        ProductMaterialDetail.setStyleSheet("background-color:#D0DBE8")
+        self.centralwidget = QtWidgets.QWidget(ProductMaterialDetail)
         self.centralwidget.setObjectName("centralwidget")
         self.verticalLayout = QtWidgets.QVBoxLayout(self.centralwidget)
         self.verticalLayout.setObjectName("verticalLayout")
@@ -207,33 +207,33 @@ class Ui_ProductTypeDetail(object):
         self.verticalLayout_2.addWidget(self.frame_2)
         self.scrollArea.setWidget(self.scrollAreaWidgetContents)
         self.verticalLayout.addWidget(self.scrollArea)
-        ProductTypeDetail.setCentralWidget(self.centralwidget)
+        ProductMaterialDetail.setCentralWidget(self.centralwidget)
 
-        self.retranslateUi(ProductTypeDetail)
-        QtCore.QMetaObject.connectSlotsByName(ProductTypeDetail)
+        self.retranslateUi(ProductMaterialDetail)
+        QtCore.QMetaObject.connectSlotsByName(ProductMaterialDetail)
 
-    def retranslateUi(self, ProductTypeDetail):
+    def retranslateUi(self, ProductMaterialDetail):
         _translate = QtCore.QCoreApplication.translate
-        ProductTypeDetail.setWindowTitle(_translate("ProductTypeDetail", "Product Type Details"))
-        self.Form_Name.setText(_translate("ProductTypeDetail", "<html><head/><body><p><span style=\" font-weight:600;\">Product</span> Type Details</p></body></html>"))
-        self.label_title.setText(_translate("ProductTypeDetail", "<strong>HallyWell</strong> \n"
+        ProductMaterialDetail.setWindowTitle(_translate("ProductMaterialDetail", "Product Material Details"))
+        self.Form_Name.setText(_translate("ProductMaterialDetail", "<html><head/><body><p><span style=\" font-weight:600;\">Product</span> Material Details</p></body></html>"))
+        self.label_title.setText(_translate("ProductMaterialDetail", "<strong>HallyWell</strong> \n"
 "Linen Company"))
-        self.label.setText(_translate("ProductTypeDetail", "Add New Type"))
-        self.addButton.setText(_translate("ProductTypeDetail", "Add Type"))
-        self.lineEdit_new.setPlaceholderText(_translate("ProductTypeDetail", "Enter New Type"))
-        self.label_3.setText(_translate("ProductTypeDetail", "OR"))
-        self.label_5.setText(_translate("ProductTypeDetail", "Type Description"))
-        self.label_4.setText(_translate("ProductTypeDetail", "Select Type to Edit"))
-        self.lineEdit_desc.setPlaceholderText(_translate("ProductTypeDetail", "Type Description Here"))
-        self.updateButton.setText(_translate("ProductTypeDetail", "Update Type"))
-        self.deleteButton.setText(_translate("ProductTypeDetail", "Delete Type"))
+        self.label.setText(_translate("ProductMaterialDetail", "Add New Material"))
+        self.addButton.setText(_translate("ProductMaterialDetail", "Add Material"))
+        self.lineEdit_new.setPlaceholderText(_translate("ProductMaterialDetail", "Enter New Material"))
+        self.label_3.setText(_translate("ProductMaterialDetail", "OR"))
+        self.label_5.setText(_translate("ProductMaterialDetail", "Material Description"))
+        self.label_4.setText(_translate("ProductMaterialDetail", "Select Material to Edit"))
+        self.lineEdit_desc.setPlaceholderText(_translate("ProductMaterialDetail", "Material Description Here"))
+        self.updateButton.setText(_translate("ProductMaterialDetail", "Update Material"))
+        self.deleteButton.setText(_translate("ProductMaterialDetail", "Delete Material"))
 
 
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
-    ProductTypeDetail = QtWidgets.QMainWindow()
-    ui = Ui_ProductTypeDetail()
-    ui.setupUi(ProductTypeDetail)
-    ProductTypeDetail.show()
+    ProductMaterialDetail = QtWidgets.QMainWindow()
+    ui = Ui_ProductMaterialDetail()
+    ui.setupUi(ProductMaterialDetail)
+    ProductMaterialDetail.show()
     sys.exit(app.exec())

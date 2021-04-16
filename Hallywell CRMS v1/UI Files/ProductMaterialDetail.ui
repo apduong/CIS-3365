@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>ProductStatusDetail</class>
- <widget class="QMainWindow" name="ProductStatusDetail">
+ <class>ProductMaterialDetail</class>
+ <widget class="QMainWindow" name="ProductMaterialDetail">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Product Status Details</string>
+   <string>Product Material Details</string>
   </property>
   <property name="windowIcon">
    <iconset>
@@ -74,7 +74,7 @@ QScrollBar{background: black;}
               <string notr="true">color:#6A7AA6</string>
              </property>
              <property name="text">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Product&lt;/span&gt; Status Details&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Product&lt;/span&gt; Material Details&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -174,7 +174,7 @@ QLineEdit::hover{border-radius: 0;}</string>
                  </font>
                 </property>
                 <property name="text">
-                 <string>Add New Status</string>
+                 <string>Add New Material</string>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignCenter</set>
@@ -207,7 +207,7 @@ QLineEdit::hover{border-radius: 0;}</string>
                  <cursorShape>PointingHandCursor</cursorShape>
                 </property>
                 <property name="text">
-                 <string>Add Status</string>
+                 <string>Add Material</string>
                 </property>
                </widget>
               </item>
@@ -241,7 +241,7 @@ QLineEdit::hover{border-radius: 0;}</string>
                  <set>Qt::AlignCenter</set>
                 </property>
                 <property name="placeholderText">
-                 <string>Enter New Status</string>
+                 <string>Enter New Material</string>
                 </property>
                </widget>
               </item>
@@ -319,7 +319,7 @@ QLineEdit::hover{border-radius: 0;}</string>
                  </font>
                 </property>
                 <property name="text">
-                 <string>Status Description</string>
+                 <string>Material Description</string>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignCenter</set>
@@ -347,7 +347,7 @@ QLineEdit::hover{border-radius: 0;}</string>
                  </font>
                 </property>
                 <property name="text">
-                 <string>Select Status to Edit</string>
+                 <string>Select Material to Edit</string>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignCenter</set>
@@ -381,7 +381,7 @@ QLineEdit::hover{border-radius: 0;}</string>
                  <set>Qt::AlignCenter</set>
                 </property>
                 <property name="placeholderText">
-                 <string>Status Description Here</string>
+                 <string>Material Description Here</string>
                 </property>
                </widget>
               </item>
@@ -431,7 +431,7 @@ QLineEdit::hover{border-radius: 0;}</string>
                  <cursorShape>PointingHandCursor</cursorShape>
                 </property>
                 <property name="text">
-                 <string>Update Status</string>
+                 <string>Update Material</string>
                 </property>
                </widget>
               </item>
@@ -459,7 +459,7 @@ QLineEdit::hover{border-radius: 0;}</string>
                  <cursorShape>PointingHandCursor</cursorShape>
                 </property>
                 <property name="text">
-                 <string>Delete Status</string>
+                 <string>Delete Material</string>
                 </property>
                </widget>
               </item>
