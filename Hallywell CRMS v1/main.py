@@ -27,7 +27,7 @@ from ProductThreadDetail import Ui_ProductThreadDetail
 from ProductSizeDetail import Ui_ProductSizeDetail
 # ==> Shipment Forms
 from NewShipmentform import Ui_NewShipmentForm
-from ShipmentDetails import Ui_NewShipmentForm
+from ShipmentDetailsForm import Ui_NewShipmentForm
 # ==> Employee Forms
 from NewEmployeeForm import Ui_NewEmployeeForm
 from EmployeeDetails import Ui_EmployeeDetails
