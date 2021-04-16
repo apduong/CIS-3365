@@ -23,7 +23,6 @@ from ManufacturerDetails import  Ui_ManufacturerDetails
 from EmployeeStatusDetails import Ui_EmployeeStatusDetails
 from ManufacturerStatusDetails import Ui_ManufacturerStatusDetails
 from Promotion import Ui_Promotion
-
 from NewCustomerForm import Ui_NewCustomerForm
 from NewEmployeeForm import Ui_NewEmployeeForm
 from ChannelDetailsForm import Ui_ChannelDetails
@@ -197,6 +196,91 @@ class PromotionDetails(QMainWindow):
         super().__init__(*args, **kwargs)
         self.ui = Ui_PromotionDetails()
         self.ui.setupUi(self)
+
+
+class NewCustomerForm(QMainWindow):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.ui = Ui_NewCustomerForm()
+        self.ui.setupUi(self)
+
+
+class NewEmployeeForm(QMainWindow):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.ui = Ui_NewEmployeeForm()
+        self.ui.setupUi(self)
+
+
+class ChannelDetailsForm(QMainWindow):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.ui = Ui_ChannelDetails()
+        self.ui.setupUi(self)    
+
+
+class CustomerDetailsForm(QMainWindow):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.ui = Ui_CustomerDetailsForm_2()
+        self.ui.setupUi(self) 
+
+
+class DistributorContactForm(QMainWindow):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.ui = Ui_DistributorContactForm()
+        self.ui.setupUi(self)
+
+
+class ManufacturerContactForm(QMainWindow):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.ui = Ui_ManufacturerContact()
+        self.ui.setupUi(self) 
+
+
+class DistributorDetails(QMainWindow):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.ui = Ui_DistributorDetails()
+        self.ui.setupUi(self)
+
+
+class NewPaymentForm(QMainWindow):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.ui = Ui_NewShipmentForm()
+        self.ui.setupUi(self)
+
+
+class NewShipmentform(QMainWindow):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.ui = Ui_NewShipmentForm()
+        self.ui.setupUi(self)
+
+
+class OrderStatusDetails(QMainWindow):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.ui = Ui_PaymentDetails()
+        self.ui.setupUi(self)
+
+
+class PaymentDetails(QMainWindow):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.ui = Ui_PaymentDetails()
+        self.ui.setupUi(self)
+
+
+class ShipmentDetails(QMainWindow):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.ui = Ui_NewShipmentForm()
+        self.ui.setupUi(self)
+
 
 
 if __name__ == '__main__':
