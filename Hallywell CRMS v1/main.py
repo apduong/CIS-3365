@@ -11,14 +11,12 @@ from ProductDetailForm import Ui_ProductDetails
 from ProductRatingDetail import Ui_ProductRatingDetail
 from ProductStatusDetail import Ui_ProductStatusDetail
 from ProductTypeDetail import Ui_ProductTypeDetail
-
 from DistributorDetails import Ui_DistributorDetails
 from NewPaymentForm import Ui_NewShipmentForm
 from NewShipmentform import Ui_NewShipmentForm
 from OrderStatusDetails import Ui_PaymentDetails
 from PaymentDetails import Ui_PaymentDetails
 from ShipmentDetails import Ui_NewShipmentForm
-
 from PromotionDetails import Ui_PromotionDetails
 from EmployeeDetails import Ui_EmployeeDetails
 from ManufacturerDetails import  Ui_ManufacturerDetails
@@ -51,7 +49,7 @@ class LoadingWindow(QMainWindow):
         self.shadow.setColor(QColor(0, 0, 0, 60))
         self.timer = QtCore.QTimer()
         self.timer.timeout.connect(self.progress)
-        self.timer.start(35)
+        self.timer.start(30)
         self.ui.dropshadowframe.setGraphicsEffect(self.shadow)
         self.ui.label_description.setText("<strong>WELCOME</strong> To Our Customer Relationship Management System")
         QtCore.QTimer.singleShot(1500, lambda: self.ui.label_description.setText("<strong>LOADING</strong> DATABASE"))
@@ -71,7 +69,6 @@ class LoadingWindow(QMainWindow):
     def open_mainscreen(self):
         self.ui = MainScreen()
         self.ui.show()
-        self.ui.load_forms()
 
 
 class MainScreen(QMainWindow):
@@ -79,30 +76,46 @@ class MainScreen(QMainWindow):
         super().__init__(*args, **kwargs)
         self.ui = Ui_MainScreen()
         self.ui.setupUi(self)
-        self.ui.openform_button.clicked.connect(self.open_forms)
-
-    # ADDS FORM NAMES TO FORM DROPDOWN LIST
-    # todo: add all forms to this list
-    # IDEA: We can create a text file or csv file and have it read the list of forms there
-    def load_forms(self):
-        self.ui.comboBox_form.addItems(["New Product Form", "Product Detail Form", "Product Color Detail",
-                                        "Product Rating Detail", "Product Status Detail", ""])
-
-    # THIS FUNCTION IS CALLED WHEN THE OPEN FORM BUTTON IS CLICKED
-    # todo: add logic for each form
-    def open_forms(self):
-        # Retrieves selected value from drop down list
-        selected = self.ui.comboBox_form.currentText()
-        if selected == "New Product Form":
-            self.open_productform()
-        elif selected == "Product Detail Form":
-            self.open_productdetail()
-        elif selected == "Product Color Detail":
-            self.open_productcolordetail()
-        elif selected == "Product Rating Detail":
-            self.open_productratingdetail()
-        elif selected == "Product Status Detail":
-            self.open_productstatusdetail()
+        # ==> ASSIGN ALL BUTTONS TO OPEN FORMS
+        # Customer Forms
+        self.ui.addCusButton.clicked.connect(self.open_NewCustomerForm)
+        self.ui.edit_cus.clicked.connect(self.open_CustomerDetailsForm)
+        # Order Forms
+        # self.ui.addOrdButton.clicked.connect()  # TODO: Create Order Class and Open Function
+        self.ui.edit_order_status.clicked.connect(self.open_orderstatus)
+        # Payment Forms
+        self.ui.addPayButton.clicked.connect(self.open_newpayment)
+        self.ui.edit_pay_det.clicked.connect(self.open_paymentdetails)
+        # Product Forms
+        self.ui.addButton.clicked.connect(self.open_productform)
+        self.ui.edit_color.clicked.connect(self.open_productcolordetail)
+        self.ui.edit_proddet.clicked.connect(self.open_productdetail)
+        self.ui.edit_type.clicked.connect(self.open_producttypedetail)
+        # self.ui.edit_hist.clicked.connect()  # TODO: Create Product History Form
+        self.ui.edit_rate.clicked.connect(self.open_productratingdetail)
+        # self.ui.edit_mat.clicked.connect()  # TODO: Create Product Material Form
+        # self.ui.edit_prodsize.clicked.connect()  # TODO: Create Product Size Form Class and Open Function
+        # self.ui.edit_thread.clicked.connect()  # TODO: Create Product Thread Form
+        # Shipment Forms
+        self.ui.addShip.clicked.connect(self.open_newshipment)
+        self.ui.edit_shipdet.clicked.connect(self.open_shipmentdetails)
+        # Employee Forms
+        self.ui.addEmploy.clicked.connect(self.open_NewEmployeeForm)
+        self.ui.edit_empdet.clicked.connect(self.open_employeedetails)
+        self.ui.edit_empstat.clicked.connect(self.open_employeestatusdetails)
+        # Distributor Forms
+        self.ui.edit_discon.clicked.connect(self.open_DistributorContactForm)
+        self.ui.edit_disdet.clicked.connect(self.open_distributordetails)
+        # self.ui.edit_disstat.clicked.connect()  # TODO: Create Distributor Status Form
+        # Manufacturer Forms
+        self.ui.edit_manucon.clicked.connect(self.open_ManufacturerContactForm)
+        self.ui.edit_manudet.clicked.connect(self.open_manufacturerdetails)
+        self.ui.edit_manustat.clicked.connect(self.open_manufacturerstatusdetails)
+        # Promotion Forms
+        self.ui.addPromoButton.clicked.connect(self.open_promotion)
+        self.ui.edit_promodet.clicked.connect(self.open_promotiondetails)
+        # Channel Forms
+        self.ui.edit_chandet.clicked.connect(self.open_ChannelDetailsForm)
 
     # ==> PLACE FORM DISPLAY FUNCTIONS BELOW HERE
     # todo: add functions to open all forms
@@ -363,6 +376,7 @@ class NewPaymentForm(QMainWindow):
         self.ui.setupUi(self)
 
 
+# FIXME: Change the names of the new shipment and shipment details
 class NewShipmentform(QMainWindow):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
