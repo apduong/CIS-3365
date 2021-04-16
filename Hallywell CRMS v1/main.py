@@ -129,6 +129,11 @@ class MainScreen(QMainWindow):
         self.form = ProductStatusDetail()
         self.form.show()
 
+    # PRODUCT TYPE DETAIL
+    def open_producttypedetail(self):
+        self.form = ProductTypeDetail()
+        self.form.show()
+
 
 # ==> PLACE DESIGN CLASSES BELOW HERE
 # REQ: All form functionality will be added here
@@ -167,11 +172,13 @@ class ProductStatusDetail(QMainWindow):
         self.ui = Ui_ProductStatusDetail()
         self.ui.setupUi(self)
 
+
 class EmployeeDetails(QMainWindow):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.ui = Ui_EmployeeDetails()
         self.ui.setupUi(self)
+
 
 class EmployeeStatusDetails(QMainWindow):
     def __init__(self, *args, **kwargs):
@@ -179,11 +186,13 @@ class EmployeeStatusDetails(QMainWindow):
         self.ui = Ui_EmployeeStatusDetails()
         self.ui.setupUi(self)
 
+
 class ManufacturerDetails(QMainWindow):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.ui = Ui_ManufacturerDetails()
         self.ui.setupUi(self)
+
 
 class ManufacturerStatusDetails(QMainWindow):
     def __init__(self, *args, **kwargs):
@@ -191,11 +200,13 @@ class ManufacturerStatusDetails(QMainWindow):
         self.ui = Ui_ManufacturerStatusDetails()
         self.ui.setupUi(self)
 
+
 class Promotion(QMainWindow):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.ui = Ui_Promotion()
         self.ui.setupUi(self)
+
 
 class PromotionDetails(QMainWindow):
     def __init__(self, *args, **kwargs):
@@ -287,6 +298,12 @@ class ShipmentDetails(QMainWindow):
         self.ui = Ui_NewShipmentForm()
         self.ui.setupUi(self)
 
+
+class ProductTypeDetail(QMainWindow):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.ui = Ui_ProductTypeDetail()
+        self.ui.setupUi(self)
 
 
 if __name__ == '__main__':
