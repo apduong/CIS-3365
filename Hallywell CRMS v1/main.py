@@ -11,12 +11,14 @@ from ProductDetailForm import Ui_ProductDetails
 from ProductRatingDetail import Ui_ProductRatingDetail
 from ProductStatusDetail import Ui_ProductStatusDetail
 from ProductTypeDetail import Ui_ProductTypeDetail
+
 from DistributorDetails import Ui_DistributorDetails
 from NewPaymentForm import Ui_NewShipmentForm
 from NewShipmentform import Ui_NewShipmentForm
 from OrderStatusDetails import Ui_PaymentDetails
 from PaymentDetails import Ui_PaymentDetails
 from ShipmentDetails import Ui_NewShipmentForm
+
 from PromotionDetails import Ui_PromotionDetails
 from EmployeeDetails import Ui_EmployeeDetails
 from ManufacturerDetails import  Ui_ManufacturerDetails
@@ -162,6 +164,36 @@ class MainScreen(QMainWindow):
     # PROMOTION DETAILS
     def open_promotiondetails(self):
         self.form = PromotionDetails()
+        self.form.show()
+
+    # DISTRIBUTOR DETAILS
+    def open_distributordetails(self):
+        self.form = DistributorDetails()
+        self.form.show()
+
+    # NEW PAYMENT
+    def open_newpayment(self):
+        self.form = NewPaymentForm()
+        self.form.show()
+
+    # NEW SHIPMENT
+    def open_newshipment(self):
+        self.form = NewShipmentform()
+        self.form.show()
+
+    # ORDER STATUS DETAILS
+    def open_orderstatus(self):
+        self.form = OrderStatusDetails()
+        self.form.show()
+
+    # PAYMENT DETAILS
+    def open_paymentdetails(self):
+        self.form = PaymentDetails()
+        self.form.show()
+
+    # SHIPMENT DETAILS
+    def open_shipmentdetails(self):
+        self.form = ShipmentDetails()
         self.form.show()
 
 
