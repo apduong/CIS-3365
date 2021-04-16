@@ -19,6 +19,12 @@ from EmployeeStatusDetails import Ui_EmployeeStatusDetails
 from ManufacturerStatusDetails import Ui_ManufacturerStatusDetails
 from Promotion import Ui_Promotion
 
+from NewCustomerForm import Ui_NewCustomerForm
+from NewEmployeeForm import Ui_NewEmployeeForm
+from ChannelDetailsForm import Ui_ChannelDetails
+from CustomerDetailsForm import Ui_CustomerDetailsForm_2
+from DistributorContactForm import Ui_DistributorContactForm
+from ManufacturerContactForm import Ui_ManufacturerContact
 
 
 counter = 0
