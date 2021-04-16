@@ -29,6 +29,8 @@ from ChannelDetailsForm import Ui_ChannelDetails
 from CustomerDetailsForm import Ui_CustomerDetailsForm_2
 from DistributorContactForm import Ui_DistributorContactForm
 from ManufacturerContactForm import Ui_ManufacturerContact
+from DistributorStatus import Ui_DistributorStatus
+
 
 
 counter = 0
@@ -239,6 +241,11 @@ class MainScreen(QMainWindow):
         self.form = ShipmentDetails()
         self.form.show()
 
+    # DISTRIBUTOR DETAILS
+    def open_distributordetails(self):
+        self.form = DistributorDetails()
+        self.form.show()
+
 
 # ==> PLACE DESIGN CLASSES BELOW HERE
 # REQ: All form functionality will be added here
@@ -373,6 +380,13 @@ class NewPaymentForm(QMainWindow):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.ui = Ui_NewShipmentForm()
+        self.ui.setupUi(self)
+
+
+class DistributorStatus(QMainWindow):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.ui = Ui_DistributorStatus()
         self.ui.setupUi(self)
 
 
