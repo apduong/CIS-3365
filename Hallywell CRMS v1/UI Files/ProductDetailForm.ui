@@ -62,15 +62,15 @@ QScrollBar{background: black;}</string>
               <font>
                <family>Montserrat</family>
                <pointsize>16</pointsize>
-               <weight>75</weight>
-               <bold>true</bold>
+               <weight>50</weight>
+               <bold>false</bold>
               </font>
              </property>
              <property name="styleSheet">
-              <string notr="true">color:#8FA0C9</string>
+              <string notr="true">color:#6A7AA6</string>
              </property>
              <property name="text">
-              <string>Product Details</string>
+              <string>&lt;strong&gt;Product&lt;/strong&gt; Details</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -78,20 +78,36 @@ QScrollBar{background: black;}</string>
             </widget>
            </item>
            <item>
-            <widget class="QLabel" name="Hallywell_Linen_Company_2">
-             <property name="maximumSize">
+            <widget class="QLabel" name="label_title">
+             <property name="minimumSize">
               <size>
-               <width>437</width>
-               <height>133</height>
+               <width>440</width>
+               <height>135</height>
               </size>
              </property>
+             <property name="maximumSize">
+              <size>
+               <width>440</width>
+               <height>135</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <family>Segoe UI</family>
+               <pointsize>30</pointsize>
+              </font>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">color:#FF800C</string>
+             </property>
              <property name="text">
-              <string/>
+              <string>&lt;strong&gt;HallyWell&lt;/strong&gt; 
+Linen Company</string>
              </property>
-             <property name="pixmap">
-              <pixmap>Hallywell_Linen_Company.png</pixmap>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
              </property>
-             <property name="scaledContents">
+             <property name="wordWrap">
               <bool>true</bool>
              </property>
             </widget>
@@ -101,6 +117,10 @@ QScrollBar{background: black;}</string>
         </item>
         <item>
          <widget class="QFrame" name="frame_3">
+          <property name="styleSheet">
+           <string notr="true">QPushButton{color:#F27E14; border:2px solid #F17300; border-radius: 10px;padding:2px;background-color:white;}
+QPushButton::hover{border:2px solid white; background-color:#F27E14; color:white;}</string>
+          </property>
           <property name="frameShape">
            <enum>QFrame::StyledPanel</enum>
           </property>
@@ -141,6 +161,9 @@ QScrollBar{background: black;}</string>
                <pointsize>10</pointsize>
               </font>
              </property>
+             <property name="styleSheet">
+              <string notr="true">color:#6A7AA6</string>
+             </property>
              <property name="text">
               <string>Search Product Name</string>
              </property>
@@ -163,7 +186,7 @@ QScrollBar{background: black;}</string>
             </widget>
            </item>
            <item row="1" column="2">
-            <widget class="QPushButton" name="pushButton">
+            <widget class="QPushButton" name="selectButton">
              <property name="minimumSize">
               <size>
                <width>125</width>
@@ -203,6 +226,9 @@ QScrollBar{background: black;}</string>
                <pointsize>10</pointsize>
               </font>
              </property>
+             <property name="styleSheet">
+              <string notr="true">color:#6A7AA6</string>
+             </property>
              <property name="text">
               <string>Select Product To Edit</string>
              </property>
@@ -222,10 +248,11 @@ QScrollBar{background: black;}</string>
           <property name="styleSheet">
            <string notr="true">QLineEdit{background-color:white;}
 QComboBox{background-color:white;}
-QLabel{color:#8FA0C9;}
+QComboBox QAbstractItemView{background-color:#F17300; color:white;}
+QLabel{color:white;background-color:#F17300; border: solid white; border-radius: 0;}
 QDoubleSpinBox{background-color:white;}
 QPlainTextEdit{background-color:white;}
-QLabel{border-radius:5px;border: 1px solid white;}</string>
+</string>
           </property>
           <property name="frameShape">
            <enum>QFrame::Box</enum>
@@ -240,8 +267,37 @@ QLabel{border-radius:5px;border: 1px solid white;}</string>
            <property name="verticalSpacing">
             <number>32</number>
            </property>
-           <item row="2" column="1">
-            <widget class="QComboBox" name="comboBox_History">
+           <item row="1" column="1">
+            <widget class="QComboBox" name="comboBox_Manu">
+             <property name="maximumSize">
+              <size>
+               <width>150</width>
+               <height>20</height>
+              </size>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="3" rowspan="2">
+            <widget class="QPlainTextEdit" name="description_box">
+             <property name="minimumSize">
+              <size>
+               <width>200</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>200</width>
+               <height>200</height>
+              </size>
+             </property>
+             <property name="placeholderText">
+              <string>Enter Product Description</string>
+             </property>
+            </widget>
+           </item>
+           <item row="5" column="1">
+            <widget class="QComboBox" name="comboBox_Color">
              <property name="maximumSize">
               <size>
                <width>150</width>
@@ -250,12 +306,52 @@ QLabel{border-radius:5px;border: 1px solid white;}</string>
              </property>
             </widget>
            </item>
-           <item row="1" column="1">
-            <widget class="QComboBox" name="comboBox_Manu">
+           <item row="2" column="3">
+            <widget class="QLabel" name="characters_remaining">
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>20</height>
+              </size>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">border: none; background-color:none;color:black;</string>
+             </property>
+             <property name="text">
+              <string>250 characters remaining</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="2">
+            <widget class="QLabel" name="label_5">
+             <property name="font">
+              <font>
+               <pointsize>10</pointsize>
+              </font>
+             </property>
+             <property name="frameShape">
+              <enum>QFrame::Panel</enum>
+             </property>
+             <property name="frameShadow">
+              <enum>QFrame::Raised</enum>
+             </property>
+             <property name="text">
+              <string>Product Description</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="1">
+            <widget class="QComboBox" name="comboBox_History">
              <property name="maximumSize">
               <size>
                <width>150</width>
-               <height>20</height>
+               <height>16777215</height>
               </size>
              </property>
             </widget>
@@ -298,6 +394,34 @@ QLabel{border-radius:5px;border: 1px solid white;}</string>
              </property>
             </widget>
            </item>
+           <item row="4" column="0">
+            <widget class="QLabel" name="label_13">
+             <property name="minimumSize">
+              <size>
+               <width>220</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>180</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <family>Montserrat Medium</family>
+               <pointsize>10</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string>Product Size</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
            <item row="1" column="0">
             <widget class="QLabel" name="label_6">
              <property name="minimumSize">
@@ -332,31 +456,23 @@ QLabel{border-radius:5px;border: 1px solid white;}</string>
              </property>
             </widget>
            </item>
-           <item row="4" column="0">
-            <widget class="QLabel" name="label_13">
-             <property name="minimumSize">
-              <size>
-               <width>220</width>
-               <height>0</height>
-              </size>
-             </property>
+           <item row="5" column="3">
+            <widget class="QComboBox" name="comboBox_Thread">
              <property name="maximumSize">
               <size>
-               <width>180</width>
+               <width>150</width>
                <height>16777215</height>
               </size>
              </property>
-             <property name="font">
-              <font>
-               <family>Montserrat Medium</family>
-               <pointsize>10</pointsize>
-              </font>
-             </property>
-             <property name="text">
-              <string>Product Size</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignCenter</set>
+            </widget>
+           </item>
+           <item row="4" column="1">
+            <widget class="QComboBox" name="comboBox_Size">
+             <property name="maximumSize">
+              <size>
+               <width>150</width>
+               <height>16777215</height>
+              </size>
              </property>
             </widget>
            </item>
@@ -388,23 +504,31 @@ QLabel{border-radius:5px;border: 1px solid white;}</string>
              </property>
             </widget>
            </item>
-           <item row="5" column="3">
-            <widget class="QComboBox" name="comboBox_Thread">
-             <property name="maximumSize">
+           <item row="0" column="0">
+            <widget class="QLabel" name="label_7">
+             <property name="minimumSize">
               <size>
-               <width>150</width>
-               <height>16777215</height>
+               <width>220</width>
+               <height>0</height>
               </size>
              </property>
-            </widget>
-           </item>
-           <item row="4" column="1">
-            <widget class="QComboBox" name="comboBox_Size">
-             <property name="maximumSize">
-              <size>
-               <width>150</width>
-               <height>16777215</height>
-              </size>
+             <property name="font">
+              <font>
+               <family>Montserrat Medium</family>
+               <pointsize>10</pointsize>
+              </font>
+             </property>
+             <property name="frameShape">
+              <enum>QFrame::Panel</enum>
+             </property>
+             <property name="frameShadow">
+              <enum>QFrame::Raised</enum>
+             </property>
+             <property name="text">
+              <string>Product Name</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
              </property>
             </widget>
            </item>
@@ -415,6 +539,31 @@ QLabel{border-radius:5px;border: 1px solid white;}</string>
                <width>150</width>
                <height>16777215</height>
               </size>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QLineEdit" name="lineEdit_ProductName">
+             <property name="minimumSize">
+              <size>
+               <width>250</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>260</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="maxLength">
+              <number>250</number>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+             <property name="placeholderText">
+              <string>Enter Product Name</string>
              </property>
             </widget>
            </item>
@@ -452,56 +601,22 @@ QLabel{border-radius:5px;border: 1px solid white;}</string>
              </property>
             </widget>
            </item>
-           <item row="0" column="0">
-            <widget class="QLabel" name="label_5">
-             <property name="minimumSize">
-              <size>
-               <width>220</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="font">
-              <font>
-               <family>Montserrat Medium</family>
-               <pointsize>10</pointsize>
-              </font>
-             </property>
-             <property name="frameShape">
-              <enum>QFrame::Panel</enum>
-             </property>
-             <property name="frameShadow">
-              <enum>QFrame::Raised</enum>
-             </property>
-             <property name="text">
-              <string>Product Name</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignCenter</set>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="1">
-            <widget class="QLineEdit" name="lineEdit_ProductName">
-             <property name="minimumSize">
-              <size>
-               <width>250</width>
-               <height>0</height>
-              </size>
-             </property>
+           <item row="3" column="3">
+            <widget class="QDoubleSpinBox" name="Product_Price">
              <property name="maximumSize">
               <size>
-               <width>260</width>
+               <width>70</width>
                <height>16777215</height>
               </size>
              </property>
-             <property name="maxLength">
-              <number>250</number>
-             </property>
              <property name="alignment">
               <set>Qt::AlignCenter</set>
              </property>
-             <property name="placeholderText">
-              <string>Enter Product Name</string>
+             <property name="prefix">
+              <string>$</string>
+             </property>
+             <property name="maximum">
+              <double>99999999.989999994635582</double>
              </property>
             </widget>
            </item>
@@ -567,25 +682,6 @@ QLabel{border-radius:5px;border: 1px solid white;}</string>
              </property>
             </widget>
            </item>
-           <item row="3" column="3">
-            <widget class="QDoubleSpinBox" name="Product_Price">
-             <property name="maximumSize">
-              <size>
-               <width>70</width>
-               <height>16777215</height>
-              </size>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignCenter</set>
-             </property>
-             <property name="prefix">
-              <string>$</string>
-             </property>
-             <property name="maximum">
-              <double>99999999.989999994635582</double>
-             </property>
-            </widget>
-           </item>
            <item row="3" column="2">
             <widget class="QLabel" name="label_8">
              <property name="minimumSize">
@@ -614,80 +710,15 @@ QLabel{border-radius:5px;border: 1px solid white;}</string>
              </property>
             </widget>
            </item>
-           <item row="0" column="2">
-            <widget class="QLabel" name="label_7">
-             <property name="font">
-              <font>
-               <pointsize>10</pointsize>
-              </font>
-             </property>
-             <property name="frameShape">
-              <enum>QFrame::Panel</enum>
-             </property>
-             <property name="frameShadow">
-              <enum>QFrame::Raised</enum>
-             </property>
-             <property name="text">
-              <string>Product Description</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignHCenter|Qt::AlignTop</set>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="3">
-            <widget class="QLabel" name="characters_remaining">
-             <property name="maximumSize">
-              <size>
-               <width>16777215</width>
-               <height>20</height>
-              </size>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">border: none;</string>
-             </property>
-             <property name="text">
-              <string>250 characters remaining</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignCenter</set>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="3" rowspan="2">
-            <widget class="QPlainTextEdit" name="description_box">
-             <property name="minimumSize">
-              <size>
-               <width>200</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>200</width>
-               <height>200</height>
-              </size>
-             </property>
-             <property name="placeholderText">
-              <string>Enter Product Description</string>
-             </property>
-            </widget>
-           </item>
-           <item row="5" column="1">
-            <widget class="QComboBox" name="comboBox_Color">
-             <property name="maximumSize">
-              <size>
-               <width>150</width>
-               <height>16777215</height>
-              </size>
-             </property>
-            </widget>
-           </item>
           </layout>
          </widget>
         </item>
         <item>
          <widget class="QFrame" name="frame_5">
+          <property name="styleSheet">
+           <string notr="true">QPushButton{color:#F27E14; border:2px solid #F17300; border-radius: 10px;padding:2px;background-color:white;}
+QPushButton::hover{border:2px solid white; background-color:#F27E14; color:white;}</string>
+          </property>
           <property name="frameShape">
            <enum>QFrame::StyledPanel</enum>
           </property>
