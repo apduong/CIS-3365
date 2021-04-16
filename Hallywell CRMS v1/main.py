@@ -12,6 +12,14 @@ from ProductRatingDetail import Ui_ProductRatingDetail
 from ProductStatusDetail import Ui_ProductStatusDetail
 from ProductTypeDetail import Ui_ProductTypeDetail
 
+from PromotionDetails import Ui_PromotionDetails
+from EmployeeDetails import Ui_EmployeeDetails
+from ManufacturerDetails import  Ui_ManufacturerDetails
+from EmployeeStatusDetails import Ui_EmployeeStatusDetails
+from ManufacturerStatusDetails import Ui_ManufacturerStatusDetails
+from Promotion import Ui_Promotion
+
+
 
 counter = 0
 
