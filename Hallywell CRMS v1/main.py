@@ -179,6 +179,12 @@ class EmployeeStatusDetails(QMainWindow):
         self.ui = Ui_EmployeeStatusDetails()
         self.ui.setupUi(self)
 
+class ManufacturerDetails(QMainWindow):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.ui = Ui_ManufacturerDetails()
+        self.ui.setupUi(self)
+
 class ManufacturerStatusDetails(QMainWindow):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
