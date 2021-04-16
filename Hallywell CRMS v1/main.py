@@ -8,7 +8,7 @@ import pyodbc
 # todo: import all form classes here
 # ==> Customer Forms
 from NewCustomerForm import Ui_NewCustomerForm
-from CustomerDetailsForm import Ui_CustomerDetailsForm_2
+from CustomerDetailsForm import Ui_CustomerDetails
 # ==> Order Forms
 from OrderStatusDetails import Ui_PaymentDetails  # FIXME: Class name does not match the form name
 # ==> Payment Forms
@@ -26,18 +26,18 @@ from ProductHistoryDetail import Ui_ProductHistoryDetail
 from ProductThreadDetail import Ui_ProductThreadDetail
 from ProductSizeDetail import Ui_ProductSizeDetail
 # ==> Shipment Forms
-from NewShipmentform import Ui_NewShipmentForm
-from ShipmentDetailsForm import Ui_NewShipmentForm
+from NewShipmentForm import Ui_NewShipmentForm
+from ShipmentDetailsForm import Ui_ShipmentDetails
 # ==> Employee Forms
 from NewEmployeeForm import Ui_NewEmployeeForm
 from EmployeeDetails import Ui_EmployeeDetails
 from EmployeeStatusDetails import Ui_EmployeeStatusDetails
 # ==> Distributor Forms
 from DistributorContactForm import Ui_DistributorContactForm
-from DistributorDetails import Ui_DistributorDetails
+from DistributorDetailsForm import Ui_DistributorDetails
 from DistributorStatus import Ui_DistributorStatus  # FIXME: This form is not being imported... why?
 # ==> Manufacturer Forms
-from ManufacturerContactForm import Ui_ManufacturerContact
+from ManufacturerContactForm import Ui_ManufacturerContactForm
 from ManufacturerDetails import Ui_ManufacturerDetails
 from ManufacturerStatusDetails import Ui_ManufacturerStatusDetails
 # ==> Promotion Forms
