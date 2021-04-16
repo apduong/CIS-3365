@@ -35,7 +35,8 @@ from EmployeeStatusDetails import Ui_EmployeeStatusDetails
 # ==> Distributor Forms
 from DistributorContactForm import Ui_DistributorContactForm
 from DistributorDetailsForm import Ui_DistributorDetails
-from DistributorStatus import Ui_DistributorStatus  # FIXME: This form is not being imported... why?
+#from DistributorStatus import Ui_DistributorStatus  # FIXME: This form is not being imported... why?
+from DistributorDetailsForm import Ui_DistributorDetails
 # ==> Manufacturer Forms
 from ManufacturerContactForm import Ui_ManufacturerContactForm
 from ManufacturerDetails import Ui_ManufacturerDetails
@@ -113,15 +114,15 @@ class MainScreen(QMainWindow):
         self.ui.edit_thread.clicked.connect(self.open_productthreaddetail)
         self.ui.edit_stat.clicked.connect(self.open_productstatusdetail)
         # ==> Shipment Forms
-        self.ui.addShip.clicked.connect(self.open_newshipment)
-        self.ui.edit_shipdet.clicked.connect(self.open_shipmentdetails)
+        self.ui.addShip.clicked.connect(self.open_NewShipmentForm)
+        self.ui.edit_shipdet.clicked.connect(self.open_ShipmentDetailsForm)
         # ==> Employee Forms
         self.ui.addEmploy.clicked.connect(self.open_NewEmployeeForm)
         self.ui.edit_empdet.clicked.connect(self.open_employeedetails)
         self.ui.edit_empstat.clicked.connect(self.open_employeestatusdetails)
         # ==> Distributor Forms
         self.ui.edit_discon.clicked.connect(self.open_DistributorContactForm)
-        self.ui.edit_disdet.clicked.connect(self.open_distributordetails)
+        self.ui.edit_disdet.clicked.connect(self.open_DistributorDetailsForm)
         # self.ui.edit_disstat.clicked.connect()  # TODO: Create Distributor Status Form
         # ==> Manufacturer Forms
         self.ui.edit_manucon.clicked.connect(self.open_ManufacturerContactForm)
@@ -216,13 +217,13 @@ class MainScreen(QMainWindow):
 
 # ==> SHIPMENT FORMS
     # NEW SHIPMENT
-    def open_newshipment(self):
-        self.form = NewShipmentform()
+    def open_NewShipmentForm(self):
+        self.form = NewShipmentForm()
         self.form.show()
 
     # SHIPMENT DETAILS
-    def open_shipmentdetails(self):
-        self.form = ShipmentDetails()
+    def open_ShipmentDetailsForm(self):
+        self.form = ShipmentDetailsForm()
         self.form.show()
 
 # ==> EMPLOYEE FORMS
@@ -249,14 +250,14 @@ class MainScreen(QMainWindow):
 
 # FIXME: Duplicate Distributor Details function calls.
     # DISTRIBUTOR DETAILS
-    def open_distributordetails(self):
-        self.form = DistributorDetails()
+    def open_DistributorDetailsForm(self):
+        self.form = DistributorDetailsForm()
         self.form.show()
 
     # DISTRIBUTOR DETAILS
-    def open_distributordetails(self):
-        self.form = DistributorDetails()
-        self.form.show()
+   # def open_distributordetails(self):
+       # self.form = DistributorDetails()
+        #self.form.show()
 
 # ==> MANUFACTURER FORMS
     # MANUFACTURER CONTACT FORM
@@ -306,7 +307,7 @@ class NewCustomerForm(QMainWindow):
 class CustomerDetailsForm(QMainWindow):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.ui = Ui_CustomerDetailsForm_2()
+        self.ui = Ui_CustomerDetails()
         self.ui.setupUi(self)
 
 
@@ -405,17 +406,17 @@ class ProductSizeDetail(QMainWindow):
 
 # ==> SHIPMENT FORMS CLASSES
 # FIXME: Class name on NewShipmentForm and ShipmentDetails is the same
-class NewShipmentform(QMainWindow):  # FIXME: Capitalize the F in form :)
+class NewShipmentForm(QMainWindow):  # FIXME: Capitalize the F in form :)
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.ui = Ui_NewShipmentForm()
         self.ui.setupUi(self)
 
 
-class ShipmentDetails(QMainWindow):
+class ShipmentDetailsForm(QMainWindow):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.ui = Ui_NewShipmentForm()
+        self.ui = Ui_ShipmentDetails()
         self.ui.setupUi(self)
 
 
@@ -449,7 +450,7 @@ class DistributorContactForm(QMainWindow):
         self.ui.setupUi(self)
 
 
-class DistributorDetails(QMainWindow):
+class DistributorDetailsForm(QMainWindow):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.ui = Ui_DistributorDetails()
@@ -467,7 +468,7 @@ class DistributorStatus(QMainWindow):
 class ManufacturerContactForm(QMainWindow):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.ui = Ui_ManufacturerContact()
+        self.ui = Ui_ManufacturerContactForm()
         self.ui.setupUi(self)
 
 
