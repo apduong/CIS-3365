@@ -134,6 +134,32 @@ class MainScreen(QMainWindow):
         self.form = ProductTypeDetail()
         self.form.show()
 
+    # NEW CUSTOMER FORM
+    def open_NewCustomerForm(self):
+        self.form = NewCustomerForm()
+        self.form.show()
+    # NEW EMPLOYEE FORM
+    def open_NewEmployeeForm(self):
+        self.form = NewEmployeeForm()
+        self.form.show()
+    # CHANNEL DETAILS FORM
+    def open_ChannelDetailsForm(self):
+        self.form = ChannelDetailsForm()
+        self.form.show()
+    # CUSTOMER DETAILS FORM
+    def open_CustomerDetailsForm(self):
+        self.form = CustomerDetailsForm_2()
+        self.form.show()
+    # DISTRIBUTOR CONTACT FORM
+    def open_DistributorContactForm(self):
+        self.form = DistributorContactForm()
+        self.form.show()
+    # MANUFACTURER CONTACT FORM
+    def open_ManufacturerContactForm(self):
+        self.form = ManufacturerContact()
+        self.form.show()
+    
+
 
 # ==> PLACE DESIGN CLASSES BELOW HERE
 # REQ: All form functionality will be added here
