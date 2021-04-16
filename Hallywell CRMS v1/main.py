@@ -85,7 +85,7 @@ class MainScreen(QMainWindow):
     # IDEA: We can create a text file or csv file and have it read the list of forms there
     def load_forms(self):
         self.ui.comboBox_form.addItems(["New Product Form", "Product Detail Form", "Product Color Detail",
-                                        "Product Rating Detail", "Product Status Detail"])
+                                        "Product Rating Detail", "Product Status Detail", ""])
 
     # THIS FUNCTION IS CALLED WHEN THE OPEN FORM BUTTON IS CLICKED
     # todo: add logic for each form
@@ -166,6 +166,36 @@ class ProductStatusDetail(QMainWindow):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.ui = Ui_ProductStatusDetail()
+        self.ui.setupUi(self)
+
+class EmployeeDetails(QMainWindow):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.ui = Ui_EmployeeDetails()
+        self.ui.setupUi(self)
+
+class EmployeeStatusDetails(QMainWindow):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.ui = Ui_EmployeeStatusDetails()
+        self.ui.setupUi(self)
+
+class ManufacturerStatusDetails(QMainWindow):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.ui = Ui_ManufacturerStatusDetails()
+        self.ui.setupUi(self)
+
+class Promotion(QMainWindow):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.ui = Ui_Promotion()
+        self.ui.setupUi(self)
+
+class PromotionDetails(QMainWindow):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.ui = Ui_PromotionDetails()
         self.ui.setupUi(self)
 
 
