@@ -134,6 +134,36 @@ class MainScreen(QMainWindow):
         self.form = ProductTypeDetail()
         self.form.show()
 
+    # EMPLOYEE DETAILS
+    def open_employeedetails(self):
+        self.form = EmployeeDetails()
+        self.form.show()
+
+    # EMPLOYEE STATUS DETAILS
+    def open_employeestatusdetails(self):
+        self.form = EmployeeStatusDetails()
+        self.form.show()
+
+    # MANUFACTURER DETAILS
+    def open_manufacturerdetails(self):
+        self.form = ManufacturerDetails()
+        self.form.show()
+
+    # MANUFACTURER STATUS DETAILS
+    def open_manufacturerstatusdetails(self):
+        self.form = ManufacturerStatusDetails()
+        self.form.show()
+
+    # PROMOTION
+    def open_promotion(self):
+        self.form = Promotion()
+        self.form.show()
+
+    # PROMOTION DETAILS
+    def open_promotiondetails(self):
+        self.form = PromotionDetails()
+        self.form.show()
+
 
 # ==> PLACE DESIGN CLASSES BELOW HERE
 # REQ: All form functionality will be added here
