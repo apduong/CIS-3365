@@ -639,17 +639,62 @@ class ManufacturerContactForm(QMainWindow):
         self.ui.setupUi(self)
 
 
-class ManufacturerDetails(QMainWindow):
+class ManufacturerDetailsForm(QMainWindow):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.ui = Ui_ManufacturerDetails()
         self.ui.setupUi(self)
+        self.table_data = self.load_data()[0]
+        print(self.table_data)
 
+    @staticmethod
+    def load_data():
+        cursor = server_connection().cursor()
 
-class ManufacturerStatusDetails(QMainWindow):
+        data = cursor.execute('SELECT * FROM Manufacturer WHERE IS_DELETE = 0')
+        table_data = [[item for item in row] for row in data]
+
+        data = cursor.execute('SELECT * FROM Manufacturer_Status WHERE IS_DELETE = 0')
+        status_data = [[item for item in row] for row in data]
+
+        return table_data, status_data
+
+    def set_manufacturerlist(self):
+        manufacturer_names = []
+        for row in self.table_data:
+            for i, name in enumerate(row):
+                if i ==1:
+                    manufacturer_names.append(name)
+        self.ui.comboBox_SearchManufacturer.addItems(manufacturer_names)
+
+    def display_data(self):
+        selected_name = self.ui.comboBox_SearchManufacturer.currentText()
+        manufacturer_details = []
+        for i, row in enumerate(self.table_data):
+            if row[1] == selected_name:
+                manufacturer_details.append(row)
+        for row in manufacturer_details:
+            for i, item in enumerate(row):
+                if i == 1:
+                    self.ui.lineEdit_ManufacturerName.setText(item)
+                elif i == 2:
+                    self.ui.lineEdit_ManufacturerAddress.setText(item)
+                elif i == 3:
+                    self.ui.lineEdit_ManufacturerEmail.setText(item)
+                elif i == 4:
+                    self.ui.lineEdit_ManufacturerPhone.setText(item)
+                elif i == 5:
+                    for x, status in enumerate(self.status_data):
+                        if status[0] == item:
+                            self.ui.comboBox_ManufacturerStatusID.setCurrentIndex(item-1)
+
+    def get_data(self):
+        seleceted_name =
+
+class ManufacturerDetail(QMainWindow):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.ui = Ui_ManufacturerStatusDetails()
+        self.ui = Ui_ManufacturerStatus()
         self.ui.setupUi(self)
 
 
