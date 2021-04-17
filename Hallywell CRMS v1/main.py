@@ -35,7 +35,6 @@ from EmployeeStatusDetails import Ui_EmployeeStatusDetails
 # ==> Distributor Forms
 from DistributorContactForm import Ui_DistributorContactForm
 from DistributorDetailsForm import Ui_DistributorDetails
-#from DistributorStatus import Ui_DistributorStatus  # FIXME: This form is not being imported... why?
 from DistributorDetailsForm import Ui_DistributorDetails
 # ==> Manufacturer Forms
 from ManufacturerContactForm import Ui_ManufacturerContactForm
@@ -253,11 +252,6 @@ class MainScreen(QMainWindow):
     def open_DistributorDetailsForm(self):
         self.form = DistributorDetailsForm()
         self.form.show()
-
-    # DISTRIBUTOR DETAILS
-   # def open_distributordetails(self):
-       # self.form = DistributorDetails()
-        #self.form.show()
 
 # ==> MANUFACTURER FORMS
     # MANUFACTURER CONTACT FORM
@@ -509,28 +503,13 @@ class ChannelDetailsForm(QMainWindow):
         self.ui.setupUi(self)    
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+# ==> RESOURCES
+def server_connection():
+    conn = pyodbc.connect('Driver={SQL Server};'  # Leave this as is
+                          'Server=;'  # Enter your local Server Name
+                          'Database=;'  # Enter your Database Name
+                          'Trusted_Connection=yes;')  # Leave this as is
+    return conn
 
 
 if __name__ == '__main__':
