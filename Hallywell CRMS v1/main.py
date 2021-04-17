@@ -35,7 +35,7 @@ from EmployeeStatusDetails import Ui_EmployeeStatusDetails
 # ==> Distributor Forms
 from DistributorContactForm import Ui_DistributorContactForm
 from DistributorDetailsForm import Ui_DistributorDetails
-from DistributorDetailsForm import Ui_DistributorDetails
+from DistributorStatusDetail import Ui_DistributorStatusDetail
 # ==> Manufacturer Forms
 from ManufacturerContactForm import Ui_ManufacturerContactForm
 from ManufacturerDetails import Ui_ManufacturerDetails
@@ -122,7 +122,7 @@ class MainScreen(QMainWindow):
         # ==> Distributor Forms
         self.ui.edit_discon.clicked.connect(self.open_DistributorContactForm)
         self.ui.edit_disdet.clicked.connect(self.open_DistributorDetailsForm)
-        # self.ui.edit_disstat.clicked.connect()  # TODO: Create Distributor Status Form
+        self.ui.edit_disstat.clicked.connect(self.open_distributorstatusdetail)
         # ==> Manufacturer Forms
         self.ui.edit_manucon.clicked.connect(self.open_ManufacturerContactForm)
         self.ui.edit_manudet.clicked.connect(self.open_manufacturerdetails)
@@ -254,6 +254,10 @@ class MainScreen(QMainWindow):
         self.form = DistributorDetailsForm()
         self.form.show()
 
+    def open_distributorstatusdetail(self):
+        self.form = DistributorStatus()
+        self.form.show()
+
 # ==> MANUFACTURER FORMS
     # MANUFACTURER CONTACT FORM
     def open_ManufacturerContactForm(self):  # FIXME: Make this function name lower case
@@ -342,6 +346,51 @@ class ProductDetail(QMainWindow):
         super().__init__(*args, **kwargs)
         self.ui = Ui_ProductDetails()
         self.ui.setupUi(self)
+        self.load = self.load_data()
+        self.table_data = self.load[0]
+        self.color_data = self.load[1]
+        self.set_prodlist()
+        self.ui.selectButton.clicked.connect(self.display_data)
+
+    @staticmethod
+    def load_data():
+        cursor = server_connection().cursor()
+        data = cursor.execute('SELECT * FROM Product WHERE IS_DELETE = 0 ')
+        table_data = [[item for item in row] for row in data]
+        data = cursor.execute('SELECT * FROM Color WHERE IS_DELETE = 0')
+        color_data = [[item for item in row] for row in data]
+        return table_data, color_data
+
+    def set_prodlist(self):
+        product_names = []
+        for row in self.table_data:
+            for i, name in enumerate(row):
+                if i == 1:
+                    product_names.append(name)
+        self.ui.comboBox_selectProd.addItems(product_names)
+        color_desc = []
+        for i, item in enumerate(self.color_data):
+            color_desc.append(item[1])
+        self.ui.comboBox_Color.addItems(color_desc)
+
+    def display_data(self):
+        selected_name = self.ui.comboBox_selectProd.currentText()
+        product_details = []
+        for i, row in enumerate(self.table_data):
+            if row[1] == selected_name:
+                product_details.append(row)
+        for row in product_details:
+            for i, item in enumerate(row):
+                if i == 1:
+                    self.ui.prod_name.setPlainText(item)
+                elif i == 2:
+                    self.ui.description_box.setPlainText(item)
+                elif i == 3:
+                    self.ui.Product_Price.setValue(item)
+                elif i == 10:
+                    for x, color in enumerate(self.color_data):
+                        if color[0] == item:
+                            self.ui.comboBox_Color.setCurrentIndex(item-1)
 
 
 class ProductColorDetail(QMainWindow):
@@ -358,11 +407,82 @@ class ProductRatingDetail(QMainWindow):
         self.ui.setupUi(self)
 
 
+# Fully Functional
 class ProductStatusDetail(QMainWindow):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.ui = Ui_ProductStatusDetail()
         self.ui.setupUi(self)
+        self.table_data = self.load_data()
+        self.set_statuslist()
+        self.ui.comboBox_select.currentIndexChanged.connect(self.display_data)
+        self.ui.addButton.clicked.connect(self.add_data)
+        self.ui.deleteButton.clicked.connect(self.delete_data)
+        self.ui.updateButton.clicked.connect(self.update_data)
+
+    @staticmethod
+    def load_data():
+        cursor = server_connection().cursor()
+        data = cursor.execute('SELECT * FROM Product_Status WHERE IS_DELETE = 0 ')
+        table_data = [[item for item in row] for row in data]
+        return table_data
+
+    def set_statuslist(self):
+        statuses = []
+        for row in self.table_data:
+            for i, name in enumerate(row):
+                if i == 1:
+                    statuses.append(name)
+        self.ui.comboBox_select.addItems(statuses)
+
+    def get_data(self):
+        selected_name = self.ui.comboBox_select.currentText()
+        status_details = []
+        for i, row in enumerate(self.table_data):
+            if row[1] == selected_name:
+                status_details.append(row)
+        return status_details
+
+    def display_data(self):
+        status_details = self.get_data()
+        for row in status_details:
+            for i, item in enumerate(row):
+                if i == 1:
+                    self.ui.lineEdit_desc.setText(item)
+
+    def update_data(self):
+        status_details = self.get_data()
+        status_details[0][1] = self.ui.lineEdit_desc.text()
+        cnxn = server_connection()
+        cursor = cnxn.cursor()
+        cursor.execute("UPDATE Product_Status SET PRODUCT_STATUS_DES = ? WHERE PRODUCT_STATUS_CODE = ?",
+                       status_details[0][1], status_details[0][0])
+        cnxn.commit()
+        self.ui.comboBox_select.clear()
+        self.table_data = self.load_data()
+        self.set_statuslist()
+
+    def delete_data(self):  # Logical Delete Only
+        status_details = self.get_data()
+        status_details[0][1] = self.ui.lineEdit_desc.text()
+        cnxn = server_connection()
+        cursor = cnxn.cursor()
+        cursor.execute("UPDATE Product_Status SET IS_DELETE = 1 WHERE PRODUCT_STATUS_CODE = ?", status_details[0][0])
+        cnxn.commit()
+        self.ui.comboBox_select.clear()
+        self.table_data = self.load_data()
+        self.set_statuslist()
+
+    def add_data(self):
+        insert_data = self.ui.lineEdit_new.text()
+        cnxn = server_connection()
+        cursor = cnxn.cursor()
+        cursor.execute("INSERT INTO Product_Status (PRODUCT_STATUS_DES, IS_DELETE) VALUES (?, 0)", insert_data)
+        cnxn.commit()
+        self.ui.comboBox_select.clear()
+        self.table_data = self.load_data()
+        self.set_statuslist()
+        self.ui.lineEdit_new.clear()
 
 
 class ProductThreadDetail(QMainWindow):
@@ -548,7 +668,7 @@ class DistributorDetailsForm(QMainWindow):
 class DistributorStatus(QMainWindow):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.ui = Ui_DistributorStatus()
+        self.ui = Ui_DistributorStatusDetail()
         self.ui.setupUi(self)
 
 
@@ -600,8 +720,8 @@ class ChannelDetailsForm(QMainWindow):
 # ==> RESOURCES
 def server_connection():
     conn = pyodbc.connect('Driver={SQL Server};'  # Leave this as is
-                          'Server=SUMMER\MSSQLSERVER01;'  # Enter your local Server Name
-                          'Database=CIS3365_Project;'  # Enter your Database Name
+                          'Server=LAPTOP-S6PL64NB;'  # Enter your local Server Name
+                          'Database=CIS3365_Local;'  # Enter your Database Name
                           'Trusted_Connection=yes;')  # Leave this as is
     return conn
 
