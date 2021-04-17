@@ -246,6 +246,7 @@ class MainScreen(QMainWindow):
     def open_DistributorContactForm(self):  # FIXME: Make this function name lower case
         self.form = DistributorContactForm()
         self.form.show()
+    
 
 # FIXME: Duplicate Distributor Details function calls.
     # DISTRIBUTOR DETAILS
@@ -420,6 +421,50 @@ class NewEmployeeForm(QMainWindow):
         super().__init__(*args, **kwargs)
         self.ui = Ui_NewEmployeeForm()
         self.ui.setupUi(self)
+        self.load = self.load_data()
+        self.table_data = self.load[0]
+        self.dis_contactname = self.load[1]
+        self.dis_list()
+        self.ui.submit_Button_NE.clicked.connect(self.add_data)
+        #self.ui.clear_Button_NE.clicked.connect(self.update_data)
+
+    @staticmethod
+    def load_data():
+        cursor = server_connection().cursor()
+        data = cursor.execute('SELECT * FROM Employee WHERE IS_DELETE = 0')
+        table_data = [[item for item in row] for row in data]
+        state = cursor.execute('SELECT * FROM State_Province WHERE IS_DELETE = 0')
+        state_data = [[item for item in row] for row in state]
+        country = cursor.execute('SELECT * FROM Country WHERE IS_DELETE = 0')
+        country_data = [[item for item in row]] for row in country]
+        edesc = cursor.execute('SELECT * FROM Employee_Status WHERE IS_DELETE = 0')
+        e_desc = [[item for item in row]] for row in edesc]
+        return table_data , state_data, country_data, e_desc
+    
+    def display_data(self):
+        selected_name = self.ui.comboBox_EState.currentText()
+        new_state = []
+        for i, row in  enumerate(self.table_data):
+            if row[1] == selected_name:
+                new_state.append(row)
+       # for row in dis_details: 
+           #for i, item in enumerate(row):
+               # if i == 1:
+                   # self.ui.lineEdit_DisName.setText(item)
+               # elif i == 2:
+                    #self.ui.lineEdit_DisCN.setText(item)
+    def add_data(self):
+        insert_data =self.lineEdit_EFN.text()
+        insert_data1 =self.lineEdit_EMN.text()
+        insert_data2=self.lineEdit_ELN.text()
+        insert_data3 = self.lineEdit_EAddress1.text()
+        insert_data4 = self.lineEdit_EAddress2.text()
+        insert_data5 = self.lineEdit_ECity.text()
+        insert_data6 = self.comboBox_EState.currentText()
+        insert_data7 = self.lineEdit_EPostalCode.text()
+        insert_data8 = self.comboBox_ECountry.currentText())
+        insert_data9 = self.dateEdit_DOB
+        insert_data10 = self.comboBox_EDesc.currentText()
 
 
 class EmployeeDetails(QMainWindow):
@@ -442,7 +487,55 @@ class DistributorContactForm(QMainWindow):
         super().__init__(*args, **kwargs)
         self.ui = Ui_DistributorContactForm()
         self.ui.setupUi(self)
+        self.load = self.load_data()
+        self.table_data = self.load[0]
+        self.dis_contactname = self.load[1]
+        self.dis_list()
+        self.ui.selectButton_SelectDis.clicked.connect(self.display_data)
+        self.ui.save_Button_DC.clicked.connect(self.update_data)
 
+    @staticmethod
+    def load_data():
+        cursor = server_connection().cursor()
+        data = cursor.execute('SELECT * FROM Distributor_Contact WHERE IS_DELETE = 0')
+        table_data = [[item for item in row] for row in data]
+        data = cursor.execute('SELECT * FROM Distributor WHERE IS_DELETE = 0')
+        dis_contactname = [[item for item in row] for row in data]
+        return table_data, dis_contactname
+    
+    def dis_list(self):
+        dis_contact = []
+        for row in self.table_data:
+            for i, name in enumerate(row):
+                if i == 1:
+                    dis_contact.append(name)
+        self.ui.comboBox_selectDis.addItems(dis_contact)
+
+    def display_data(self):
+        selected_name = self.ui.comboBox_selectDis.currentText()
+        dis_details = []
+        for i, row in  enumerate(self.table_data):
+            if row[1] == selected_name:
+                dis_details.append(row)
+        for row in dis_details: 
+            for i, item in enumerate(row):
+                if i == 1:
+                    self.ui.lineEdit_DisName.setText(item)
+                elif i == 2:
+                    self.ui.lineEdit_DisCN.setText(item)
+
+    def update_data(self):
+        selected_name = self.ui.comboBox_selectDis.currentText()
+        dis_details = self.ui.lineEdit_DisName.text()
+        conn = server_connection()
+        cursor = conn.cursor()
+        cursor.execute(f"UPDATE Distributor_Contact SET DC_NAME = ? WHERE DC_NAME = ?", dis_details, selected_name)
+        conn.commit()
+    
+
+
+                
+            
 
 class DistributorDetailsForm(QMainWindow):
     def __init__(self, *args, **kwargs):
@@ -506,8 +599,8 @@ class ChannelDetailsForm(QMainWindow):
 # ==> RESOURCES
 def server_connection():
     conn = pyodbc.connect('Driver={SQL Server};'  # Leave this as is
-                          'Server=;'  # Enter your local Server Name
-                          'Database=;'  # Enter your Database Name
+                          'Server=SUMMER\MSSQLSERVER01;'  # Enter your local Server Name
+                          'Database=CIS3365_Project;'  # Enter your Database Name
                           'Trusted_Connection=yes;')  # Leave this as is
     return conn
 
