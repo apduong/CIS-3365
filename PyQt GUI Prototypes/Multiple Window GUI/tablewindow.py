@@ -155,8 +155,8 @@ class UiTableWindow(object):
         headers = table_data[1]
         edits = []
         conn = pyodbc.connect('Driver={SQL Server};'  # Leave this as is
-                              'Server=LAPTOP-S6PL64NB;'  # Enter your local Server Name
-                              'Database=Project_Data;'  # Enter your Database Name
+                              'Server=FAITH;'  # Enter your local Server Name
+                              'Database=cis-3365;'  # Enter your Database Name
                               'Trusted_Connection=yes;')  # Leave this as is
         cursor = conn.cursor()
         for x, names in enumerate(self.lineEdit_names):
