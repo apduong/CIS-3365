@@ -406,14 +406,13 @@ class ProductRatingDetail(QMainWindow):
         self.ui.setupUi(self)
 
 
-# FIXME: Add and Delete does not show result in combobox list
+# Fully Functional
 class ProductStatusDetail(QMainWindow):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.ui = Ui_ProductStatusDetail()
         self.ui.setupUi(self)
-        self.load = self.load_data()
-        self.table_data = self.load
+        self.table_data = self.load_data()
         self.set_statuslist()
         self.ui.comboBox_select.currentIndexChanged.connect(self.display_data)
         self.ui.addButton.clicked.connect(self.add_data)
@@ -459,6 +458,7 @@ class ProductStatusDetail(QMainWindow):
                        status_details[0][1], status_details[0][0])
         cnxn.commit()
         self.ui.comboBox_select.clear()
+        self.table_data = self.load_data()
         self.set_statuslist()
 
     def delete_data(self):  # Logical Delete Only
@@ -469,6 +469,7 @@ class ProductStatusDetail(QMainWindow):
         cursor.execute("UPDATE Product_Status SET IS_DELETE = 1 WHERE PRODUCT_STATUS_CODE = ?", status_details[0][0])
         cnxn.commit()
         self.ui.comboBox_select.clear()
+        self.table_data = self.load_data()
         self.set_statuslist()
 
     def add_data(self):
@@ -478,7 +479,9 @@ class ProductStatusDetail(QMainWindow):
         cursor.execute("INSERT INTO Product_Status (PRODUCT_STATUS_DES, IS_DELETE) VALUES (?, 0)", insert_data)
         cnxn.commit()
         self.ui.comboBox_select.clear()
+        self.table_data = self.load_data()
         self.set_statuslist()
+        self.ui.lineEdit_new.clear()
 
 
 class ProductThreadDetail(QMainWindow):
