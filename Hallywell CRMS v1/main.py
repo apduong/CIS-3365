@@ -465,6 +465,7 @@ class NewEmployeeForm(QMainWindow):
         insert_data8 = self.comboBox_ECountry.currentText())
         insert_data9 = self.dateEdit_DOB
         insert_data10 = self.comboBox_EDesc.currentText()
+        inser_data11 = 
 
 
 class EmployeeDetails(QMainWindow):
