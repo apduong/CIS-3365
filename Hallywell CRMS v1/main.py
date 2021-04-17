@@ -35,7 +35,7 @@ from EmployeeStatusDetails import Ui_EmployeeStatusDetails
 # ==> Distributor Forms
 from DistributorContactForm import Ui_DistributorContactForm
 from DistributorDetailsForm import Ui_DistributorDetails
-from DistributorDetailsForm import Ui_DistributorDetails
+from DistributorStatusDetail import Ui_DistributorStatusDetail
 # ==> Manufacturer Forms
 from ManufacturerContactForm import Ui_ManufacturerContactForm
 from ManufacturerDetails import Ui_ManufacturerDetails
@@ -122,7 +122,7 @@ class MainScreen(QMainWindow):
         # ==> Distributor Forms
         self.ui.edit_discon.clicked.connect(self.open_DistributorContactForm)
         self.ui.edit_disdet.clicked.connect(self.open_DistributorDetailsForm)
-        # self.ui.edit_disstat.clicked.connect()  # TODO: Create Distributor Status Form
+        self.ui.edit_disstat.clicked.connect(self.open_distributorstatusdetail)
         # ==> Manufacturer Forms
         self.ui.edit_manucon.clicked.connect(self.open_ManufacturerContactForm)
         self.ui.edit_manudet.clicked.connect(self.open_manufacturerdetails)
@@ -251,6 +251,10 @@ class MainScreen(QMainWindow):
     # DISTRIBUTOR DETAILS
     def open_DistributorDetailsForm(self):
         self.form = DistributorDetailsForm()
+        self.form.show()
+
+    def open_distributorstatusdetail(self):
+        self.form = DistributorStatus()
         self.form.show()
 
 # ==> MANUFACTURER FORMS
@@ -567,7 +571,7 @@ class DistributorDetailsForm(QMainWindow):
 class DistributorStatus(QMainWindow):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.ui = Ui_DistributorStatus()
+        self.ui = Ui_DistributorStatusDetail()
         self.ui.setupUi(self)
 
 
