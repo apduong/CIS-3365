@@ -164,7 +164,7 @@ QTabBar::tab::selected{background:#F17300;}</string>
                  <string notr="true">background:white;</string>
                 </property>
                 <property name="currentIndex">
-                 <number>2</number>
+                 <number>6</number>
                 </property>
                 <widget class="QWidget" name="tab">
                  <attribute name="title">
@@ -338,7 +338,7 @@ QPushButton#addCusButton::hover{color:#FFA553; background-color: black; border: 
                   <item>
                    <widget class="QFrame" name="frame_6">
                     <property name="styleSheet">
-                     <string notr="true">QLabel{color:white;background-color:#F17300; border: solid white; border-radius: 10px;}
+                     <string notr="true">QLabel{color:white;background-color:#F17300; border: solid white; border-radius: 0;}
 QPushButton{color:#F27E14; border:2px solid #F17300; border-radius: 10px;padding:2px;}
 QPushButton::hover{border:2px solid white; background-color:#F27E14; color:white;}
 QPushButton#addOrdButton{color: black; background-color: #FFA553; border: 2px solid #FFA553;}
@@ -666,7 +666,7 @@ QPushButton#addPayButton::hover{color:#FFA553; background-color: black; border: 
                   <item>
                    <widget class="QFrame" name="frame_4">
                     <property name="styleSheet">
-                     <string notr="true">QLabel{color:white;background-color:#F17300; border: solid white; border-radius: 10px;}
+                     <string notr="true">QLabel{color:white;background-color:#F17300; border: solid white; border-radius: 0px;}
 QPushButton{color:#F27E14; border:2px solid #F17300; border-radius: 10px;padding:2px;}
 QPushButton::hover{border:2px solid white; background-color:#F27E14; color:white;}
 QPushButton#addButton{color: black; background-color: #FFA553; border: 2px solid #FFA553;}
@@ -1395,7 +1395,7 @@ QPushButton#addShip::hover{color:#FFA553; background-color: black; border: 2px s
                   <item>
                    <widget class="QFrame" name="frame_9">
                     <property name="styleSheet">
-                     <string notr="true">QLabel{color:white;background-color:#F17300; border: solid white; border-radius: 10px;}
+                     <string notr="true">QLabel{color:white;background-color:#F17300; border: solid white; border-radius: 0;}
 QPushButton{color:#F27E14; border:2px solid #F17300; border-radius: 10px;padding:2px;}
 QPushButton::hover{border:2px solid white; background-color:#F27E14; color:white;}
 QPushButton#addEmploy{color: black; background-color: #FFA553; border: 2px solid #FFA553;}
@@ -1591,7 +1591,7 @@ QPushButton#addEmploy::hover{color:#FFA553; background-color: black; border: 2px
                      </font>
                     </property>
                     <property name="currentIndex">
-                     <number>3</number>
+                     <number>0</number>
                     </property>
                     <widget class="QWidget" name="tab_12">
                      <attribute name="title">
@@ -1600,12 +1600,19 @@ QPushButton#addEmploy::hover{color:#FFA553; background-color: black; border: 2px
                      <layout class="QVBoxLayout" name="verticalLayout_13">
                       <item>
                        <widget class="QFrame" name="frame_10">
+                        <property name="font">
+                         <font>
+                          <pointsize>8</pointsize>
+                         </font>
+                        </property>
                         <property name="styleSheet">
-                         <string notr="true">QLabel{color:white;background-color:#F17300; border: solid white; border-radius: 10px;}
+                         <string notr="true">QLabel{color:white;background-color:#F17300; border: solid white; border-radius:0;}
 QPushButton{color:#F27E14; border:2px solid #F17300; border-radius: 10px;padding:2px;}
 QPushButton::hover{border:2px solid white; background-color:#F27E14; color:white;}
-QPushButton#addEmploy{color: black; background-color: #FFA553; border: 2px solid #FFA553;}
-QPushButton#addEmploy::hover{color:#FFA553; background-color: black; border: 2px solid black;}
+QPushButton#add_dis{color: black; background-color: #FFA553; border: 2px solid #FFA553;}
+QPushButton#add_dis::hover{color:#FFA553; background-color: black; border: 2px solid black;}
+QPushButton#addNewDC{color: black; background-color: #FFA553; border: 2px solid #FFA553;}
+QPushButton#addNewDC::hover{color:#FFA553; background-color: black; border: 2px solid black;}
 </string>
                         </property>
                         <property name="frameShape">
@@ -1621,31 +1628,6 @@ QPushButton#addEmploy::hover{color:#FFA553; background-color: black; border: 2px
                          <property name="verticalSpacing">
                           <number>20</number>
                          </property>
-                         <item row="2" column="2">
-                          <widget class="QPushButton" name="edit_disstat">
-                           <property name="minimumSize">
-                            <size>
-                             <width>220</width>
-                             <height>30</height>
-                            </size>
-                           </property>
-                           <property name="maximumSize">
-                            <size>
-                             <width>220</width>
-                             <height>30</height>
-                            </size>
-                           </property>
-                           <property name="font">
-                            <font>
-                             <family>Montserrat</family>
-                             <pointsize>11</pointsize>
-                            </font>
-                           </property>
-                           <property name="text">
-                            <string>Edit Distributor Status</string>
-                           </property>
-                          </widget>
-                         </item>
                          <item row="2" column="0">
                           <widget class="QPushButton" name="edit_disdet">
                            <property name="minimumSize">
@@ -1673,19 +1655,6 @@ QPushButton#addEmploy::hover{color:#FFA553; background-color: black; border: 2px
                             <string>Edit Distributor Details</string>
                            </property>
                           </widget>
-                         </item>
-                         <item row="0" column="0">
-                          <spacer name="horizontalSpacer_12">
-                           <property name="orientation">
-                            <enum>Qt::Horizontal</enum>
-                           </property>
-                           <property name="sizeHint" stdset="0">
-                            <size>
-                             <width>40</width>
-                             <height>20</height>
-                            </size>
-                           </property>
-                          </spacer>
                          </item>
                          <item row="1" column="0">
                           <widget class="QLabel" name="label_17">
@@ -1717,20 +1686,57 @@ QPushButton#addEmploy::hover{color:#FFA553; background-color: black; border: 2px
                            </property>
                           </widget>
                          </item>
-                         <item row="0" column="2">
-                          <spacer name="horizontalSpacer_11">
-                           <property name="orientation">
-                            <enum>Qt::Horizontal</enum>
-                           </property>
-                           <property name="sizeHint" stdset="0">
+                         <item row="0" column="0">
+                          <widget class="QPushButton" name="add_dis">
+                           <property name="minimumSize">
                             <size>
-                             <width>40</width>
-                             <height>20</height>
+                             <width>220</width>
+                             <height>40</height>
                             </size>
                            </property>
-                          </spacer>
+                           <property name="maximumSize">
+                            <size>
+                             <width>220</width>
+                             <height>40</height>
+                            </size>
+                           </property>
+                           <property name="font">
+                            <font>
+                             <family>Montserrat Medium</family>
+                             <pointsize>11</pointsize>
+                            </font>
+                           </property>
+                           <property name="text">
+                            <string>Add New Distributor</string>
+                           </property>
+                          </widget>
                          </item>
-                         <item row="1" column="2">
+                         <item row="0" column="2">
+                          <widget class="QPushButton" name="addNewDC">
+                           <property name="minimumSize">
+                            <size>
+                             <width>220</width>
+                             <height>40</height>
+                            </size>
+                           </property>
+                           <property name="maximumSize">
+                            <size>
+                             <width>220</width>
+                             <height>40</height>
+                            </size>
+                           </property>
+                           <property name="font">
+                            <font>
+                             <family>Montserrat Medium</family>
+                             <pointsize>8</pointsize>
+                            </font>
+                           </property>
+                           <property name="text">
+                            <string>Add New Distributor Contact</string>
+                           </property>
+                          </widget>
+                         </item>
+                         <item row="1" column="1">
                           <widget class="QLabel" name="label_16">
                            <property name="font">
                             <font>
@@ -1747,7 +1753,32 @@ QPushButton#addEmploy::hover{color:#FFA553; background-color: black; border: 2px
                            </property>
                           </widget>
                          </item>
-                         <item row="0" column="1">
+                         <item row="2" column="1">
+                          <widget class="QPushButton" name="edit_disstat">
+                           <property name="minimumSize">
+                            <size>
+                             <width>220</width>
+                             <height>30</height>
+                            </size>
+                           </property>
+                           <property name="maximumSize">
+                            <size>
+                             <width>220</width>
+                             <height>30</height>
+                            </size>
+                           </property>
+                           <property name="font">
+                            <font>
+                             <family>Montserrat</family>
+                             <pointsize>11</pointsize>
+                            </font>
+                           </property>
+                           <property name="text">
+                            <string>Edit Distributor Status</string>
+                           </property>
+                          </widget>
+                         </item>
+                         <item row="2" column="2">
                           <widget class="QPushButton" name="edit_discon">
                            <property name="minimumSize">
                             <size>
@@ -1778,6 +1809,16 @@ QPushButton#addEmploy::hover{color:#FFA553; background-color: black; border: 2px
                            </property>
                           </widget>
                          </item>
+                         <item row="1" column="2">
+                          <widget class="QLabel" name="label_24">
+                           <property name="text">
+                            <string>DISTRIBUTOR CONTACT DETAILS</string>
+                           </property>
+                           <property name="alignment">
+                            <set>Qt::AlignCenter</set>
+                           </property>
+                          </widget>
+                         </item>
                         </layout>
                        </widget>
                       </item>
@@ -1791,11 +1832,13 @@ QPushButton#addEmploy::hover{color:#FFA553; background-color: black; border: 2px
                       <item>
                        <widget class="QFrame" name="frame_11">
                         <property name="styleSheet">
-                         <string notr="true">QLabel{color:white;background-color:#F17300; border: solid white; border-radius: 10px;}
+                         <string notr="true">QLabel{color:white;background-color:#F17300; border: solid white; border-radius: 0;}
 QPushButton{color:#F27E14; border:2px solid #F17300; border-radius: 10px;padding:2px;}
 QPushButton::hover{border:2px solid white; background-color:#F27E14; color:white;}
-QPushButton#addEmploy{color: black; background-color: #FFA553; border: 2px solid #FFA553;}
-QPushButton#addEmploy::hover{color:#FFA553; background-color: black; border: 2px solid black;}
+QPushButton#addButton_manu{color: black; background-color: #FFA553; border: 2px solid #FFA553;}
+QPushButton#addButton_manu::hover{color:#FFA553; background-color: black; border: 2px solid black;}
+QPushButton#new_manuconButton{color: black; background-color: #FFA553; border: 2px solid #FFA553;}
+QPushButton#new_manuconButton::hover{color:#FFA553; background-color: black; border: 2px solid black;}
 </string>
                         </property>
                         <property name="frameShape">
@@ -1811,28 +1854,63 @@ QPushButton#addEmploy::hover{color:#FFA553; background-color: black; border: 2px
                          <property name="verticalSpacing">
                           <number>20</number>
                          </property>
-                         <item row="2" column="2">
-                          <widget class="QPushButton" name="edit_manustat">
+                         <item row="1" column="1">
+                          <widget class="QLabel" name="label_19">
                            <property name="minimumSize">
                             <size>
                              <width>220</width>
-                             <height>30</height>
+                             <height>50</height>
                             </size>
                            </property>
                            <property name="maximumSize">
                             <size>
                              <width>220</width>
-                             <height>30</height>
+                             <height>50</height>
                             </size>
                            </property>
                            <property name="font">
                             <font>
-                             <family>Montserrat</family>
-                             <pointsize>9</pointsize>
+                             <family>Montserrat Medium</family>
+                             <pointsize>8</pointsize>
+                             <weight>75</weight>
+                             <bold>true</bold>
                             </font>
                            </property>
                            <property name="text">
-                            <string>Edit Manufacturer Status</string>
+                            <string>MANUFACTURER STATUS</string>
+                           </property>
+                           <property name="alignment">
+                            <set>Qt::AlignCenter</set>
+                           </property>
+                          </widget>
+                         </item>
+                         <item row="1" column="2">
+                          <widget class="QLabel" name="label_23">
+                           <property name="minimumSize">
+                            <size>
+                             <width>220</width>
+                             <height>50</height>
+                            </size>
+                           </property>
+                           <property name="maximumSize">
+                            <size>
+                             <width>220</width>
+                             <height>50</height>
+                            </size>
+                           </property>
+                           <property name="font">
+                            <font>
+                             <family>Montserrat Medium</family>
+                             <pointsize>7</pointsize>
+                             <weight>75</weight>
+                             <bold>true</bold>
+                            </font>
+                           </property>
+                           <property name="text">
+                            <string>Manufacturer Contact Details</string>
+                           </property>
+                           <property name="alignment">
+                            <set>Qt::AlignCenter</set>
                            </property>
                           </widget>
                          </item>
@@ -1864,19 +1942,6 @@ QPushButton#addEmploy::hover{color:#FFA553; background-color: black; border: 2px
                            </property>
                           </widget>
                          </item>
-                         <item row="0" column="0">
-                          <spacer name="horizontalSpacer_13">
-                           <property name="orientation">
-                            <enum>Qt::Horizontal</enum>
-                           </property>
-                           <property name="sizeHint" stdset="0">
-                            <size>
-                             <width>40</width>
-                             <height>20</height>
-                            </size>
-                           </property>
-                          </spacer>
-                         </item>
                          <item row="1" column="0">
                           <widget class="QLabel" name="label_18">
                            <property name="minimumSize">
@@ -1907,37 +1972,7 @@ QPushButton#addEmploy::hover{color:#FFA553; background-color: black; border: 2px
                            </property>
                           </widget>
                          </item>
-                         <item row="0" column="2">
-                          <spacer name="horizontalSpacer_14">
-                           <property name="orientation">
-                            <enum>Qt::Horizontal</enum>
-                           </property>
-                           <property name="sizeHint" stdset="0">
-                            <size>
-                             <width>40</width>
-                             <height>20</height>
-                            </size>
-                           </property>
-                          </spacer>
-                         </item>
-                         <item row="1" column="2">
-                          <widget class="QLabel" name="label_19">
-                           <property name="font">
-                            <font>
-                             <pointsize>9</pointsize>
-                             <weight>75</weight>
-                             <bold>true</bold>
-                            </font>
-                           </property>
-                           <property name="text">
-                            <string>MANUFACTURER STATUS</string>
-                           </property>
-                           <property name="alignment">
-                            <set>Qt::AlignCenter</set>
-                           </property>
-                          </widget>
-                         </item>
-                         <item row="0" column="1">
+                         <item row="2" column="2">
                           <widget class="QPushButton" name="edit_manucon">
                            <property name="minimumSize">
                             <size>
@@ -1965,6 +2000,81 @@ QPushButton#addEmploy::hover{color:#FFA553; background-color: black; border: 2px
                            </property>
                            <property name="text">
                             <string>EDIT MANUFACTURER CONTACT</string>
+                           </property>
+                          </widget>
+                         </item>
+                         <item row="0" column="2">
+                          <widget class="QPushButton" name="new_manuconButton">
+                           <property name="minimumSize">
+                            <size>
+                             <width>220</width>
+                             <height>40</height>
+                            </size>
+                           </property>
+                           <property name="maximumSize">
+                            <size>
+                             <width>220</width>
+                             <height>40</height>
+                            </size>
+                           </property>
+                           <property name="font">
+                            <font>
+                             <family>Montserrat Medium</family>
+                             <pointsize>8</pointsize>
+                            </font>
+                           </property>
+                           <property name="text">
+                            <string>Add New Manufacturer Contact</string>
+                           </property>
+                          </widget>
+                         </item>
+                         <item row="2" column="1">
+                          <widget class="QPushButton" name="edit_manustat">
+                           <property name="minimumSize">
+                            <size>
+                             <width>220</width>
+                             <height>30</height>
+                            </size>
+                           </property>
+                           <property name="maximumSize">
+                            <size>
+                             <width>220</width>
+                             <height>30</height>
+                            </size>
+                           </property>
+                           <property name="font">
+                            <font>
+                             <family>Montserrat</family>
+                             <pointsize>9</pointsize>
+                            </font>
+                           </property>
+                           <property name="text">
+                            <string>Edit Manufacturer Status</string>
+                           </property>
+                          </widget>
+                         </item>
+                         <item row="0" column="0">
+                          <widget class="QPushButton" name="addButton_manu">
+                           <property name="minimumSize">
+                            <size>
+                             <width>220</width>
+                             <height>40</height>
+                            </size>
+                           </property>
+                           <property name="maximumSize">
+                            <size>
+                             <width>220</width>
+                             <height>40</height>
+                            </size>
+                           </property>
+                           <property name="font">
+                            <font>
+                             <family>Montserrat Medium</family>
+                             <pointsize>11</pointsize>
+                            </font>
+                           </property>
+                           <property name="text">
+                            <string>Add New Manufacturer</string>
                            </property>
                           </widget>
                          </item>

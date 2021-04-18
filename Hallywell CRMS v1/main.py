@@ -32,10 +32,14 @@ from NewEmployeeForm import Ui_NewEmployeeForm
 from EmployeeDetail import Ui_EmployeeStatus
 from EmployeeDetailsForm import Ui_EmployeeDetails
 # ==> Distributor Forms
+from NewDistributorForm import Ui_NewDistributorForm
+from NewDistributorContact import Ui_NewDistributorContact
 from DistributorContactForm import Ui_DistributorContactForm
 from DistributorDetailsForm import Ui_DistributorDetails
 from DistributorStatusDetail import Ui_DistributorStatusDetail
 # ==> Manufacturer Forms
+from NewManufacturerForm import Ui_NewManufacturerForm
+from NewManufacturerContact import Ui_NewManufacturerContact
 from ManufacturerContactForm import Ui_ManufacturerContactForm
 from ManufacturerDetail import Ui_ManufacturerStatus
 from ManufacturerDetailsForm import Ui_ManufacturerDetails
@@ -120,10 +124,14 @@ class MainScreen(QMainWindow):
         self.ui.edit_empdet.clicked.connect(self.open_employeedetails)
         self.ui.edit_empstat.clicked.connect(self.open_employeestatusdetails)
         # ==> Distributor Forms
+        self.ui.add_dis.clicked.connect(self.open_newdistributorform)
+        self.ui.addNewDC.clicked.connect(self.open_newdistributorcontact)
         self.ui.edit_discon.clicked.connect(self.open_DistributorContactForm)
         self.ui.edit_disdet.clicked.connect(self.open_DistributorDetailsForm)
         self.ui.edit_disstat.clicked.connect(self.open_distributorstatusdetail)
         # ==> Manufacturer Forms
+        self.ui.new_manuconButton.clicked.connect(self.open_newmanufacturercontactform)
+        self.ui.addButton_manu.clicked.connect(self.open_newmanufacturerform)
         self.ui.edit_manucon.clicked.connect(self.open_ManufacturerContactForm)
         self.ui.edit_manudet.clicked.connect(self.open_ManufacturerDetailsForm)
         self.ui.edit_manustat.clicked.connect(self.open_ManufacturerDetail)
@@ -237,6 +245,16 @@ class MainScreen(QMainWindow):
         self.form.show()
 
     # ==> DISTRIBUTOR FORMS
+    # NEW DISTRIBUTOR FORM
+    def open_newdistributorform(self):
+        self.form = NewDistributorForm()
+        self.form.show()
+
+    # NEW DISTRIBUTOR CONTACT
+    def open_newdistributorcontact(self):
+        self.form = NewDistributorContact()
+        self.form.show()
+
     # DISTRIBUTOR CONTACT FORM
     def open_DistributorContactForm(self):  # FIXME: Make this function name lower case
         self.form = DistributorContactForm()
@@ -254,6 +272,15 @@ class MainScreen(QMainWindow):
         self.form.show()
 
     # ==> MANUFACTURER FORMS
+    # NEW MANUFACTURER FORM
+    def open_newmanufacturerform(self):
+        self.form = NewManufacturerForm()
+        self.form.show()
+
+    def open_newmanufacturercontactform(self):
+        self.form = NewManufacturerContactForm()
+        self.form.show()
+
     # MANUFACTURER CONTACT FORM
     def open_ManufacturerContactForm(self):  # FIXME: Make this function name lower case
         self.form = ManufacturerContactForm()
@@ -1387,7 +1414,107 @@ class EmployeeDetailsForm(QMainWindow):
 
 
 # ==> DISTRIBUTOR FORMS CLASSES
-# ??? Should the distributor be allowed to change?
+# todo: Test this form
+class NewDistributorForm(QMainWindow):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.ui = Ui_NewDistributorForm()
+        self.ui.setupUi(self)
+        self.status_data = self.load_data()[0]
+        self.state_data = self.load_data()[1]
+        self.display_data()
+        self.ui.save_Button.clicked.connect(self.add_data)
+        self.ui.delete_Button.clicked.connect(self.clear_form)
+
+    @staticmethod
+    def load_data():
+        cursor = server_connection().cursor()
+        data = cursor.execute('SELECT * FROM Distributor_Status WHERE IS_DELETE = 0')
+        status_data = [[item for item in row] for row in data]
+        data = cursor.execute('SELECT * FROM State_Province WHERE IS_DELETE = 0')
+        state_data = [[item for item in row] for row in data]
+        return status_data, state_data
+
+    def display_data(self):
+        status_list = []
+        for status in self.status_data:
+            status_list.append(status[1])
+        states = []
+        for state in self.state_data:
+            states.append(state[1])
+        state_list = sorted(states)
+        self.ui.comboBox_state.addItems(state_list)
+        self.ui.comboBox_disstat.addItems(status_list)
+
+    def add_data(self):
+        dis_name = self.ui.lineEdit_DisName.text()
+        address = self.ui.lineEdit_DisAddress.text()
+        city = self.ui.lineEdit_DisCity.text()
+        postal_code = self.ui.lineEdit_postalcode.text()
+        state_code = int()
+        status_code = int()
+        for row in self.state_data:
+            if row[1] == self.ui.comboBox_state.currentText():
+                state_code = row[0]
+        for row in self.status_data:
+            if row[1] == self.ui.comboBox_disstat.currentText():
+                status_code = row[0]
+        cnxn = server_connection()
+        cursor = cnxn.cursor()
+        cursor.execute("INSERT INTO Distributor (DIS_NAME, WAREHOUSE_ADDRESS, CITY, STATE_PROVINCE_ID, POSTAL_CODE, "
+                       "DIS_STATUS_ID, IS_DELETE) VALUES (?,?,?,?,?,?,0)", dis_name, address, city, int(postal_code),
+                       state_code, status_code)
+        cnxn.commit()
+
+    def clear_form(self):
+        self.ui.lineEdit_DisName.clear()
+        self.ui.lineEdit_postalcode.clear()
+        self.ui.lineEdit_DisCity.clear()
+        self.ui.lineEdit_DisAddress.clear()
+
+
+class NewDistributorContact(QMainWindow):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.ui = Ui_NewDistributorContact()
+        self.ui.setupUi(self)
+        self.ui.setupUi(self)
+        self.man_data = self.load_data()
+        self.display_data()
+
+    @staticmethod
+    def load_data():
+        cursor = server_connection().cursor()
+        data = cursor.execute('SELECT * FROM Distributor WHERE IS_DELETE = 0')
+        manufacturer_data = [[item for item in row] for row in data]
+        return manufacturer_data
+
+    def display_data(self):
+        manu_names = []
+        for name in self.man_data:
+            manu_names.append(name[1])
+        self.ui.comboBox_manu.addItems(manu_names)
+
+    def add_data(self):
+        mc_name = self.ui.lineEdit_DisName.text()
+        mc_number = self.ui.lineEdit_DisCN.text()
+        mc_email = self.ui.lineEdit_email.text()
+        manu_id = int()
+        for row in self.man_data:
+            if row[1] == self.ui.comboBox_manu.currentText():
+                manu_id = row[0]
+        cnxn = server_connection()
+        cursor = cnxn.cursor()
+        cursor.execute("INSERT INTO Distributor_Contact (DC_NAME, CONTACT_NUMBER, EMAIL, DISTRIBUTOR_ID, IS_DELETE)"
+                       " VALUES (?,?,?,?,0)", mc_name, mc_number, mc_email, manu_id)
+        cnxn.commit()
+
+    def clear_form(self):
+        self.ui.lineEdit_DisName.clear()
+        self.ui.lineEdit_email.clear()
+        self.ui.lineEdit_DisCN.clear()
+
+# Fully Functional
 class DistributorContactForm(QMainWindow):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -1428,7 +1555,6 @@ class DistributorContactForm(QMainWindow):
         discon_names = []
         for i, row in enumerate(self.table_data):
             if row[4] == dis_details[0][0]:
-                print(f"{row[4]} & {dis_details[0]}")
                 discon_names.append(row[1])
         self.ui.comboBox_contact.addItems(discon_names)
 
@@ -1661,11 +1787,176 @@ class DistributorStatus(QMainWindow):
 
 
 # ==> MANUFACTURER FORMS CLASSES
+# Fully Functional
+class NewManufacturerForm(QMainWindow):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.ui = Ui_NewManufacturerForm()
+        self.ui.setupUi(self)
+        self.status_data = self.load_data()
+        self.display_data()
+        self.ui.save_Button.clicked.connect(self.add_data)
+        self.ui.clear_Button.clicked.connect(self.clear_form)
+
+    @staticmethod
+    def load_data():
+        cursor = server_connection().cursor()
+        data = cursor.execute('SELECT * FROM Manufacturer_Status WHERE IS_DELETE = 0')
+        status_data = [[item for item in row] for row in data]
+        return status_data
+
+    def display_data(self):
+        status_list = []
+        for status in self.status_data:
+            status_list.append(status[1])
+        self.ui.comboBox_status.addItems(status_list)
+
+    def add_data(self):
+        manu_name = self.ui.lineEdit_man_name.text()
+        address = self.ui.lineEdit_man_address.text()
+        email = self.ui.lineEdit_email.text()
+        number = self.ui.lineEdit_number.text()
+        status_code = int()
+        for row in self.status_data:
+            if row[1] == self.ui.comboBox_status.currentText():
+                status_code = row[0]
+        cnxn = server_connection()
+        cursor = cnxn.cursor()
+        cursor.execute("INSERT INTO Manufacturer (M_NAME, M_ADDRESS, M_EMAIL, M_PHONE, MANUFACTURER_STATUS_ID,"
+                       " IS_DELETE) VALUES (?,?,?,?,?,0)", manu_name, address, email, number, status_code)
+        cnxn.commit()
+
+    def clear_form(self):
+        self.ui.lineEdit_man_name.clear()
+        self.ui.lineEdit_man_address.clear()
+        self.ui.lineEdit_email.clear()
+        self.ui.lineEdit_number.clear()
+
+# todo: Test this form
+class NewManufacturerContactForm(QMainWindow):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.ui = Ui_NewManufacturerContact()
+        self.ui.setupUi(self)
+        self.man_data = self.load_data()
+        self.display_data()
+
+    @staticmethod
+    def load_data():
+        cursor = server_connection().cursor()
+        data = cursor.execute('SELECT * FROM Manufacturer WHERE IS_DELETE = 0')
+        manufacturer_data = [[item for item in row] for row in data]
+        return manufacturer_data
+
+    def display_data(self):
+        manu_names = []
+        for name in self.man_data:
+            manu_names.append(name[1])
+        self.ui.comboBox_manu.addItems(manu_names)
+
+    def add_data(self):
+        mc_name = self.ui.lineEdit_DisName.text()
+        mc_number = self.ui.lineEdit_DisCN.text()
+        mc_email = self.ui.lineEdit_email.text()
+        manu_id = int()
+        for row in self.man_data:
+            if row[1] == self.ui.comboBox_manu.currentText():
+                manu_id = row[0]
+        cnxn = server_connection()
+        cursor = cnxn.cursor()
+        cursor.execute("INSERT INTO Manufacturer_Contact (MC_NAME, MC_NUMBER, MC_EMAIL, MANUFACTURER_ID, IS_DELETE)"
+                       " VALUES (?,?,?,?,0)", mc_name, mc_number, mc_email, manu_id)
+        cnxn.commit()
+
+    def clear_form(self):
+        self.ui.lineEdit_DisName.clear()
+        self.ui.lineEdit_email.clear()
+        self.ui.lineEdit_DisCN.clear()
+
+
+# todo: Test this form
 class ManufacturerContactForm(QMainWindow):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.ui = Ui_ManufacturerContactForm()
         self.ui.setupUi(self)
+        self.table_data = self.load_data()[0]
+        self.dis_data = self.load_data()[1]
+        self.set_dislist()
+        self.ui.selectButton_SelectDis.clicked.connect(self.set_discon)
+        self.ui.comboBox_contact.currentIndexChanged.connect(self.display_data)
+        self.ui.save_Button_DC.clicked.connect(self.update_data)
+        self.ui.delete_Button_DC.clicked.connect(self.delete_data)
+
+    @staticmethod
+    def load_data():
+        cursor = server_connection().cursor()
+        data = cursor.execute('SELECT * FROM Manufacturer_Contact WHERE IS_DELETE = 0 ')
+        table_data = [[item for item in row] for row in data]
+        data = cursor.execute('SELECT * FROM Manufacturer WHERE IS_DELETE = 0 ')
+        dis_data = [[item for item in row] for row in data]
+        return table_data, dis_data
+
+    def set_dislist(self):
+        dis_names = []
+        for row in self.dis_data:
+            for i, name in enumerate(row):
+                if i == 1:
+                    dis_names.append(name)
+        self.ui.comboBox_selectDis.addItems(dis_names)
+
+    def set_discon(self):
+        self.ui.comboBox_contact.clear()
+        selected_dis = self.ui.comboBox_selectDis.currentText()
+        dis_details = []
+        for i, row in enumerate(self.dis_data):
+            if row[1] == selected_dis:
+                dis_details.append(row)
+        discon_names = []
+        for i, row in enumerate(self.table_data):
+            if row[4] == dis_details[0][0]:
+                discon_names.append(row[1])
+        self.ui.comboBox_contact.addItems(discon_names)
+
+    def get_data(self):
+        selected_con = self.ui.comboBox_contact.currentText()
+        contact_details = []
+        for i, row in enumerate(self.table_data):
+            if row[1] == selected_con:
+                contact_details.append(row)
+        return contact_details
+
+    def display_data(self):
+        contact_details = self.get_data()
+        for row in contact_details:
+            for i, item in enumerate(row):
+                if i == 1:
+                    self.ui.lineEdit_DisName.setText(item)
+                elif i == 2:
+                    self.ui.lineEdit_DisCN.setText(item)
+                elif i == 3:
+                    self.ui.lineEdit_email.setText(item)
+
+    def update_data(self):
+        contact_details = self.get_data()
+        contact_name = self.ui.lineEdit_DisName.text()
+        contact_number = self.ui.lineEdit_DisCN.text()
+        contact_email = self.ui.lineEdit_email.text()
+        cnxn = server_connection()
+        cursor = cnxn.cursor()
+        cursor.execute("UPDATE Manufacturer_Contact SET MC_NAME = ?, MC_NUMBER = ?, MC_EMAIL = ?, MANUFACTURER_ID = ?,"
+                       " IS_DELETE = 0 WHERE MANUFCONTACT_ID = ?", contact_name, contact_number, contact_email,
+                       contact_details[0][4], contact_details[0][0])
+        cnxn.commit()
+        self.table_data = self.load_data()[0]
+
+    def delete_data(self):
+        contact_details = self.get_data()
+        cnxn = server_connection()
+        cursor = cnxn.cursor()
+        cursor.execute("UPDATE Manufacturer_Contact SET IS_DELETE = 1 WHERE MANUFCONTACT_ID = ?", contact_details[0][0])
+        cnxn.commit()
+        self.table_data = self.load_data()[0]
 
 
 class ManufacturerDetailsForm(QMainWindow):
