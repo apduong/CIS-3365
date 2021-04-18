@@ -97,10 +97,10 @@ class MainScreen(QMainWindow):
         self.ui.edit_cus.clicked.connect(self.open_CustomerDetailsForm)
         # ==> Order Forms
         # self.ui.addOrdButton.clicked.connect()  # TODO: Create Order Class and Open Function
-        self.ui.edit_order_status.clicked.connect(self.open_orderstatus)
+        self.ui.edit_order_status.clicked.connect(self.open_OrderDetail)
         # ==> Payment Forms
-        self.ui.addPayButton.clicked.connect(self.open_newpayment)
-        self.ui.edit_pay_det.clicked.connect(self.open_paymentdetails)
+        # self.ui.addPayButton.clicked.connect(self.open_newpayment)
+        # self.ui.edit_pay_det.clicked.connect(self.open_paymentdetails)
         # ==> Product Forms
         self.ui.addButton.clicked.connect(self.open_productform)
         self.ui.edit_color.clicked.connect(self.open_productcolordetail)
@@ -125,11 +125,11 @@ class MainScreen(QMainWindow):
         self.ui.edit_disstat.clicked.connect(self.open_distributorstatusdetail)
         # ==> Manufacturer Forms
         self.ui.edit_manucon.clicked.connect(self.open_ManufacturerContactForm)
-        self.ui.edit_manudet.clicked.connect(self.open_manufacturerdetails)
-        self.ui.edit_manustat.clicked.connect(self.open_manufacturerstatusdetails)
+        self.ui.edit_manudet.clicked.connect(self.open_ManufacturerDetailsForm)
+        self.ui.edit_manustat.clicked.connect(self.open_ManufacturerDetail)
         # ==> Promotion Forms
-        self.ui.addPromoButton.clicked.connect(self.open_promotion)
-        self.ui.edit_promodet.clicked.connect(self.open_promotiondetails)
+        self.ui.addPromoButton.clicked.connect(self.open_NewPromotionForm)
+        self.ui.edit_promodet.clicked.connect(self.open_PromotionDetailsForm)
         # ==> Channel Forms
         self.ui.edit_chandet.clicked.connect(self.open_ChannelDetailsForm)
 
@@ -227,13 +227,13 @@ class MainScreen(QMainWindow):
         self.form.show()
 
     # EMPLOYEE DETAILS
-    def open_EmployeeDetailsForm(self):
+    def open_employeedetails(self):
         self.form = EmployeeDetailsForm()
         self.form.show()
 
     # EMPLOYEE STATUS DETAILS
-    def open_EmployeeDetails(self):
-        self.form = EmployeeDetails()
+    def open_employeestatusdetails(self):
+        self.form = EmployeeStatusDetail()
         self.form.show()
 
     # ==> DISTRIBUTOR FORMS
@@ -241,7 +241,6 @@ class MainScreen(QMainWindow):
     def open_DistributorContactForm(self):  # FIXME: Make this function name lower case
         self.form = DistributorContactForm()
         self.form.show()
-
 
     # FIXME: Duplicate Distributor Details function calls.
     # DISTRIBUTOR DETAILS
@@ -288,7 +287,7 @@ class MainScreen(QMainWindow):
         self.form.show()
 
     def open_NewChannelStausForm(self):
-        self.form = NewChannelStausForm()
+        self.form = ChannelDetailsForm()
         self.form.show()
 
 
@@ -638,6 +637,7 @@ class ProductDetail(QMainWindow):
         self.table_data = self.load_data()[0]
         self.set_prodlist()
 
+
 # todo: Test this form
 class ProductColorDetail(QMainWindow):
     def __init__(self, *args, **kwargs):
@@ -869,6 +869,7 @@ class ProductStatusDetail(QMainWindow):
         self.set_statuslist()
         self.ui.lineEdit_new.clear()
 
+
 # todo: Test this form
 class ProductThreadDetail(QMainWindow):
     def __init__(self, *args, **kwargs):
@@ -933,6 +934,7 @@ class ProductThreadDetail(QMainWindow):
         self.table_data = self.load_data()
         self.set_threadlist()
         self.ui.lineEdit_new.clear()
+
 
 # todo: Test this form
 class ProductHistoryDetail(QMainWindow):
@@ -999,6 +1001,7 @@ class ProductHistoryDetail(QMainWindow):
         self.set_historylist()
         self.ui.lineEdit_new.clear()
 
+
 # todo: Test this form
 class ProductMaterialDetail(QMainWindow):
     def __init__(self, *args, **kwargs):
@@ -1064,6 +1067,7 @@ class ProductMaterialDetail(QMainWindow):
         self.set_materiallist()
         self.ui.lineEdit_new.clear()
 
+
 # todo: Test this form
 class ProductTypeDetail(QMainWindow):
     def __init__(self, *args, **kwargs):
@@ -1104,6 +1108,7 @@ class ProductTypeDetail(QMainWindow):
         self.set_typelist()
         self.ui.lineEdit_new.clear()
 
+
 # todo: Test this form
 class ProductSizeDetail(QMainWindow):
     def __init__(self, *args, **kwargs):
@@ -1122,6 +1127,7 @@ class ProductSizeDetail(QMainWindow):
         self.ui.comboBox_select.clear()
         self.table_data = self.load_data()
         self.set_historylist()
+
 
 # ==> SHIPMENT FORMS CLASSES
 # FIXME: Class name on NewShipmentForm and ShipmentDetails is the same
@@ -1142,6 +1148,7 @@ class NewShipmentForm(QMainWindow):  # FIXME: Capitalize the F in form :)
         self.ui.comboBox_select.clear()
         self.table_data = self.load_data()
         self.set_typelist()
+
 
 class ShipmentDetailsForm(QMainWindow):
     def __init__(self, *args, **kwargs):
@@ -1187,58 +1194,16 @@ class ShipmentDetailsForm(QMainWindow):
 
 # FIXME: Try not to commit changes that breaks the entire program
 
+
 # ==> EMPLOYEE FORMS CLASSES
 class NewEmployeeForm(QMainWindow):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.ui = Ui_NewEmployeeForm()
         self.ui.setupUi(self)
-        self.load = self.load_data()
-        self.table_data = self.load[0]
-        self.dis_contactname = self.load[1]
-        self.dis_list()
-        self.ui.submit_Button_NE.clicked.connect(self.add_data)
-        #self.ui.clear_Button_NE.clicked.connect(self.update_data)
 
-    @staticmethod
-    def load_data():
-        cursor = server_connection().cursor()
-        data = cursor.execute('SELECT * FROM Employee WHERE IS_DELETE = 0')
-        table_data = [[item for item in row] for row in data]
-        state = cursor.execute('SELECT * FROM State_Province WHERE IS_DELETE = 0')
-        state_data = [[item for item in row] for row in state]
-        country = cursor.execute('SELECT * FROM Country WHERE IS_DELETE = 0')
-        country_data = [[item for item in row]] for row in country]
-        edesc = cursor.execute('SELECT * FROM Employee_Status WHERE IS_DELETE = 0')
-        e_desc = [[item for item in row]] for row in edesc]
-        return table_data , state_data, country_data, e_desc
-    
-    def display_data(self):
-        selected_name = self.ui.comboBox_EState.currentText()
-        new_state = []
-        for i, row in  enumerate(self.table_data):
-            if row[1] == selected_name:
-                new_state.append(row)
-       # for row in dis_details: 
-           #for i, item in enumerate(row):
-               # if i == 1:
-                   # self.ui.lineEdit_DisName.setText(item)
-               # elif i == 2:
-                    #self.ui.lineEdit_DisCN.setText(item)
-    def add_data(self):
-        insert_data =self.lineEdit_EFN.text()
-        insert_data1 =self.lineEdit_EMN.text()
-        insert_data2=self.lineEdit_ELN.text()
-        insert_data3 = self.lineEdit_EAddress1.text()
-        insert_data4 = self.lineEdit_EAddress2.text()
-        insert_data5 = self.lineEdit_ECity.text()
-        insert_data6 = self.comboBox_EState.currentText()
-        insert_data7 = self.lineEdit_EPostalCode.text()
-        insert_data8 = self.comboBox_ECountry.currentText())
-        insert_data9 = self.dateEdit_DOB
-        insert_data10 = self.comboBox_EDesc.currentText()
 
-class EmployeeDetail(QMainWindow):
+class EmployeeStatusDetail(QMainWindow):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.ui = Ui_EmployeeStatus()
@@ -1255,6 +1220,7 @@ class EmployeeDetail(QMainWindow):
         self.ui.comboBox_select.clear()
         self.table_data = self.load_data()
         self.set_materiallist()
+
 
 class EmployeeDetailsForm(QMainWindow):
     def __init__(self, *args, **kwargs):
@@ -1290,7 +1256,7 @@ class EmployeeDetailsForm(QMainWindow):
         return table_data, country_data, state_data, status_data
 
     def set_employeelist(self):
-        employee_names =[]
+        employee_names = []
         for row in self.table_data:
             for i, name in enumerate(row):
                 if i == 1:
@@ -1421,57 +1387,93 @@ class EmployeeDetailsForm(QMainWindow):
 
 
 # ==> DISTRIBUTOR FORMS CLASSES
-# FIXME: NEEDS TO BE FIXED BASED ON ID
+# ??? Should the distributor be allowed to change?
 class DistributorContactForm(QMainWindow):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.ui = Ui_DistributorContactForm()
         self.ui.setupUi(self)
-        self.load = self.load_data()
-        self.table_data = self.load[0]
-        self.dis_contactname = self.load[1]
-        self.dis_list()
-        self.ui.selectButton_SelectDis.clicked.connect(self.display_data)
+        self.table_data = self.load_data()[0]
+        self.dis_data = self.load_data()[1]
+        self.set_dislist()
+        self.ui.selectButton_SelectDis.clicked.connect(self.set_discon)
+        self.ui.comboBox_contact.currentIndexChanged.connect(self.display_data)
         self.ui.save_Button_DC.clicked.connect(self.update_data)
+        self.ui.delete_Button_DC.clicked.connect(self.delete_data)
 
     @staticmethod
     def load_data():
         cursor = server_connection().cursor()
-        data = cursor.execute('SELECT * FROM Distributor_Contact WHERE IS_DELETE = 0')
+        data = cursor.execute('SELECT * FROM Distributor_Contact WHERE IS_DELETE = 0 ')
         table_data = [[item for item in row] for row in data]
-        data = cursor.execute('SELECT * FROM Distributor WHERE IS_DELETE = 0')
-        dis_contactname = [[item for item in row] for row in data]
-        return table_data, dis_contactname
+        data = cursor.execute('SELECT * FROM Distributor WHERE IS_DELETE = 0 ')
+        dis_data = [[item for item in row] for row in data]
+        return table_data, dis_data
 
-    def dis_list(self):
-        dis_contact = []
-        for row in self.table_data:
+    def set_dislist(self):
+        dis_names = []
+        for row in self.dis_data:
             for i, name in enumerate(row):
                 if i == 1:
-                    dis_contact.append(name)
-        self.ui.comboBox_selectDis.addItems(dis_contact)
+                    dis_names.append(name)
+        self.ui.comboBox_selectDis.addItems(dis_names)
+
+    def set_discon(self):
+        self.ui.comboBox_contact.clear()
+        selected_dis = self.ui.comboBox_selectDis.currentText()
+        dis_details = []
+        for i, row in enumerate(self.dis_data):
+            if row[1] == selected_dis:
+                dis_details.append(row)
+        discon_names = []
+        for i, row in enumerate(self.table_data):
+            if row[4] == dis_details[0][0]:
+                print(f"{row[4]} & {dis_details[0]}")
+                discon_names.append(row[1])
+        self.ui.comboBox_contact.addItems(discon_names)
+
+    def get_data(self):
+        selected_con = self.ui.comboBox_contact.currentText()
+        contact_details = []
+        for i, row in enumerate(self.table_data):
+            if row[1] == selected_con:
+                contact_details.append(row)
+        return contact_details
 
     def display_data(self):
-        selected_name = self.ui.comboBox_selectDis.currentText()
-        dis_details = []
-        for i, row in  enumerate(self.table_data):
-            if row[1] == selected_name:
-                dis_details.append(row)
-        for row in dis_details:
+        contact_details = self.get_data()
+        for row in contact_details:
             for i, item in enumerate(row):
                 if i == 1:
                     self.ui.lineEdit_DisName.setText(item)
                 elif i == 2:
                     self.ui.lineEdit_DisCN.setText(item)
+                elif i == 3:
+                    self.ui.lineEdit_email.setText(item)
 
     def update_data(self):
-        selected_name = self.ui.comboBox_selectDis.currentText()
-        dis_details = self.ui.lineEdit_DisName.text()
-        conn = server_connection()
-        cursor = conn.cursor()
-        cursor.execute(f"UPDATE Distributor_Contact SET DC_NAME = ? WHERE DC_NAME = ?", dis_details, selected_name)
-        conn.commit()
+        contact_details = self.get_data()
+        contact_name = self.ui.lineEdit_DisName.text()
+        contact_number = self.ui.lineEdit_DisCN.text()
+        contact_email = self.ui.lineEdit_email.text()
+        cnxn = server_connection()
+        cursor = cnxn.cursor()
+        cursor.execute("UPDATE Distributor_Contact SET DC_NAME = ?, CONTACT_NUMBER = ?, EMAIL = ?, DISTRIBUTOR_ID = ?,"
+                       " IS_DELETE = 0 WHERE DIS_CONTACT_ID = ?", contact_name, contact_number, contact_email,
+                       contact_details[0][4], contact_details[0][0])
+        cnxn.commit()
+        self.table_data = self.load_data()[0]
 
+    def delete_data(self):
+        contact_details = self.get_data()
+        cnxn = server_connection()
+        cursor = cnxn.cursor()
+        cursor.execute("UPDATE Distributor_Contact SET IS_DELETE = 1 WHERE DIS_CONTACT_ID = ?", contact_details[0][0])
+        cnxn.commit()
+        self.table_data = self.load_data()[0]
+
+
+# Fully Functional
 # idea: change the warehouse address line edit to a Plain Text
 class DistributorDetailsForm(QMainWindow):
     def __init__(self, *args, **kwargs):
@@ -1481,6 +1483,11 @@ class DistributorDetailsForm(QMainWindow):
         self.table_data = self.load_data()[0]
         self.status_data = self.load_data()[1]
         self.state_data = self.load_data()[2]
+        self.set_dislist()
+        self.display_data()
+        self.ui.selectButton.clicked.connect(self.display_data)
+        self.ui.save_Button.clicked.connect(self.update_data)
+        self.ui.delete_Button.clicked.connect(self.delete_data)
 
     @staticmethod
     def load_data():
@@ -1499,6 +1506,7 @@ class DistributorDetailsForm(QMainWindow):
             for i, name in enumerate(row):
                 if i == 1:
                     dis_names.append(name)
+        self.ui.comboBox_disname.addItems(dis_names)
         status_list = []
         for status in self.status_data:
             status_list.append(status[1])
@@ -1524,14 +1532,55 @@ class DistributorDetailsForm(QMainWindow):
                 if i == 1:
                     self.ui.lineEdit_DisName.setText(item)
                 elif i == 2:
-                    pass
+                    self.ui.lineEdit_DisAddress.setText(item)
+                elif i == 3:
+                    self.ui.lineEdit_DisCity.setText(item)
+                elif i == 4:
+                    for state in self.state_data:
+                        if state[0] == item:
+                            self.ui.comboBox_state.setCurrentIndex(item-1)
+                elif i == 5:
+                    self.ui.lineEdit_postalcode.setText(str(item))
+                elif i == 6:
+                    for status in self.status_data:
+                        if status[0] == item:
+                            self.ui.comboBox_disstat.setCurrentIndex(item-1)
 
+    def delete_data(self):
+        dis_details = self.get_data()
+        cnxn = server_connection()
+        cursor = cnxn.cursor()
+        cursor.execute("UPDATE Distributor SET IS_DELETE = 1 WHERE DISTRIBUTOR_ID = ?", dis_details[0][0])
+        cnxn.commit()
+        # Re-query Table Data
+        self.ui.comboBox_disname.clear()
+        self.table_data = self.load_data()[0]
+        self.set_dislist()
 
-
-
-
-
-
+    def update_data(self):
+        dis_details = self.get_data()
+        dis_name = self.ui.lineEdit_DisName.text()
+        dis_addr = self.ui.lineEdit_DisAddress.text()
+        dis_city = self.ui.lineEdit_DisCity.text()
+        state_code = int()
+        postal_code = self.ui.lineEdit_postalcode.text()
+        status_id = int()
+        for state in self.state_data:
+            if state[1] == self.ui.comboBox_state.currentText():
+                state_code = state[0]
+        for status in self.status_data:
+            if status[1] == self.ui.comboBox_disstat.currentText():
+                status_id = status[0]
+        cnxn = server_connection()
+        cursor = cnxn.cursor()
+        cursor.execute("UPDATE Distributor SET DIS_NAME = ?, WAREHOUSE_ADDRESS = ?, CITY = ?, STATE_PROVINCE_ID = ?, "
+                       "POSTAL_CODE = ?, DIS_STATUS_ID = ?, IS_DELETE = 0 WHERE DISTRIBUTOR_ID = ?", dis_name, dis_addr,
+                       dis_city, state_code, int(postal_code), status_id, dis_details[0][0])
+        cnxn.commit()
+        # Re-query Table Data
+        self.ui.comboBox_disname.clear()
+        self.table_data = self.load_data()[0]
+        self.set_dislist()
 
 
 # Fully Functional
@@ -1643,7 +1692,7 @@ class ManufacturerDetailsForm(QMainWindow):
         manufacturer_names = []
         for row in self.table_data:
             for i, name in enumerate(row):
-                if i ==1:
+                if i == 1:
                     manufacturer_names.append(name)
         self.ui.comboBox_SearchManufacturer.addItems(manufacturer_names)
 
@@ -1669,7 +1718,7 @@ class ManufacturerDetailsForm(QMainWindow):
                             self.ui.comboBox_ManufacturerStatusID.setCurrentIndex(item-1)
 
     def get_data(self):
-        seleceted_name =
+        pass
 
 class ManufacturerDetail(QMainWindow):
     def __init__(self, *args, **kwargs):
@@ -1708,6 +1757,7 @@ class ReturnCodeDetail(QMainWindow):
         super().__init__(*args, **kwargs)
         self.ui = Ui_ReturnCodeStatus()
         self.ui.setupUi(self)
+
 
 # ==> RESOURCES
 def server_connection():
