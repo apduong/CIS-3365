@@ -10,10 +10,9 @@ import pyodbc
 from NewCustomerForm import Ui_NewCustomerForm
 from CustomerDetailsForm import Ui_CustomerDetails
 # ==> Order Forms
-from OrderStatusDetails import Ui_PaymentDetails  # FIXME: Class name does not match the form name
-# ==> Payment Forms
-from NewPaymentForm import Ui_NewShipmentForm  # FIXME: Class name does not match the form name
-from PaymentDetails import Ui_PaymentDetails
+from OrderDetail import Ui_OrderStatus  # FIXME: Class name does not match the form name
+# ==> ReturnCode Forms
+from ReturnCodeDetail import Ui_ReturnCodeStatus
 # ==> Product Forms
 from NewProductForm import Ui_NewProductForm
 from ProductColorDetail import Ui_ProductColorDetail
@@ -30,21 +29,22 @@ from NewShipmentForm import Ui_NewShipmentForm
 from ShipmentDetailsForm import Ui_ShipmentDetails
 # ==> Employee Forms
 from NewEmployeeForm import Ui_NewEmployeeForm
-from EmployeeDetails import Ui_EmployeeDetails
-from EmployeeStatusDetails import Ui_EmployeeStatusDetails
+from EmployeeDetail import Ui_EmployeeStatus
+from EmployeeDetailsForm import Ui_EmployeeDetails
 # ==> Distributor Forms
 from DistributorContactForm import Ui_DistributorContactForm
 from DistributorDetailsForm import Ui_DistributorDetails
-from DistributorStatusDetail import Ui_DistributorStatusDetail
+from DistributorDetailsForm import Ui_DistributorDetails
 # ==> Manufacturer Forms
 from ManufacturerContactForm import Ui_ManufacturerContactForm
-from ManufacturerDetails import Ui_ManufacturerDetails
-from ManufacturerStatusDetails import Ui_ManufacturerStatusDetails
+from ManufacturerDetail import Ui_ManufacturerStatus
+from ManufacturerDetailsForm import Ui_ManufacturerDetails
 # ==> Promotion Forms
-from Promotion import Ui_Promotion  # FIXME: Class name and form name should be more descriptive.. Eg, 'NewPromotion'
-from PromotionDetails import Ui_PromotionDetails
+from PromotionDetailsForm import Ui_PromotionDetails  # FIXME: Class name and form name should be more descriptive.. Eg, 'NewPromotion'
+from NewPromotionForm import Ui_NewPromotionForm
 # ==> Channel Forms
 from ChannelDetailsForm import Ui_ChannelDetails
+from NewChannelStatusForm import Ui_NewChannelStatusForm
 
 counter = 0
 
@@ -148,19 +148,14 @@ class MainScreen(QMainWindow):
 
     # ==> ORDER FORMS
     # ORDER STATUS DETAILS
-    def open_orderstatus(self):
-        self.form = OrderStatusDetails()
+    def open_OrderDetail(self):
+        self.form = OrderDetail()
         self.form.show()
 
-    # ==> PAYMENT FORMS
-    # NEW PAYMENT
-    def open_newpayment(self):
-        self.form = NewPaymentForm()
-        self.form.show()
-
-    # PAYMENT DETAILS
-    def open_paymentdetails(self):
-        self.form = PaymentDetails()
+    # ==> RETURN CODE FORMS
+    # Return code status
+    def open_ReturnCodeDetail(self):
+        self.form = ReturnCodeDetail()
         self.form.show()
 
     # ==> PRODUCT FORMS
@@ -232,13 +227,13 @@ class MainScreen(QMainWindow):
         self.form.show()
 
     # EMPLOYEE DETAILS
-    def open_employeedetails(self):
-        self.form = EmployeeDetails()
+    def open_EmployeeDetailsForm(self):
+        self.form = EmployeeDetailsForm()
         self.form.show()
 
     # EMPLOYEE STATUS DETAILS
-    def open_employeestatusdetails(self):
-        self.form = EmployeeStatusDetails()
+    def open_EmployeeDetails(self):
+        self.form = EmployeeDetails()
         self.form.show()
 
     # ==> DISTRIBUTOR FORMS
@@ -265,30 +260,34 @@ class MainScreen(QMainWindow):
         self.form.show()
 
     # MANUFACTURER DETAILS
-    def open_manufacturerdetails(self):
-        self.form = ManufacturerDetails()
+    def open_ManufacturerDetailsForm(self):
+        self.form = ManufacturerDetailsForm()
         self.form.show()
 
     # MANUFACTURER STATUS DETAILS
-    def open_manufacturerstatusdetails(self):
-        self.form = ManufacturerStatusDetails()
+    def open_ManufacturerDetail(self):
+        self.form = ManufacturerDetail()
         self.form.show()
 
     # ==> PROMOTION FORMS
     # PROMOTION
-    def open_promotion(self):
-        self.form = Promotion()  # FIXME: Class name and form name should be more descriptive.. Eg, 'NewPromotion'
+    def open_NewPromotionForm(self):
+        self.form = NewPromotionForm()
         self.form.show()
 
     # PROMOTION DETAILS
-    def open_promotiondetails(self):
-        self.form = PromotionDetails()
+    def open_PromotionDetailsForm(self):
+        self.form = PromotionDetailsForm()
         self.form.show()
 
     # ==> Channel FORMS
     # CHANNEL DETAILS FORM
     def open_ChannelDetailsForm(self):  # FIXME: Make this function name lower case
         self.form = ChannelDetailsForm()
+        self.form.show()
+
+    def open_NewChannelStausForm(self):
+        self.form = NewChannelStausForm()
         self.form.show()
 
 
@@ -311,25 +310,10 @@ class CustomerDetailsForm(QMainWindow):
 
 
 # ==> ORDER FORMS CLASSES
-class OrderStatusDetails(QMainWindow):
+class OrderDetail(QMainWindow):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.ui = Ui_PaymentDetails()
-        self.ui.setupUi(self)
-
-
-# ==> PAYMENT FORMS CLASSES
-class NewPaymentForm(QMainWindow):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.ui = Ui_NewShipmentForm()
-        self.ui.setupUi(self)
-
-
-class PaymentDetails(QMainWindow):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.ui = Ui_PaymentDetails()
+        self.ui = Ui_OrderStatus()
         self.ui.setupUi(self)
 
 
@@ -920,18 +904,175 @@ class NewEmployeeForm(QMainWindow):
         inser_data11 = 
 
 """
-class EmployeeDetails(QMainWindow):
+class EmployeeDetail(QMainWindow):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.ui = Ui_EmployeeStatus()
+        self.ui.setupUi(self)
+
+
+class EmployeeDetailsForm(QMainWindow):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.ui = Ui_EmployeeDetails()
         self.ui.setupUi(self)
+        self.table_data = self.load_data()[0]
+        print(self.table_data)
+        self.country_data = self.load_data()[1]
+        self.state_data = self.load_data()[2]
+        self.status_data = self.load_data()[3]
+        self.set_employeelist()
+        self.ui.selectButton.clicked.connect(self.display_data)
+        self.ui.save_Button.clicked.connect(self.save_data)
+        self.ui.delete_Button.clicked.connect(self.delete_data)
 
+    @staticmethod
+    def load_data():
+        cursor = server_connection().cursor()
 
-class EmployeeStatusDetails(QMainWindow):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.ui = Ui_EmployeeStatusDetails()
-        self.ui.setupUi(self)
+        data = cursor.execute('SELECT * FROM Employee WHERE IS_DELETE = 0')
+        table_data = [[item for item in row] for row in data]
+
+        data = cursor.execute('SELECT * FROM Country WHERE IS_DELETE = 0')
+        country_data = [[item for item in row] for row in data]
+
+        data = cursor.execute('SELECT * FROM State_Province WHERE IS_DELETE = 0')
+        state_data = [[item for item in row] for row in data]
+
+        data = cursor.execute('SELECT * FROM Employee_Status WHERE IS_DELETE = 0')
+        status_data = [[item for item in row] for row in data]
+
+        return table_data, country_data, state_data, status_data
+
+    def set_employeelist(self):
+        employee_names =[]
+        for row in self.table_data:
+            for i, name in enumerate(row):
+                if i == 1:
+                    employee_names.append(name)
+        self.ui.comboBox_SelectEmployee.addItems(employee_names)
+
+        country_list = []
+        for i, item in enumerate(self.country_data):
+            country_list.append(item[1])
+        self.ui.comboBox_Country.addItems(country_list)
+
+        state_data = []
+        for i, item in enumerate(self.state_data):
+            state_data.append(item[1])
+        self.ui.comboBox_StateProvince.addItems(state_data)
+
+        status_data = []
+        for i, item in enumerate(self.status_data):
+            status_data.append(item[1])
+        self.ui.comboBox_EmployeeStatusID.addItems(status_data)
+
+    def display_data(self):
+        selected_name = self.ui.comboBox_SelectEmployee.currentText()
+        employee_details = []
+        for i, row in enumerate(self.table_data):
+            if row[1] == selected_name:
+                employee_details.append(row)
+        for row in employee_details:
+            for i, item in enumerate(row):
+                if i == 1:
+                    self.ui.lineEdit_FirstName.setText(item)
+                elif i == 2:
+                    self.ui.lineEdit_LastName.setText(item)
+                elif i == 3:
+                    self.ui.lineEdit_MiddleName.setText(item)
+                elif i == 4:
+                    self.ui.lineEdit_Address1.setText(item)
+                elif i == 5:
+                    self.ui.lineEdit_Address2.setText(item)
+                elif i == 6:
+                    self.ui.lineEdit_City.setText(item)
+                elif i == 7:
+                    for x, state in enumerate(self.state_data):
+                        if state[0] == item:
+                            self.ui.comboBox_StateProvince.setCurrentIndex(item-1)
+                elif i == 8:
+                    for x, country in enumerate(self.country_data):
+                        if country[0] == item:
+                            self.ui.comboBox_Country.setCurrentIndex(item-1)
+                elif i == 9:
+                    self.ui.lineEdit_PostalCode.setText(str(item))
+                elif i == 10:
+                    self.ui.lineEdit_DateOfBirth.setText(item)
+                elif i == 11:
+                    for x, status in enumerate(self.status_data):
+                        if status[0] == item:
+                            self.ui.comboBox_EmployeeStatusID.setCurrentIndex(item-1)
+    def get_data(self):
+        selected_name = self.ui.comboBox_SelectEmployee.currentText()
+        employee_details = []
+        for i, row in enumerate(self.table_data):
+            if row[1] == selected_name:
+                employee_details.append(row)
+        return employee_details
+
+    def save_data(self):
+        employee_details = self.get_data()
+        employee_details[0][1] = self.ui.lineEdit_FirstName.text()
+        employee_details[0][2] = self.ui.lineEdit_LastName.text()
+        employee_details[0][3] = self.ui.lineEdit_MiddleName.text()
+        employee_details[0][4] = self.ui.lineEdit_Address1.text()
+        employee_details[0][5] = self.ui.lineEdit_Address2.text()
+        employee_details[0][6] = self.ui.lineEdit_City.text()
+        employee_details[0][7] = int()
+        for row in self.state_data:
+            if row[1] == self.ui.comboBox_StateProvince.currentText():
+                employee_details[0][7] = row[0]
+        employee_details[0][8] = int()
+        for row in self.country_data:
+            if row[1] == self.ui.comboBox_Country.currentText():
+                employee_details[0][8] = row[0]
+        employee_details[0][9] = self.ui.lineEdit_PostalCode.text()
+        employee_details[0][10] = self.ui.lineEdit_DateOfBirth.text()
+        employee_details[0][11] = int()
+        for row in self.status_data:
+            if row[1] == self.ui.comboBox_EmployeeStatusID.currentText():
+                employee_details[0][11] = row[0]
+        employeeconnection = server_connection()
+        cursor = employeeconnection.cursor()
+        cursor.execute("UPDATE Employee SET FIRST_NAME = ?, LAST_NAME = ?, MIDDLE_NAME = ?, ADDRESS_1 = ?, ADDRESS_2 = ?, CITY = ?, STATE_PROVINCE_ID = ?, COUNTRY_ID = ?, POSTAL_CODE = ?,"
+                       "DATE_OF_BIRTH = ?, EMPLOYEE_STATUS_ID = ? WHERE EMP_ID = ?", employee_details[0][1], employee_details[0][2],employee_details[0][3], employee_details[0][4],
+                       employee_details[0][5], employee_details[0][6], employee_details[0][7], employee_details[0][8], employee_details[0][9], employee_details[0][10],
+                       employee_details[0][11], employee_details[0][0])
+        employeeconnection.commit()
+        self.ui.lineEdit_FirstName.clear()
+        self.ui.lineEdit_LastName.clear()
+        self.ui.lineEdit_MiddleName.clear()
+        self.ui.lineEdit_Address1.clear()
+        self.ui.lineEdit_Address2.clear()
+        self.ui.lineEdit_City.clear()
+        self.ui.comboBox_StateProvince.clear()
+        self.ui.comboBox_Country.clear()
+        self.ui.lineEdit_PostalCode.clear()
+        self.ui.lineEdit_DateOfBirth.clear()
+        self.ui.comboBox_EmployeeStatusID.clear()
+        self.table_data = self.load_data()
+        self.set_employeelist()
+
+    def delete_data(self):
+        employee_details = self.get_data()
+        employeeconnection = server_connection()
+        cursor = employeeconnection.cursor()
+        cursor.execute("UPDATE Employee SET IS_DELETE = 1 WHERE EMP_ID = ?", employee_details[0][0])
+        employeeconnection.commit()
+        self.ui.lineEdit_FirstName.clear()
+        self.ui.lineEdit_LastName.clear()
+        self.ui.lineEdit_MiddleName.clear()
+        self.ui.lineEdit_Address1.clear()
+        self.ui.lineEdit_Address2.clear()
+        self.ui.lineEdit_City.clear()
+        self.ui.comboBox_StateProvince.clear()
+        self.ui.comboBox_Country.clear()
+        self.ui.lineEdit_PostalCode.clear()
+        self.ui.lineEdit_DateOfBirth.clear()
+        self.ui.comboBox_EmployeeStatusID.clear()
+        self.table_data = self.load_data()[0]
+        self.set_employeelist()
 
 
 # ==> DISTRIBUTOR FORMS CLASSES
