@@ -1679,19 +1679,20 @@ class ManufacturerDetail(QMainWindow):
 
 
 # ==> PROMOTION FORMS CLASSES
-class Promotion(QMainWindow):  # FIXME: Class name and form name should be more descriptive.. Eg, 'NewPromotion'
+class NewPromotionForm(QMainWindow):  # FIXME: Class name and form name should be more descriptive.. Eg, 'NewPromotion'
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.ui = Ui_Promotion()
+        self.ui =  Ui_NewPromotionForm()
         self.ui.setupUi(self)
+        
 
-
-class PromotionDetails(QMainWindow):
+# Promotion
+class PromotionDetailsForm(QMainWindow):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.ui = Ui_PromotionDetails()
         self.ui.setupUi(self)
-
+        
 
 # ==> CHANNEL FORMS CLASSES
 class ChannelDetailsForm(QMainWindow):
