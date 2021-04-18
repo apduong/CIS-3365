@@ -34,7 +34,7 @@ from EmployeeDetailsForm import Ui_EmployeeDetails
 # ==> Distributor Forms
 from DistributorContactForm import Ui_DistributorContactForm
 from DistributorDetailsForm import Ui_DistributorDetails
-from DistributorDetailsForm import Ui_DistributorDetails
+from DistributorStatusDetail import Ui_DistributorStatusDetail
 # ==> Manufacturer Forms
 from ManufacturerContactForm import Ui_ManufacturerContactForm
 from ManufacturerDetail import Ui_ManufacturerStatus
@@ -249,6 +249,7 @@ class MainScreen(QMainWindow):
         self.form = DistributorDetailsForm()
         self.form.show()
 
+     # DISTRIBUTOR STATUS
     def open_distributorstatusdetail(self):
         self.form = DistributorStatus()
         self.form.show()
@@ -443,6 +444,7 @@ class NewProductForm(QMainWindow):
         self.ui.description_box.clear()
 
 
+# Fully Functional
 class ProductDetail(QMainWindow):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -636,12 +638,81 @@ class ProductDetail(QMainWindow):
         self.table_data = self.load_data()[0]
         self.set_prodlist()
 
-
+# todo: Test this form
 class ProductColorDetail(QMainWindow):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.ui = Ui_ProductColorDetail()
         self.ui.setupUi(self)
+        self.table_data = self.load_data()
+        self.set_colorlist()
+        self.ui.comboBox_select.currentIndexChanged.connect(self.display_data)
+        self.ui.addButton.clicked.connect(self.add_data)
+        self.ui.deleteButton.clicked.connect(self.delete_data)
+        self.ui.updateButton.clicked.connect(self.update_data)
+
+    @staticmethod
+    def load_data():
+        cursor = server_connection().cursor()
+        data = cursor.execute('SELECT * FROM Color WHERE IS_DELETE = 0 ')
+        table_data = [[item for item in row] for row in data]
+        return table_data
+
+    def set_colorlist(self):
+        colors = []
+        for row in self.table_data:
+            for i, name in enumerate(row):
+                if i == 1:
+                    colors.append(name)
+        self.ui.comboBox_select.addItems(colors)
+
+    def get_data(self):
+        selected_name = self.ui.comboBox_select.currentText()
+        color_details = []
+        for i, row in enumerate(self.table_data):
+            if row[1] == selected_name:
+                color_details.append(row)
+        return color_details
+
+    def display_data(self):
+        color_details = self.get_data()
+        for row in color_details:
+            for i, item in enumerate(row):
+                if i == 1:
+                    self.ui.lineEdit_desc.setText(item)
+
+    def update_data(self):
+        color_details = self.get_data()
+        color_details[0][1] = self.ui.lineEdit_desc.text()
+        cnxn = server_connection()
+        cursor = cnxn.cursor()
+        cursor.execute("UPDATE Color SET COLOR_DESCRIPTION = ? WHERE COLOR_CODE = ?",
+                       color_details[0][1], color_details[0][0])
+        cnxn.commit()
+        self.ui.comboBox_select.clear()
+        self.table_data = self.load_data()
+        self.set_colorlist()
+
+    def delete_data(self):  # Logical Delete Only
+        color_details = self.get_data()
+        cnxn = server_connection()
+        cursor = cnxn.cursor()
+        cursor.execute("UPDATE Color SET IS_DELETE = 1 WHERE COLOR_CODE = ?", color_details[0][0])
+        cnxn.commit()
+        self.ui.comboBox_select.clear()
+        self.table_data = self.load_data()
+        self.set_colorlist()
+
+    def add_data(self):
+        insert_data = self.ui.lineEdit_new.text()
+        cnxn = server_connection()
+        cursor = cnxn.cursor()
+        cursor.execute("INSERT INTO Color (COLOR_DESCRIPTION, IS_DELETE) VALUES (?, 0)", insert_data)
+        cnxn.commit()
+        self.ui.comboBox_select.clear()
+        self.table_data = self.load_data()
+        self.set_colorlist()
+        self.ui.lineEdit_new.clear()
 
 
 # Fully Functional
@@ -798,41 +869,259 @@ class ProductStatusDetail(QMainWindow):
         self.set_statuslist()
         self.ui.lineEdit_new.clear()
 
-
+# todo: Test this form
 class ProductThreadDetail(QMainWindow):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.ui = Ui_ProductThreadDetail()
         self.ui.setupUi(self)
+        self.table_data = self.load_data()
+        self.set_threadlist()
+        self.ui.comboBox_select.currentIndexChanged.connect(self.display_data)
+        self.ui.addButton.clicked.connect(self.add_data)
+        self.ui.deleteButton.clicked.connect(self.delete_data)
+        self.ui.updateButton.clicked.connect(self.update_data)
+
+    @staticmethod
+    def load_data():
+        cursor = server_connection().cursor()
+        data = cursor.execute('SELECT * FROM Thread WHERE IS_DELETE = 0 ')
+        table_data = [[item for item in row] for row in data]
+        return table_data
+
+    def set_threadlist(self):
+        threads = []
+        for row in self.table_data:
+            for i, name in enumerate(row):
+                if i == 1:
+                    threads.append(name)
+        self.ui.comboBox_select.addItems(threads)
+
+    def get_data(self):
+        selected_name = self.ui.comboBox_select.currentText()
+        thread_details = []
+        for i, row in enumerate(self.table_data):
+            if row[1] == selected_name:
+                thread_details.append(row)
+        return thread_details
+
+    def display_data(self):
+        thread_details = self.get_data()
+        for row in thread_details:
+            for i, item in enumerate(row):
+                if i == 1:
+                    self.ui.lineEdit_desc.setText(item)
 
 
+    def delete_data(self):  # Logical Delete Only
+        thread_details = self.get_data()
+        cnxn = server_connection()
+        cursor = cnxn.cursor()
+        cursor.execute("UPDATE Thread SET IS_DELETE = 1 WHERE THREAD_CODE = ?", thread_details[0][0])
+        cnxn.commit()
+        self.ui.comboBox_select.clear()
+        self.table_data = self.load_data()
+        self.set_threadlist()
+
+    def add_data(self):
+        insert_data = self.ui.lineEdit_new.text()
+        cnxn = server_connection()
+        cursor = cnxn.cursor()
+        cursor.execute("INSERT INTO Thread (THREAD_DESCRIPTION, IS_DELETE) VALUES (?, 0)", insert_data)
+        cnxn.commit()
+        self.ui.comboBox_select.clear()
+        self.table_data = self.load_data()
+        self.set_threadlist()
+        self.ui.lineEdit_new.clear()
+
+# todo: Test this form
 class ProductHistoryDetail(QMainWindow):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.ui = Ui_ProductHistoryDetail()
         self.ui.setupUi(self)
+        self.table_data = self.load_data()
+        self.set_historylist()
+        self.ui.comboBox_select.currentIndexChanged.connect(self.display_data)
+        self.ui.addButton.clicked.connect(self.add_data)
+        self.ui.deleteButton.clicked.connect(self.delete_data)
+        self.ui.updateButton.clicked.connect(self.update_data)
+
+    @staticmethod
+    def load_data():
+        cursor = server_connection().cursor()
+        data = cursor.execute('SELECT * FROM Product_History WHERE IS_DELETE = 0 ')
+        table_data = [[item for item in row] for row in data]
+        return table_data
+
+    def set_historylist(self):
+        history = []
+        for row in self.table_data:
+            for i, name in enumerate(row):
+                if i == 1:
+                    history.append(name)
+        self.ui.comboBox_select.addItems(history)
+
+    def get_data(self):
+        selected_name = self.ui.comboBox_select.currentText()
+        history_details = []
+        for i, row in enumerate(self.table_data):
+            if row[1] == selected_name:
+                history_details.append(row)
+        return history_details
+
+    def display_data(self):
+        history_details = self.get_data()
+        for row in history_details:
+            for i, item in enumerate(row):
+                if i == 1:
+                    self.ui.lineEdit_desc.setText(item)
 
 
+    def delete_data(self):  # Logical Delete Only
+        history_details = self.get_data()
+        cnxn = server_connection()
+        cursor = cnxn.cursor()
+        cursor.execute("UPDATE Product_History SET IS_DELETE = 1 WHERE PRODUCT_HISTORY_CODE = ?", history_details[0][0])
+        cnxn.commit()
+        self.ui.comboBox_select.clear()
+        self.table_data = self.load_data()
+        self.set_historylist()
+
+    def add_data(self):
+        insert_data = self.ui.lineEdit_new.text()
+        cnxn = server_connection()
+        cursor = cnxn.cursor()
+        cursor.execute("INSERT INTO Product_History (PRODUCT_HISTORY_DESCRIPTION, IS_DELETE) VALUES (?, 0)", insert_data)
+        cnxn.commit()
+        self.ui.comboBox_select.clear()
+        self.table_data = self.load_data()
+        self.set_historylist()
+        self.ui.lineEdit_new.clear()
+
+# todo: Test this form
 class ProductMaterialDetail(QMainWindow):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.ui = Ui_ProductMaterialDetail()
         self.ui.setupUi(self)
+        self.table_data = self.load_data()
+        self.set_materiallist()
+        self.ui.comboBox_select.currentIndexChanged.connect(self.display_data)
+        self.ui.addButton.clicked.connect(self.add_data)
+        self.ui.deleteButton.clicked.connect(self.delete_data)
+        self.ui.updateButton.clicked.connect(self.update_data)
+
+    @staticmethod
+    def load_data():
+        cursor = server_connection().cursor()
+        data = cursor.execute('SELECT * FROM Material WHERE IS_DELETE = 0 ')
+        table_data = [[item for item in row] for row in data]
+        return table_data
+
+    def set_materiallist(self):
+        materials = []
+        for row in self.table_data:
+            for i, name in enumerate(row):
+                if i == 1:
+                    materials.append(name)
+        self.ui.comboBox_select.addItems(materials)
+
+    def get_data(self):
+        selected_name = self.ui.comboBox_select.currentText()
+        material_details = []
+        for i, row in enumerate(self.table_data):
+            if row[1] == selected_name:
+                material_details.append(row)
+        return material_details
+
+    def display_data(self):
+        material_details = self.get_data()
+        for row in material_details:
+            for i, item in enumerate(row):
+                if i == 1:
+                    self.ui.lineEdit_desc.setText(item)
 
 
+    def delete_data(self):  # Logical Delete Only
+        material_details = self.get_data()
+        cnxn = server_connection()
+        cursor = cnxn.cursor()
+        cursor.execute("UPDATE Material SET IS_DELETE = 1 WHERE MATERIAL_CODE = ?", material_details[0][0])
+        cnxn.commit()
+        self.ui.comboBox_select.clear()
+        self.table_data = self.load_data()
+        self.set_materiallist()
+
+    def add_data(self):
+        insert_data = self.ui.lineEdit_new.text()
+        cnxn = server_connection()
+        cursor = cnxn.cursor()
+        cursor.execute("INSERT INTO Material (MATERIAL_DESCRIPTION, IS_DELETE) VALUES (?, 0)", insert_data)
+        cnxn.commit()
+        self.ui.comboBox_select.clear()
+        self.table_data = self.load_data()
+        self.set_materiallist()
+        self.ui.lineEdit_new.clear()
+
+# todo: Test this form
 class ProductTypeDetail(QMainWindow):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.ui = Ui_ProductTypeDetail()
         self.ui.setupUi(self)
 
+    def update_data(self):
+        thread_details = self.get_data()
+        thread_details[0][1] = self.ui.lineEdit_desc.text()
+        cnxn = server_connection()
+        cursor = cnxn.cursor()
+        cursor.execute("UPDATE Thread SET THREAD_DESCRIPTION = ? WHERE THREAD_CODE = ?",
+                       thread_details[0][1], thread_details[0][0])
+        cnxn.commit()
+        self.ui.comboBox_select.clear()
+        self.table_data = self.load_data()
+        self.set_threadlist()
 
+    def delete_data(self):  # Logical Delete Only
+        type_details = self.get_data()
+        cnxn = server_connection()
+        cursor = cnxn.cursor()
+        cursor.execute("UPDATE Product_Type SET IS_DELETE = 1 WHERE PRODUCT_TYPE_CODE = ?", type_details[0][0])
+        cnxn.commit()
+        self.ui.comboBox_select.clear()
+        self.table_data = self.load_data()
+        self.set_typelist()
+
+    def add_data(self):
+        insert_data = self.ui.lineEdit_new.text()
+        cnxn = server_connection()
+        cursor = cnxn.cursor()
+        cursor.execute("INSERT INTO Product_Type (PRODUCT_TYPE_DESCRIPTION, IS_DELETE) VALUES (?, 0)", insert_data)
+        cnxn.commit()
+        self.ui.comboBox_select.clear()
+        self.table_data = self.load_data()
+        self.set_typelist()
+        self.ui.lineEdit_new.clear()
+
+# todo: Test this form
 class ProductSizeDetail(QMainWindow):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.ui = Ui_ProductSizeDetail()
         self.ui.setupUi(self)
 
+    def update_data(self):
+        history_details = self.get_data()
+        history_details[0][1] = self.ui.lineEdit_desc.text()
+        cnxn = server_connection()
+        cursor = cnxn.cursor()
+        cursor.execute("UPDATE Product_History SET PRODUCT_HISTORY_DESCRIPTION = ? WHERE PRODUCT_HISTORY_CODE = ?",
+                       history_details[0][1], history_details[0][0])
+        cnxn.commit()
+        self.ui.comboBox_select.clear()
+        self.table_data = self.load_data()
+        self.set_historylist()
 
 # ==> SHIPMENT FORMS CLASSES
 # FIXME: Class name on NewShipmentForm and ShipmentDetails is the same
@@ -842,12 +1131,59 @@ class NewShipmentForm(QMainWindow):  # FIXME: Capitalize the F in form :)
         self.ui = Ui_NewShipmentForm()
         self.ui.setupUi(self)
 
+    def update_data(self):
+        type_details = self.get_data()
+        type_details[0][1] = self.ui.lineEdit_desc.text()
+        cnxn = server_connection()
+        cursor = cnxn.cursor()
+        cursor.execute("UPDATE Product_Type SET PRODUCT_TYPE_DESCRIPTION = ? WHERE PRODUCT_TYPE_CODE = ?",
+                       type_details[0][1], type_details[0][0])
+        cnxn.commit()
+        self.ui.comboBox_select.clear()
+        self.table_data = self.load_data()
+        self.set_typelist()
 
 class ShipmentDetailsForm(QMainWindow):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.ui = Ui_ShipmentDetails()
         self.ui.setupUi(self)
+        self.table_data = self.load_data()
+        self.set_typelist()
+        self.ui.comboBox_select.currentIndexChanged.connect(self.display_data)
+        self.ui.addButton.clicked.connect(self.add_data)
+        self.ui.deleteButton.clicked.connect(self.delete_data)
+        self.ui.updateButton.clicked.connect(self.update_data)
+
+    @staticmethod
+    def load_data():
+        cursor = server_connection().cursor()
+        data = cursor.execute('SELECT * FROM Product_Type WHERE IS_DELETE = 0 ')
+        table_data = [[item for item in row] for row in data]
+        return table_data
+
+    def set_typelist(self):
+        types = []
+        for row in self.table_data:
+            for i, name in enumerate(row):
+                if i == 1:
+                    types.append(name)
+        self.ui.comboBox_select.addItems(types)
+
+    def get_data(self):
+        selected_name = self.ui.comboBox_select.currentText()
+        type_details = []
+        for i, row in enumerate(self.table_data):
+            if row[1] == selected_name:
+                type_details.append(row)
+        return type_details
+
+    def display_data(self):
+        type_details = self.get_data()
+        for row in type_details:
+            for i, item in enumerate(row):
+                if i == 1:
+                    self.ui.lineEdit_desc.setText(item)
 
 # FIXME: Try not to commit changes that breaks the entire program
 """""
@@ -910,6 +1246,17 @@ class EmployeeDetail(QMainWindow):
         self.ui = Ui_EmployeeStatus()
         self.ui.setupUi(self)
 
+    def update_data(self):
+        material_details = self.get_data()
+        material_details[0][1] = self.ui.lineEdit_desc.text()
+        cnxn = server_connection()
+        cursor = cnxn.cursor()
+        cursor.execute("UPDATE Material SET MATERIAL_DESCRIPTION = ? WHERE MATERIAL_CODE = ?",
+                       material_details[0][1], material_details[0][0])
+        cnxn.commit()
+        self.ui.comboBox_select.clear()
+        self.table_data = self.load_data()
+        self.set_materiallist()
 
 class EmployeeDetailsForm(QMainWindow):
     def __init__(self, *args, **kwargs):
@@ -1127,12 +1474,66 @@ class DistributorContactForm(QMainWindow):
         cursor.execute(f"UPDATE Distributor_Contact SET DC_NAME = ? WHERE DC_NAME = ?", dis_details, selected_name)
         conn.commit()
 
-
+# idea: change the warehouse address line edit to a Plain Text
 class DistributorDetailsForm(QMainWindow):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.ui = Ui_DistributorDetails()
         self.ui.setupUi(self)
+        self.table_data = self.load_data()[0]
+        self.status_data = self.load_data()[1]
+        self.state_data = self.load_data()[2]
+
+    @staticmethod
+    def load_data():
+        cursor = server_connection().cursor()
+        data = cursor.execute('SELECT * FROM Distributor WHERE IS_DELETE = 0')
+        table_data = [[item for item in row] for row in data]
+        data = cursor.execute('SELECT * FROM Distributor_Status WHERE IS_DELETE = 0')
+        status_data = [[item for item in row] for row in data]
+        data = cursor.execute('SELECT * FROM State_Province WHERE IS_DELETE = 0')
+        state_data = [[item for item in row] for row in data]
+        return table_data, status_data, state_data
+
+    def set_dislist(self):
+        dis_names = []
+        for row in self.table_data:
+            for i, name in enumerate(row):
+                if i == 1:
+                    dis_names.append(name)
+        status_list = []
+        for status in self.status_data:
+            status_list.append(status[1])
+        states = []
+        for state in self.state_data:
+            states.append(state[1])
+        state_list = sorted(states)
+        self.ui.comboBox_state.addItems(state_list)
+        self.ui.comboBox_disstat.addItems(status_list)
+
+    def get_data(self):
+        selected_name = self.ui.comboBox_disname.currentText()
+        dis_details = []
+        for i, row in enumerate(self.table_data):
+            if row[1] == selected_name:
+                dis_details.append(row)
+        return dis_details
+
+    def display_data(self):
+        dis_details = self.get_data()
+        for row in dis_details:
+            for i, item in enumerate(row):
+                if i == 1:
+                    self.ui.lineEdit_DisName.setText(item)
+                elif i == 2:
+                    pass
+
+
+
+
+
+
+
 
 
 # Fully Functional
