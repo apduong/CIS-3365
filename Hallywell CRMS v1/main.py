@@ -1186,7 +1186,7 @@ class ShipmentDetailsForm(QMainWindow):
                     self.ui.lineEdit_desc.setText(item)
 
 # FIXME: Try not to commit changes that breaks the entire program
-"""""
+
 # ==> EMPLOYEE FORMS CLASSES
 class NewEmployeeForm(QMainWindow):
     def __init__(self, *args, **kwargs):
@@ -1237,9 +1237,7 @@ class NewEmployeeForm(QMainWindow):
         insert_data8 = self.comboBox_ECountry.currentText())
         insert_data9 = self.dateEdit_DOB
         insert_data10 = self.comboBox_EDesc.currentText()
-        inser_data11 = 
 
-"""
 class EmployeeDetail(QMainWindow):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -1702,6 +1700,13 @@ class ChannelDetailsForm(QMainWindow):
         self.ui = Ui_ChannelDetails()
         self.ui.setupUi(self)
 
+
+# ==> RETURN CODE
+class ReturnCodeDetail(QMainWindow):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.ui = Ui_ReturnCodeStatus()
+        self.ui.setupUi(self)
 
 # ==> RESOURCES
 def server_connection():
