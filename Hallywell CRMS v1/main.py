@@ -92,6 +92,24 @@ class LoadingWindow(QMainWindow):
 
 class MainScreen(QMainWindow):
     def __init__(self, *args, **kwargs):
+        report_list = ["Returned Customer Orders", "Promo Season Report", "Orders processed by each employee",
+                       "Annual report of generated revenue", "Most purchased products within a certain timeframe",
+                       "Product Ratings by Category", "Products Costing Over a Certain Amount", "Top Delivery Carriers Since Year Start",
+                       "List of Products and Product Information by Size", "Product Metadata Listing",
+                       "Current Customers with Promo Codes", "Products by Category", "Comparing Countries Order",
+                       "Social Media Traffic", "Order History", "State with purchase between 300 and 1000",
+                       "Most Popular Item by Color", "Most Popular Shipping Vendor", "Active Customer Support Tickets",
+                       "Closed Invoices", "Open Invoice Orders Sorted By Date",
+                       "Free Shipping on Single Item Orders over $150", "Purchases between $700 and $1,500 rewarded coupons",
+                       "Overdue Invoices Sorted by Due Dates", "Track Most Popular Items", "Out of Stock Products",
+                       "Customers with Overdue Invoices", "Revenues by Product Category in First Quarter",
+                       "Identifying Waiting & Pending Customer Support Tickets", "Lowest Rated Products and their Manufacturer",
+                       "View Holiday Season Demand in Products", "Top Products Sold by Color in the Spring",
+                       "Archival of Delivered Orders", "Monthly Revenue Report", "Peak Season Activity Report",
+                       "Products by Manufacturer", "Inactive Customers", "Average Annual Sales by Region",
+                       "Revenue and Number of Customers by Region", "Customer Reviews"]
+        self.ui.comboBox_Report.addItems()
+
         super().__init__(*args, **kwargs)
         self.ui = Ui_MainScreen()
         self.ui.setupUi(self)
@@ -1306,6 +1324,7 @@ class NewEmployeeForm(QMainWindow):
         self.ui.setupUi(self)
 
 
+# TODO: Test function
 # STATUS - Fully Functioning
 class EmployeeDetail(QMainWindow):
     def __init__(self, *args, **kwargs):
