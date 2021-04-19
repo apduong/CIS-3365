@@ -9,7 +9,7 @@ import pyodbc
 # todo: import all form classes here
 # ==> Customer Forms
 from NewCustomerForm import Ui_NewCustomerForm
-from CustomerDetailsForm import Ui_CustomerDetails
+from CustomerDetailsForm import Ui_CustomerDetailsForm
 # ==> Order Forms
 from OrderDetail import Ui_OrderStatus  # FIXME: Class name does not match the form name
 # ==> ReturnCode Forms
@@ -93,27 +93,29 @@ class LoadingWindow(QMainWindow):
 
 class MainScreen(QMainWindow):
     def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.ui = Ui_MainScreen()
+        self.ui.setupUi(self)
         report_list = ["Returned Customer Orders", "Promo Season Report", "Orders processed by each employee",
                        "Annual report of generated revenue", "Most purchased products within a certain timeframe",
-                       "Product Ratings by Category", "Products Costing Over a Certain Amount", "Top Delivery Carriers Since Year Start",
+                       "Product Ratings by Category", "Products Costing Over a Certain Amount",
+                       "Top Delivery Carriers Since Year Start",
                        "List of Products and Product Information by Size", "Product Metadata Listing",
                        "Current Customers with Promo Codes", "Products by Category", "Comparing Countries Order",
                        "Social Media Traffic", "Order History", "State with purchase between 300 and 1000",
                        "Most Popular Item by Color", "Most Popular Shipping Vendor", "Active Customer Support Tickets",
                        "Closed Invoices", "Open Invoice Orders Sorted By Date",
-                       "Free Shipping on Single Item Orders over $150", "Purchases between $700 and $1,500 rewarded coupons",
+                       "Free Shipping on Single Item Orders over $150",
+                       "Purchases between $700 and $1,500 rewarded coupons",
                        "Overdue Invoices Sorted by Due Dates", "Track Most Popular Items", "Out of Stock Products",
                        "Customers with Overdue Invoices", "Revenues by Product Category in First Quarter",
-                       "Identifying Waiting & Pending Customer Support Tickets", "Lowest Rated Products and their Manufacturer",
+                       "Identifying Waiting & Pending Customer Support Tickets",
+                       "Lowest Rated Products and their Manufacturer",
                        "View Holiday Season Demand in Products", "Top Products Sold by Color in the Spring",
                        "Archival of Delivered Orders", "Monthly Revenue Report", "Peak Season Activity Report",
                        "Products by Manufacturer", "Inactive Customers", "Average Annual Sales by Region",
                        "Revenue and Number of Customers by Region", "Customer Reviews"]
-        self.ui.comboBox_Report.addItems()
-
-        super().__init__(*args, **kwargs)
-        self.ui = Ui_MainScreen()
-        self.ui.setupUi(self)
+        self.ui.comboBox_Report.addItems(report_list)
         # ===> ASSIGN ALL BUTTONS TO OPEN FORMS
         # ==> Customer Forms
         self.ui.addCusButton.clicked.connect(self.open_NewCustomerForm)
@@ -162,6 +164,8 @@ class MainScreen(QMainWindow):
         self.ui.edit_chandet.clicked.connect(self.open_ChannelDetailsForm)
         # ==> Return Code Form
         self.ui.pushButton_EditReturnCodeStatus.clicked.connect(self.open_ReturnCodeDetail)
+        # ==> Reports
+        self.ui.pushButton_SelectReport.clicked.connect(self.open_report)
 
     # ===> PLACE FORM DISPLAY FUNCTIONS BELOW HERE
     # todo: add functions to open all forms
@@ -343,9 +347,9 @@ class MainScreen(QMainWindow):
 
     # REPORTS
     def open_report(self):
-        selected_report = "Report Name"
+        selected_report = self.ui.comboBox_Report.currentText()
         self.report = ReportView(selected_report)
-        self.form.show()
+        self.report.show()
 
 
 # ===> PLACE DESIGN CLASSES BELOW HERE
@@ -362,7 +366,7 @@ class NewCustomerForm(QMainWindow):
 class CustomerDetailsForm(QMainWindow):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.ui = Ui_CustomerDetails()
+        self.ui = Ui_CustomerDetailsForm()
         self.ui.setupUi(self)
 
 
@@ -2571,13 +2575,43 @@ class ReportView(QMainWindow):
         super().__init__(*args, **kwargs)
         self.ui = Ui_reportwindow()
         self.ui.setupUi(self)
+        self.display_data()
+
+    def get_data(self):
+        report_data = ""
+        if self.selected == 'Returned Customer Orders':
+            cursor = server_connection().cursor()
+            data = cursor.execute("SELECT Order_Customer.ORDER_ID AS 'Order Id', Customer.CUSTOMER_ID AS 'Customer ID', Customer.CUST_FIRSTNAME AS 'First Name', Customer.CUST_LASTNAME AS 'Last Name',Order_Line.ORDER_LINE_ID AS 'Detail ID', Return_Code_Line.RET_CODE_LINE_ID AS 'Return ID',Return_Code.RETURN_CODE_ID AS 'Return Code', Return_Code.DESCRIPTION AS 'Return Description' FROM Return_Code_Line INNER JOIN Return_Code ON Return_Code.RETURN_CODE_ID = Return_Code_Line.RETURN_CODE_ID INNER JOIN Order_Customer on Order_Customer.ORDER_ID = ORDER_LINE_ID INNER JOIN Order_Line ON Order_Line.ORDER_ID = Order_Customer.ORDER_ID INNER JOIN Customer ON Customer.CUSTOMER_ID = Order_Customer.CUSTOMER_ID WHERE Return_Code.RETURN_CODE_ID= 2 ORDER BY Customer.CUSTOMER_ID")
+            report_data = [[item for item in row] for row in data]
+        return report_data
+
+    def display_data(self):
+        # Set Column Total based on SQL Report Headers Document
+        attributes = ["Order ID", "Customer ID", "First Name", "Last Name", "Detail ID", "Return ID", "Return Code",
+                      "Return Description"]
+        column_total = 8
+        row_total = 1
+        report_data = self.get_data()
+        # Set row count
+        for _ in report_data:
+            row_total += 1
+        self.ui.tableWidget.setColumnCount(column_total)
+        self.ui.tableWidget.setRowCount(row_total)
+        col = 0
+        for data in attributes:
+            self.ui.tableWidget.setItem(0, col, QtWidgets.QTableWidgetItem(data))
+            col += 1
+        for row_number, row_data in enumerate(report_data):
+            for column_number, data in enumerate(row_data):
+                self.ui.tableWidget.setItem(row_number + 1, column_number, QtWidgets.QTableWidgetItem(str(data)))
+
 
 
 # ==> RESOURCES
 def server_connection():
     conn = pyodbc.connect('Driver={SQL Server};'  # Leave this as is
-                          'Server=FAITH;'  # Enter your local Server Name
-                          'Database=cis3365db;'  # Enter your Database Name
+                          'Server=LAPTOP-S6PL64NB;'  # Enter your local Server Name
+                          'Database=CIS33655_Official;'  # Enter your Database Name
                           'Trusted_Connection=yes;')  # Leave this as is
     return conn
 
