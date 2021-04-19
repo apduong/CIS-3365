@@ -2579,19 +2579,21 @@ class ReportView(QMainWindow):
 
     def get_data(self):
         report_data = ""
+        attributes = ""
         if self.selected == 'Returned Customer Orders':
             cursor = server_connection().cursor()
             data = cursor.execute("SELECT Order_Customer.ORDER_ID AS 'Order Id', Customer.CUSTOMER_ID AS 'Customer ID', Customer.CUST_FIRSTNAME AS 'First Name', Customer.CUST_LASTNAME AS 'Last Name',Order_Line.ORDER_LINE_ID AS 'Detail ID', Return_Code_Line.RET_CODE_LINE_ID AS 'Return ID',Return_Code.RETURN_CODE_ID AS 'Return Code', Return_Code.DESCRIPTION AS 'Return Description' FROM Return_Code_Line INNER JOIN Return_Code ON Return_Code.RETURN_CODE_ID = Return_Code_Line.RETURN_CODE_ID INNER JOIN Order_Customer on Order_Customer.ORDER_ID = ORDER_LINE_ID INNER JOIN Order_Line ON Order_Line.ORDER_ID = Order_Customer.ORDER_ID INNER JOIN Customer ON Customer.CUSTOMER_ID = Order_Customer.CUSTOMER_ID WHERE Return_Code.RETURN_CODE_ID= 2 ORDER BY Customer.CUSTOMER_ID")
             report_data = [[item for item in row] for row in data]
-        return report_data
+            attributes = ["Order ID", "Customer ID", "First Name", "Last Name", "Detail ID", "Return ID", "Return Code",
+                          "Return Description"]
+        return report_data, attributes
 
     def display_data(self):
         # Set Column Total based on SQL Report Headers Document
-        attributes = ["Order ID", "Customer ID", "First Name", "Last Name", "Detail ID", "Return ID", "Return Code",
-                      "Return Description"]
+        attributes = self.get_data()[1]
         column_total = 8
         row_total = 1
-        report_data = self.get_data()
+        report_data = self.get_data()[0]
         # Set row count
         for _ in report_data:
             row_total += 1
