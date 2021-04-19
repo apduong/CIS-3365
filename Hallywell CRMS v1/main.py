@@ -122,7 +122,7 @@ class MainScreen(QMainWindow):
         # ==> Employee Forms
         self.ui.addEmploy.clicked.connect(self.open_NewEmployeeForm)
         self.ui.edit_empdet.clicked.connect(self.open_employeedetails)
-        self.ui.edit_empstat.clicked.connect(self.open_employeedetail)
+        self.ui.edit_empstat.clicked.connect(self.open_employeestatusdetail)
         # ==> Distributor Forms
         self.ui.add_dis.clicked.connect(self.open_newdistributorform)
         self.ui.addNewDC.clicked.connect(self.open_newdistributorcontact)
@@ -241,7 +241,7 @@ class MainScreen(QMainWindow):
 
     # EMPLOYEE STATUS DETAILS
     def open_employeestatusdetail(self):
-        self.form = EmployeeDetail()
+        self.form = employeestatusdetail()
         self.form.show()
 
     # ==> DISTRIBUTOR FORMS
@@ -2195,7 +2195,7 @@ class ManufacturerDetail(QMainWindow):
         super().__init__(*args, **kwargs)
         self.ui = Ui_ManufacturerStatus()
         self.ui.setupUi(self)
-        self.table_data = self.load_data()
+        self.table_data = self.load_data()[0]
         self.set_manufacturer_status_list()
         self.ui.comboBox_SelectStatus.currentIndexChanged.connect(self.display_data())
         self.ui.addButton.clicked.connect(self.delete_data())
