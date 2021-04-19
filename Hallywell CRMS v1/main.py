@@ -2582,10 +2582,30 @@ class ReportView(QMainWindow):
         attributes = ""
         if self.selected == 'Returned Customer Orders':
             cursor = server_connection().cursor()
-            data = cursor.execute("SELECT Order_Customer.ORDER_ID AS 'Order Id', Customer.CUSTOMER_ID AS 'Customer ID', Customer.CUST_FIRSTNAME AS 'First Name', Customer.CUST_LASTNAME AS 'Last Name',Order_Line.ORDER_LINE_ID AS 'Detail ID', Return_Code_Line.RET_CODE_LINE_ID AS 'Return ID',Return_Code.RETURN_CODE_ID AS 'Return Code', Return_Code.DESCRIPTION AS 'Return Description' FROM Return_Code_Line INNER JOIN Return_Code ON Return_Code.RETURN_CODE_ID = Return_Code_Line.RETURN_CODE_ID INNER JOIN Order_Customer on Order_Customer.ORDER_ID = ORDER_LINE_ID INNER JOIN Order_Line ON Order_Line.ORDER_ID = Order_Customer.ORDER_ID INNER JOIN Customer ON Customer.CUSTOMER_ID = Order_Customer.CUSTOMER_ID WHERE Return_Code.RETURN_CODE_ID= 2 ORDER BY Customer.CUSTOMER_ID")
+            data = cursor.execute("SELECT Order_Customer.ORDER_ID, Customer.CUSTOMER_ID, Customer.CUST_FIRSTNAME, "
+                                  "Customer.CUST_LASTNAME, Order_Line.ORDER_LINE_ID, Return_Code_Line.RET_CODE_LINE_ID,"
+                                  "Return_Code.RETURN_CODE_ID, Return_Code.DESCRIPTION FROM Return_Code_Line "
+                                  "INNER JOIN Return_Code ON Return_Code.RETURN_CODE_ID "
+                                  "= Return_Code_Line.RETURN_CODE_ID INNER JOIN Order_Customer ON "
+                                  "Order_Customer.ORDER_ID = ORDER_LINE_ID INNER JOIN Order_Line ON Order_Line.ORDER_ID"
+                                  "= Order_Customer.ORDER_ID INNER JOIN Customer ON Customer.CUSTOMER_ID = "
+                                  "Order_Customer.CUSTOMER_ID WHERE Return_Code.RETURN_CODE_ID= 2 AND "
+                                  "Order_Customer.IS_DELETE = 0 ORDER BY Customer.CUSTOMER_ID")
             report_data = [[item for item in row] for row in data]
             attributes = ["Order ID", "Customer ID", "First Name", "Last Name", "Detail ID", "Return ID", "Return Code",
                           "Return Description"]
+        elif self.selected == 'Promo Season Report':
+            cursor = server_connection().cursor()
+            data = cursor.execute("SELECT Order_Customer.ORDER_ID, Promotion_History.CUSTOMER_ID, "
+                                  "Promotion.CUSTOMER_PROMO_CODE, Promotion.DESCRIPTION, "
+                                  "Promo_Season.START_DATE, Promo_Season.END_DATE, Promo_Season.SEASON_DESC "
+                                  "FROM Promotion INNER JOIN Promo_Season ON Promo_Season.SEASON_ID = "
+                                  "Promotion.SEASON_ID INNER JOIN Order_Customer ON Order_Customer.CUSTOMER_PROMO_CODE "
+                                  "= Order_Customer.CUSTOMER_PROMO_CODE INNER JOIN Promotion_History ON "
+                                  "Promotion_History.CUSTOMER_PROMO_CODE = Promotion.CUSTOMER_PROMO_CODE "
+                                  "WHERE Promo_Season.SEASON_ID= '1' AND Promo_Season.IS_DELETE = 0")
+            report_data = [[item for item in row] for row in data]
+            attributes = ["Order ID", "Customer ID", "Promo Code", "Description", "Start Date", "End Date", "Season"]
         return report_data, attributes
 
     def display_data(self):
@@ -2606,7 +2626,6 @@ class ReportView(QMainWindow):
         for row_number, row_data in enumerate(report_data):
             for column_number, data in enumerate(row_data):
                 self.ui.tableWidget.setItem(row_number + 1, column_number, QtWidgets.QTableWidgetItem(str(data)))
-
 
 
 # ==> RESOURCES
