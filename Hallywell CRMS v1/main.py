@@ -117,12 +117,12 @@ class MainScreen(QMainWindow):
         self.ui.edit_thread.clicked.connect(self.open_productthreaddetail)
         self.ui.edit_stat.clicked.connect(self.open_productstatusdetail)
         # ==> Shipment Forms
-        self.ui.addShip.clicked.connect(self.open_NewShipmentForm)
-        self.ui.edit_shipdet.clicked.connect(self.open_ShipmentDetailsForm)
+        #self.ui.addShip.clicked.connect(self.open_NewShipmentForm)
+        #self.ui.edit_shipdet.clicked.connect(self.open_ShipmentDetailsForm)
         # ==> Employee Forms
         self.ui.addEmploy.clicked.connect(self.open_NewEmployeeForm)
         self.ui.edit_empdet.clicked.connect(self.open_employeedetails)
-        self.ui.edit_empstat.clicked.connect(self.open_employeestatusdetail)
+        self.ui.edit_empstat.clicked.connect(self.open_employeedetail)
         # ==> Distributor Forms
         self.ui.add_dis.clicked.connect(self.open_newdistributorform)
         self.ui.addNewDC.clicked.connect(self.open_newdistributorcontact)
@@ -139,7 +139,10 @@ class MainScreen(QMainWindow):
         self.ui.addPromoButton.clicked.connect(self.open_NewPromotionForm)
         self.ui.edit_promodet.clicked.connect(self.open_PromotionDetailsForm)
         # ==> Channel Forms
+        self.ui.addChannelButton.clicked.connect(self.open_NewChannelStausForm)
         self.ui.edit_chandet.clicked.connect(self.open_ChannelDetailsForm)
+        # ==> Return Code Form
+        self.ui.pushButton_EditReturnCodeStatus.clicked.connect(self.open_ReturnCodeDetail)
 
     # ===> PLACE FORM DISPLAY FUNCTIONS BELOW HERE
     # todo: add functions to open all forms
@@ -240,8 +243,8 @@ class MainScreen(QMainWindow):
         self.form.show()
 
     # EMPLOYEE STATUS DETAILS
-    def open_employeestatusdetail(self):
-        self.form = employeestatusdetail()
+    def open_employeedetail(self):
+        self.form = EmployeeDetail()
         self.form.show()
 
     # ==> DISTRIBUTOR FORMS
@@ -316,7 +319,7 @@ class MainScreen(QMainWindow):
 
     # NEW CHANNEL FORM
     def open_NewChannelStausForm(self):
-        self.form = ChannelDetailsForm()
+        self.form = NewChannelStatusForm()
         self.form.show()
 
 
@@ -339,7 +342,7 @@ class CustomerDetailsForm(QMainWindow):
 
 
 # ==> ORDER FORMS CLASSES
-# ORDER STATUS
+# ORDER STATUS - Fully Functional
 class OrderDetail(QMainWindow):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -1303,7 +1306,7 @@ class NewEmployeeForm(QMainWindow):
         self.ui.setupUi(self)
 
 
-# STATUS
+# STATUS - Fully Functioning
 class EmployeeDetail(QMainWindow):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -1314,7 +1317,7 @@ class EmployeeDetail(QMainWindow):
         self.ui.comboBox_SelectStatus.currentIndexChanged.connect(self.display_data)
         self.ui.addButton.clicked.connect(self.add_data)
         self.ui.deleteButton.clicked.connect(self.delete_data)
-        self.ui.updateButton.clicked.connect(self.update_data())
+        self.ui.updateButton.clicked.connect(self.update_data)
 
     @staticmethod
     def load_data():
@@ -1382,6 +1385,7 @@ class EmployeeDetail(QMainWindow):
         self.ui.lineEdit_EnterNewStatus.clear()
 
 
+# Fully Functional
 class EmployeeDetailsForm(QMainWindow):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -2099,10 +2103,11 @@ class ManufacturerDetailsForm(QMainWindow):
         self.ui.setupUi(self)
         self.table_data = self.load_data()[0]
         print(self.table_data)
+        self.status_data = self.load_data()[1]
         self.set_manufacturerlist()
-        self.ui.selectButton.clicked.connect(self.display_data())
-        self.ui.selectButton.clicked.connect(self.save_data())
-        self.ui.selectButton.clicked.connect(self.delete_data())
+        self.ui.selectButton.clicked.connect(self.display_data)
+        self.ui.save_Button.clicked.connect(self.save_data)
+        self.ui.delete_Button.clicked.connect(self.delete_data)
 
     @staticmethod
     def load_data():
@@ -2123,6 +2128,11 @@ class ManufacturerDetailsForm(QMainWindow):
                 if i == 1:
                     manufacturer_names.append(name)
         self.ui.comboBox_SearchManufacturer.addItems(manufacturer_names)
+
+        status_data = []
+        for i, item in enumerate(self.status_data):
+            status_data.append(item[1])
+        self.ui.comboBox_ManufacturerStatusID.addItems(status_data)
 
     def display_data(self):
         selected_name = self.ui.comboBox_SearchManufacturer.currentText()
@@ -2165,10 +2175,9 @@ class ManufacturerDetailsForm(QMainWindow):
                 manufacturer_details[0][5] = row[0]
         manufacturerconnection = server_connection()
         cursor = manufacturerconnection.cursor()
-        cursor.execute("UPDATE Manufacturer SET M_NAME = ?, M_ADDRESS = ?, M_EMAIL = ?, M_PHONE, MANUFACTURER_STATUS_ID = ? "
+        cursor.execute("UPDATE Manufacturer SET M_NAME = ?, M_ADDRESS = ?, M_EMAIL = ?, M_PHONE = ?, MANUFACTURER_STATUS_ID = ? "
                        "WHERE MANUFACTURER_ID = ?", manufacturer_details[0][1], manufacturer_details[0][2], manufacturer_details[0][3],
-                       manufacturer_details[0][4], manufacturer_details[0][5],
-                       manufacturer_details[0][0])
+                       manufacturer_details[0][4], manufacturer_details[0][5], manufacturer_details[0][0])
         manufacturerconnection.commit()
         self.ui.lineEdit_ManufacturerName.clear()
         self.ui.lineEdit_ManufacturerAddress.clear()
@@ -2181,6 +2190,7 @@ class ManufacturerDetailsForm(QMainWindow):
         manufacturer_details = self.get_data()
         manufacturerconnection = server_connection()
         cursor = manufacturerconnection.cursor()
+        cursor.execute("UPDATE Manufacturer SET IS_DELETE = 1 WHERE MANUFACTURER_ID = ?", manufacturer_details[0][0])
         manufacturerconnection.commit()
         self.ui.lineEdit_ManufacturerName.clear()
         self.ui.lineEdit_ManufacturerAddress.clear()
@@ -2189,20 +2199,21 @@ class ManufacturerDetailsForm(QMainWindow):
         self.table_data = self.load_data()[0]
         self.set_manufacturerlist()
 
-
+#Fully Functioning Form
 class ManufacturerDetail(QMainWindow):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.ui = Ui_ManufacturerStatus()
         self.ui.setupUi(self)
-        self.table_data = self.load_data()[0]
+        self.table_data = self.load_data()
         self.set_manufacturer_status_list()
-        self.ui.comboBox_SelectStatus.currentIndexChanged.connect(self.display_data())
-        self.ui.addButton.clicked.connect(self.delete_data())
-        self.ui.updateButton.clicked.connect(self.update_data())
+        self.ui.comboBox_SelectStatus.currentIndexChanged.connect(self.display_data)
+        self.ui.addButton.clicked.connect(self.add_data)
+        self.ui.updateButton.clicked.connect(self.update_data)
+        self.ui.deleteButton.clicked.connect(self.delete_data)
 
     @staticmethod
-    def load_data(self):
+    def load_data():
         cursor = server_connection().cursor()
         data = cursor.execute('SELECT * FROM Manufacturer_Status WHERE IS_DELETE = 0')
         table_data = [[item for item in row] for row in data]
@@ -2236,7 +2247,7 @@ class ManufacturerDetail(QMainWindow):
         status_details[0][1] = self.ui.lineEdit_StatusDescription.text()
         manufacturercnxn = server_connection()
         cursor = manufacturercnxn.cursor()
-        cursor.execute("UPDATE Manufacturer_Status SET DESCRIPTION = ?, MANUFACTURER_STATUS_ID = ?",
+        cursor.execute("UPDATE Manufacturer_Status SET DESCRIPTION = ? WHERE MANUFACTURER_STATUS_ID = ?",
                        status_details[0][1], status_details[0][0])
         manufacturercnxn.commit()
         self.ui.comboBox_SelectStatus.clear()
@@ -2270,14 +2281,15 @@ class ManufacturerDetail(QMainWindow):
 class NewPromotionForm(QMainWindow):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.ui =  Ui_NewPromotionForm()
+        self.ui = Ui_NewPromotionForm()
         self.ui.setupUi(self)
-        self.season_data = self.load_data()[0]
+        self.season_data = self.load_data()
         self.display_data()
         self.ui.submit_Button.clicked.connect(self.add_data)
         self.ui.clear_button.clicked.connect(self.clear_form)
 
-    def load_data(self):
+    @staticmethod
+    def load_data():
         cursor = server_connection().cursor()
         data = cursor.execute('SELECT * FROM Promo_Season WHERE IS_DELETE = 0')
         season_data = [[item for item in row] for row in data]
@@ -2318,19 +2330,19 @@ class PromotionDetailsForm(QMainWindow):
         print(self.table_data)
         self.season_data = self.load_data()
         self.set_promotionlist()
-        self.ui.selectButton.clicked.connect(self.display_data())
-        self.ui.save_Button.clicked.connect(self.save_data())
-        self.ui.delete_Button.clicked.connect(self.delete_data())
+        self.ui.selectButton.clicked.connect(self.display_data)
+        self.ui.save_Button.clicked.connect(self.save_data)
+        self.ui.delete_Button.clicked.connect(self.delete_data)
 
 
     @staticmethod
     def load_data():
-        cursor = server_connection().cursor
+        cursor = server_connection().cursor()
 
         data = cursor.execute('SELECT * FROM Promotion WHERE IS_DELETE = 0')
         table_data = [[item for item in row] for row in data]
 
-        data = cursor.execute('SELECT * FROM Seasonal_ID WHERE IS_DELETE = 0')
+        data = cursor.execute('SELECT * FROM Promo_Season WHERE IS_DELETE = 0')
         season_data = [[item for item in row] for row in data]
 
         return table_data, season_data
@@ -2407,20 +2419,21 @@ class ChannelDetailsForm(QMainWindow):
         self.ui = Ui_ChannelDetails()
         self.ui.setupUi(self)
 
-# NEW CHANNEL FORM
-class ChannelDetailsForm(QMainWindow):
+
+# NEW CHANNEL FORM - Fully Functional
+class NewChannelStatusForm(QMainWindow):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.ui = Ui_NewChannelStatusForm()
         self.ui.setupUi(self)
-        self.status_data = self.load_data()[0]
+        self.status_data = self.load_data()
         self.display_data()
         self.ui.submit_Button.clicked.connect(self.add_data)
         self.ui.clear_button.clicked.connect(self.clear_form)
 
 
     @staticmethod
-    def load_data(self):
+    def load_data():
         cursor = server_connection().cursor()
         data = cursor.execute('SELECT * FROM Channel_Status WHERE IS_DELETE = 0')
         status_data = [[item for item in row] for row in data]
@@ -2438,8 +2451,8 @@ class ChannelDetailsForm(QMainWindow):
         for row in self.status_data:
             if row[1] == self.ui.comboBox_StatusCode.currentText():
                 status_code = row[0]
-        cnxn = server.connection()
-        cursor = cnxn.cursor(0)
+        cnxn = server_connection()
+        cursor = cnxn.cursor()
         cursor.execute("INSERT INTO Channel (CHANNEL_DESCRIPTION, CHA_STATUS_CODE,"
                        "IS_DELETE) VALUES (?, ?, 0)", description, status_code)
         cnxn.commit()
@@ -2447,7 +2460,8 @@ class ChannelDetailsForm(QMainWindow):
     def clear_form(self):
         self.ui.lineEdit_ChannelDescription.clear()
 
-# ==> RETURN CODE
+
+# ==> RETURN CODE - Fully Functional
 class ReturnCodeDetail(QMainWindow):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
