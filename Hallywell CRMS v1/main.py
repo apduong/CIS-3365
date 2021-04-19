@@ -122,7 +122,7 @@ class MainScreen(QMainWindow):
         # ==> Employee Forms
         self.ui.addEmploy.clicked.connect(self.open_NewEmployeeForm)
         self.ui.edit_empdet.clicked.connect(self.open_employeedetails)
-        self.ui.edit_empstat.clicked.connect(self.open_employeestatusdetails)
+        self.ui.edit_empstat.clicked.connect(self.open_employeedetail)
         # ==> Distributor Forms
         self.ui.add_dis.clicked.connect(self.open_newdistributorform)
         self.ui.addNewDC.clicked.connect(self.open_newdistributorcontact)
@@ -240,8 +240,8 @@ class MainScreen(QMainWindow):
         self.form.show()
 
     # EMPLOYEE STATUS DETAILS
-    def open_employeestatusdetails(self):
-        self.form = EmployeeStatusDetail()
+    def open_employeestatusdetail(self):
+        self.form = EmployeeDetail()
         self.form.show()
 
     # ==> DISTRIBUTOR FORMS
@@ -347,9 +347,10 @@ class OrderDetail(QMainWindow):
         self.ui.setupUi(self)
         self.table_data = self.load_data()
         self.set_order_detail_list()
-        self.ui.comboBox_SelectStatus.currentIndexChanged.connect(self.display_details())
-        self.ui.addButton.clicked.connect(self.delete_data())
-        self.ui.deleteButton.clicked.connect(self.update_data())
+        self.ui.comboBox_SelectStatus.currentIndexChanged.connect(self.display_details)
+        self.ui.addButton.clicked.connect(self.add_data)
+        self.ui.updateButton.clicked.connect(self.update_data)
+        self.ui.deleteButton.clicked.connect(self.delete_data)
 
     @staticmethod
     def load_data():
@@ -370,7 +371,7 @@ class OrderDetail(QMainWindow):
         selected_name = self.ui.comboBox_SelectStatus.currentText()
         status_details = []
         for i, row in enumerate(self.table_data):
-            if row[i] == selected_name:
+            if row[1] == selected_name:
                 status_details.append(row)
         return status_details
 
@@ -1302,6 +1303,7 @@ class NewEmployeeForm(QMainWindow):
         self.ui.setupUi(self)
 
 
+# STATUS
 class EmployeeDetail(QMainWindow):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -2527,8 +2529,8 @@ class ReturnCodeDetail(QMainWindow):
 # ==> RESOURCES
 def server_connection():
     conn = pyodbc.connect('Driver={SQL Server};'  # Leave this as is
-                          'Server=LAPTOP-S6PL64NB;'  # Enter your local Server Name
-                          'Database=CIS3365_Local;'  # Enter your Database Name
+                          'Server=FAITH;'  # Enter your local Server Name
+                          'Database=cis3365db;'  # Enter your Database Name
                           'Trusted_Connection=yes;')  # Leave this as is
     return conn
 
