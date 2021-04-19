@@ -2580,6 +2580,7 @@ class ReportView(QMainWindow):
     def get_data(self):
         report_data = ""
         attributes = ""
+        column_total = int()
         if self.selected == 'Returned Customer Orders':
             cursor = server_connection().cursor()
             data = cursor.execute("SELECT Order_Customer.ORDER_ID, Customer.CUSTOMER_ID, Customer.CUST_FIRSTNAME, "
@@ -2594,6 +2595,7 @@ class ReportView(QMainWindow):
             report_data = [[item for item in row] for row in data]
             attributes = ["Order ID", "Customer ID", "First Name", "Last Name", "Detail ID", "Return ID", "Return Code",
                           "Return Description"]
+            column_total = len(attributes)
         elif self.selected == 'Promo Season Report':
             cursor = server_connection().cursor()
             data = cursor.execute("SELECT Order_Customer.ORDER_ID, Promotion_History.CUSTOMER_ID, "
@@ -2606,12 +2608,13 @@ class ReportView(QMainWindow):
                                   "WHERE Promo_Season.SEASON_ID= '1' AND Promo_Season.IS_DELETE = 0")
             report_data = [[item for item in row] for row in data]
             attributes = ["Order ID", "Customer ID", "Promo Code", "Description", "Start Date", "End Date", "Season"]
-        return report_data, attributes
+            column_total = len(attributes)
+        return report_data, attributes, column_total
 
     def display_data(self):
         # Set Column Total based on SQL Report Headers Document
         attributes = self.get_data()[1]
-        column_total = 8
+        column_total = self.get_data()[2]
         row_total = 1
         report_data = self.get_data()[0]
         # Set row count
