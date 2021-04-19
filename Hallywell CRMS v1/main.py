@@ -4,6 +4,7 @@ from PyQt6.QtGui import QColor
 from PyQt6.QtWidgets import *
 from loadingscreen import Ui_LoadingScreen
 from mainscreen import Ui_MainScreen
+from reportwindow import Ui_reportwindow
 import pyodbc
 # todo: import all form classes here
 # ==> Customer Forms
@@ -317,6 +318,12 @@ class MainScreen(QMainWindow):
     # NEW CHANNEL FORM
     def open_NewChannelStausForm(self):
         self.form = ChannelDetailsForm()
+        self.form.show()
+
+    # REPORTS
+    def open_report(self):
+        selected_report = "Report Name"
+        self.report = ReportView(selected_report)
         self.form.show()
 
 
@@ -2831,6 +2838,13 @@ class ReturnCodeDetail(QMainWindow):
         self.set_return_code_list()
         self.ui.lineEdit_EnterNewID.clear()
 
+
+class ReportView(QMainWindow):
+    def __init__(self, selected, *args, **kwargs):
+        self.selected = selected
+        super().__init__(*args, **kwargs)
+        self.ui = Ui_reportwindow()
+        self.ui.setupUi(self)
 
 
 # ==> RESOURCES
