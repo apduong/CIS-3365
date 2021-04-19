@@ -260,6 +260,7 @@ class MainScreen(QMainWindow):
         self.form = DistributorContactForm()
         self.form.show()
 
+
     # FIXME: Duplicate Distributor Details function calls.
     # DISTRIBUTOR DETAILS
     def open_DistributorDetailsForm(self):
@@ -313,6 +314,7 @@ class MainScreen(QMainWindow):
         self.form = ChannelDetailsForm()
         self.form.show()
 
+    # NEW CHANNEL FORM
     def open_NewChannelStausForm(self):
         self.form = ChannelDetailsForm()
         self.form.show()
@@ -337,11 +339,81 @@ class CustomerDetailsForm(QMainWindow):
 
 
 # ==> ORDER FORMS CLASSES
+# ORDER STATUS
 class OrderDetail(QMainWindow):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.ui = Ui_OrderStatus()
         self.ui.setupUi(self)
+        self.table_data = self.load_data()
+        self.set_order_detail_list()
+        self.ui.comboBox_SelectStatus.currentIndexChanged.connect(self.display_details())
+        self.ui.addButton.clicked.connect(self.delete_data())
+        self.ui.deleteButton.clicked.connect(self.update_data())
+
+    @staticmethod
+    def load_data():
+        cursor = server_connection().cursor()
+        data =  cursor.execute('SELECT * FROM Order_Status WHERE IS_DELETE = 0')
+        table_data = [[item for item in row] for row in data]
+        return table_data
+
+    def set_order_detail_list(self):
+        statuses = []
+        for row in self.table_data:
+            for i, name in enumerate(row):
+                if i == 1:
+                    statuses.append(name)
+        self.ui.comboBox_SelectStatus.addItems(statuses)
+
+    def get_data(self):
+        selected_name = self.ui.comboBox_SelectStatus.currentText()
+        status_details = []
+        for i, row in enumerate(self.table_data):
+            if row[i] == selected_name:
+                status_details.append(row)
+        return status_details
+
+    def display_details(self):
+        status_details = self.get_data()
+        for row in status_details:
+            for i, item in enumerate(row):
+                if i == 1:
+                    self.ui.lineEdit_StatusDescription.setText(item)
+
+    def update_data(self):
+        status_details = self.get_data()
+        status_details[0][1] = self.ui.lineEdit_StatusDescription.text()
+        ordercnxn = server_connection()
+        cursor = ordercnxn.cursor()
+        cursor.execute("UPDATE Order_Status SET ORDER_STATUS_DESCRIPTION = ? WHERE ORDER_STATUS_ID = ?",
+                       status_details[0][1], status_details[0][0])
+        ordercnxn.commit()
+        self.ui.comboBox_SelectStatus.clear()
+        self.table_data = self.load_data()
+        self.set_order_detail_list()
+
+    def delete_data(self):
+        status_details = self.get_data()
+        ordercnxn = server_connection()
+        cursor = ordercnxn.cursor()
+        cursor.execute("UPDATE Order_Status SET IS_DELETE = 1 WHERE ORDER_STATUS_ID = ?",
+                       status_details[0][0])
+        ordercnxn.commit()
+        self.ui.comboBox_SelectStatus.clear()
+        self.table_data = self.load_data()
+        self.set_order_detail_list()
+
+    def add_data(self):
+        insert_data = self.ui.lineEdit_EnterNewStatus.text()
+        ordercnxn = server_connection()
+        cursor = ordercnxn.cursor()
+        cursor.execute("INSERT INTO Order_Status (ORDER_STATUS_DESCRIPTION, IS_DELETE) VALUES (?,0)", insert_data)
+        ordercnxn.commit()
+        self.ui.comboBox_SelectStatus.clear()
+        self.table_data = self.load_data()
+        self.set_order_detail_list()
+        self.ui.lineEdit_EnterNewStatus.clear()
 
 
 # ==> PRODUCT FORMS CLASSES
@@ -1230,23 +1302,82 @@ class NewEmployeeForm(QMainWindow):
         self.ui.setupUi(self)
 
 
-class EmployeeStatusDetail(QMainWindow):
+class EmployeeDetail(QMainWindow):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.ui = Ui_EmployeeStatus()
         self.ui.setupUi(self)
+        self.table_data = self.load_data()
+        self.set_employee_detail_list()
+        self.ui.comboBox_SelectStatus.currentIndexChanged.connect(self.display_data)
+        self.ui.addButton.clicked.connect(self.add_data)
+        self.ui.deleteButton.clicked.connect(self.delete_data)
+        self.ui.updateButton.clicked.connect(self.update_data())
+
+    @staticmethod
+    def load_data():
+        cursor = server_connection().cursor()
+        data = cursor.execute('SELECT * FROM Employee_Status WHERE IS_DELETE = 0')
+        table_data = [[item for item in row] for row in data]
+        return table_data
+
+    def set_employee_detail_list(self):
+        statuses = []
+        for row in self.table_data:
+            for i, name in enumerate(row):
+                if i == 1:
+                    statuses.append(name)
+        self.ui.comboBox_SelectStatus.addItems(statuses)
+
+    def get_data(self):
+        selected_name = self.ui.comboBox_SelectStatus.currentText()
+        status_details = []
+        for i, row in enumerate(self.table_data):
+            if row[1] == selected_name:
+                status_details.append(row)
+        return status_details
+
+    def display_data(self):
+        status_details = self.get_data()
+        for row in status_details:
+            for i, item in enumerate(row):
+                if i == 1:
+                    self.ui.lineEdit_StatusDescription.setText(item)
 
     def update_data(self):
-        material_details = self.get_data()
-        material_details[0][1] = self.ui.lineEdit_desc.text()
+        status_details = self.get_data()
+        status_details[0][1] = self.ui.lineEdit_StatusDescription.text()
         cnxn = server_connection()
         cursor = cnxn.cursor()
-        cursor.execute("UPDATE Material SET MATERIAL_DESCRIPTION = ? WHERE MATERIAL_CODE = ?",
-                       material_details[0][1], material_details[0][0])
+        cursor.execute("UPDATE Employee_Status SET DESCRIPTION = ? WHERE EMPLOYEE_STATUS_ID = ?",
+                       status_details[0][1], status_details[0][0])
         cnxn.commit()
-        self.ui.comboBox_select.clear()
+        self.ui.comboBox_SelectStatus.clear()
         self.table_data = self.load_data()
-        self.set_materiallist()
+        self.set_employee_detail_list()
+
+    def delete_data(self):
+        status_details = self.get_data()
+        cnxn = server_connection()
+        cursor = cnxn.cursor()
+        cursor.execute("UPDATE Employee_Status SET IS_DELETE = 1 WHERE EMPLOYEE_STATUS_ID = ?",
+                       status_details[0][0])
+        cnxn.commit()
+        self.ui.comboBox_SelectStatus.clear()
+        self.table_data = self.load_data()
+        self.set_employee_detail_list()
+
+    def add_data(self):
+        insert_data = self.ui.lineEdit_EnterNewStatus.text()
+        cnxn = server_connection()
+        cursor = cnxn.cursor()
+        cursor.execute("INSERT INTO Employee_Status (DESCRIPTION, IS_DELETE) VALUES (?, 0)",
+                       insert_data)
+        cnxn.commit()
+        self.ui.comboBox_SelectStatus.clear()
+        self.table_data = self.load_data()
+        self.set_employee_detail_list()
+        self.ui.lineEdit_EnterNewStatus.clear()
 
 
 class EmployeeDetailsForm(QMainWindow):
@@ -1966,6 +2097,10 @@ class ManufacturerDetailsForm(QMainWindow):
         self.ui.setupUi(self)
         self.table_data = self.load_data()[0]
         print(self.table_data)
+        self.set_manufacturerlist()
+        self.ui.selectButton.clicked.connect(self.display_data())
+        self.ui.selectButton.clicked.connect(self.save_data())
+        self.ui.selectButton.clicked.connect(self.delete_data())
 
     @staticmethod
     def load_data():
@@ -2009,22 +2144,167 @@ class ManufacturerDetailsForm(QMainWindow):
                             self.ui.comboBox_ManufacturerStatusID.setCurrentIndex(item-1)
 
     def get_data(self):
-        pass
+        selected_name = self.ui.comboBox_SearchManufacturer.currentText()
+        manufacturer_details = []
+        for i, row in enumerate(self.table_data):
+            if row[1] == selected_name:
+                manufacturer_details.append(row)
+        return manufacturer_details
+
+    def save_data(self):
+        manufacturer_details = self.get_data()
+        manufacturer_details[0][1] = self.ui.lineEdit_ManufacturerName.text()
+        manufacturer_details[0][2] = self.ui.lineEdit_ManufacturerAddress.text()
+        manufacturer_details[0][3] = self.ui.lineEdit_ManufacturerEmail.text()
+        manufacturer_details[0][4] = self.ui.lineEdit_ManufacturerPhone.text()
+        manufacturer_details[0][5] = int()
+        for row in self.status_data:
+            if row[1] == self.ui.comboBox_ManufacturerStatusID.currentText():
+                manufacturer_details[0][5] = row[0]
+        manufacturerconnection = server_connection()
+        cursor = manufacturerconnection.cursor()
+        cursor.execute("UPDATE Manufacturer SET M_NAME = ?, M_ADDRESS = ?, M_EMAIL = ?, M_PHONE, MANUFACTURER_STATUS_ID = ? "
+                       "WHERE MANUFACTURER_ID = ?", manufacturer_details[0][1], manufacturer_details[0][2], manufacturer_details[0][3],
+                       manufacturer_details[0][4], manufacturer_details[0][5],
+                       manufacturer_details[0][0])
+        manufacturerconnection.commit()
+        self.ui.lineEdit_ManufacturerName.clear()
+        self.ui.lineEdit_ManufacturerAddress.clear()
+        self.ui.lineEdit_ManufacturerEmail.clear()
+        self.ui.comboBox_ManufacturerStatusID.clear()
+        self.table_data = self.load_data()
+        self.set_manufacturerlist()
+
+    def delete_data(self):
+        manufacturer_details = self.get_data()
+        manufacturerconnection = server_connection()
+        cursor = manufacturerconnection.cursor()
+        manufacturerconnection.commit()
+        self.ui.lineEdit_ManufacturerName.clear()
+        self.ui.lineEdit_ManufacturerAddress.clear()
+        self.ui.lineEdit_ManufacturerEmail.clear()
+        self.ui.comboBox_ManufacturerStatusID.clear()
+        self.table_data = self.load_data()[0]
+        self.set_manufacturerlist()
+
 
 class ManufacturerDetail(QMainWindow):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.ui = Ui_ManufacturerStatus()
         self.ui.setupUi(self)
+        self.table_data = self.load_data()
+        self.set_manufacturer_status_list()
+        self.ui.comboBox_SelectStatus.currentIndexChanged.connect(self.display_data())
+        self.ui.addButton.clicked.connect(self.delete_data())
+        self.ui.updateButton.clicked.connect(self.update_data())
+
+    @staticmethod
+    def load_data(self):
+        cursor = server_connection().cursor()
+        data = cursor.execute('SELECT * FROM Manufacturer_Status WHERE IS_DELETE = 0')
+        table_data = [[item for item in row] for row in data]
+        return table_data
+
+    def set_manufacturer_status_list(self):
+        statuses = []
+        for row in self.table_data:
+            for i, name in enumerate(row):
+                if i == 1:
+                    statuses.append(name)
+        self.ui.comboBox_SelectStatus.addItems(statuses)
+
+    def get_data(self):
+        selected_name = self.ui.comboBox_SelectStatus.currentText()
+        status_details = []
+        for i, row in enumerate(self.table_data):
+            if row[1] == selected_name:
+                status_details.append(row)
+        return status_details
+
+    def display_data(self):
+        status_details = self.get_data()
+        for row in status_details:
+            for i, item in enumerate(row):
+                if i == 1:
+                    self.ui.lineEdit_StatusDescription.setText(item)
+
+    def update_data(self):
+        status_details = self.get_data()
+        status_details[0][1] = self.ui.lineEdit_StatusDescription.text()
+        manufacturercnxn = server_connection()
+        cursor = manufacturercnxn.cursor()
+        cursor.execute("UPDATE Manufacturer_Status SET DESCRIPTION = ?, MANUFACTURER_STATUS_ID = ?",
+                       status_details[0][1], status_details[0][0])
+        manufacturercnxn.commit()
+        self.ui.comboBox_SelectStatus.clear()
+        self.table_data = self.load_data()
+        self.set_manufacturer_status_list()
+
+    def delete_data(self):
+        status_details = self.get_data()
+        manufacturercnxn = server_connection()
+        cursor = manufacturercnxn.cursor()
+        cursor.execute("UPDATE Manufacturer_Status SET IS_DELETE = 1 WHERE MANUFACTURER_STATUS_ID = ?",
+                       status_details[0][0])
+        manufacturercnxn.commit()
+        self.ui.comboBox_SelectStatus.clear()
+        self.table_data = self.load_data()
+        self.set_manufacturer_status_list()
+
+    def add_data(self):
+        insert_data = self.ui.lineEdit_EnterNewStatus.text()
+        manufacturercnxn = server_connection()
+        cursor = manufacturercnxn.cursor()
+        cursor.execute("INSERT INTO Manufacturer_Status (DESCRIPTION, IS_DELETE) VALUES (?, 0)", insert_data)
+        manufacturercnxn.commit()
+        self.ui.comboBox_SelectStatus.clear()
+        self.table_data = self.load_data()
+        self.set_manufacturer_status_list()
+        self.ui.lineEdit_EnterNewStatus.clear()
 
 
 # ==> PROMOTION FORMS CLASSES
-class NewPromotionForm(QMainWindow):  # FIXME: Class name and form name should be more descriptive.. Eg, 'NewPromotion'
+class NewPromotionForm(QMainWindow):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.ui =  Ui_NewPromotionForm()
         self.ui.setupUi(self)
-        
+        self.season_data = self.load_data()[0]
+        self.display_data()
+        self.ui.submit_Button.clicked.connect(self.add_data)
+        self.ui.clear_button.clicked.connect(self.clear_form)
+
+    def load_data(self):
+        cursor = server_connection().cursor()
+        data = cursor.execute('SELECT * FROM Promo_Season WHERE IS_DELETE = 0')
+        season_data = [[item for item in row] for row in data]
+        return season_data
+
+    def display_data(self):
+        season_list = []
+        for season in self.season_data:
+            season_list.append(season[1])
+        self.ui.comboBox_SeasonID.addItems(season_list)
+
+    def add_data(self):
+        description = self.ui.lineEdit_PromotionDescription.text()
+        discount_amount = self.ui.lineEdit_DiscountAmount.text()
+        season_id_code = int()
+        for row in self.season_data:
+            if row[1] == self.ui.comboBox_SeasonID.currentText():
+                season_id_code = row[0]
+        cnxn = server_connection()
+        cursor = cnxn.cursor()
+        cursor.execute("INSERT INTO Promotion (DESCRIPTION, DISCOUNT_AMOUNT, SEASON_ID, IS_DELETE)"
+                       "VALUES (?, ?, ?, 0)", description, discount_amount, season_id_code)
+        cnxn.commit()
+
+    def clear_form(self):
+        self.ui.lineEdit_PromotionDescription.clear()
+        self.ui.lineEdit_DiscountAmount.clear()
+
+
 
 # Promotion
 class PromotionDetailsForm(QMainWindow):
@@ -2032,7 +2312,91 @@ class PromotionDetailsForm(QMainWindow):
         super().__init__(*args, **kwargs)
         self.ui = Ui_PromotionDetails()
         self.ui.setupUi(self)
-        
+        self.table_data = self.load_data()
+        print(self.table_data)
+        self.season_data = self.load_data()
+        self.set_promotionlist()
+        self.ui.selectButton.clicked.connect(self.display_data())
+        self.ui.save_Button.clicked.connect(self.save_data())
+        self.ui.delete_Button.clicked.connect(self.delete_data())
+
+
+    @staticmethod
+    def load_data():
+        cursor = server_connection().cursor
+
+        data = cursor.execute('SELECT * FROM Promotion WHERE IS_DELETE = 0')
+        table_data = [[item for item in row] for row in data]
+
+        data = cursor.execute('SELECT * FROM Seasonal_ID WHERE IS_DELETE = 0')
+        season_data = [[item for item in row] for row in data]
+
+        return table_data, season_data
+
+    def set_promotionlist(self):
+        promotion_names = []
+        for row in self.table_data:
+            for i, name in enumerate(row):
+                if i == 1:
+                    promotion_names.append(name)
+        self.ui.comboBox_SelectPromotion.addItems(promotion_names)
+
+    def display_data(self):
+        selected_names = self.ui.comboBox_SelectPromotion.currentText()
+        promotion_details = []
+        for i, row in enumerate(self.table_data):
+            if row[1] == selected_names:
+                promotion_details.append(row)
+        for row in promotion_details:
+            for i, item in enumerate(row):
+                if i == 1:
+                    self.ui.lineEdit_PromotionDescription.setText(item)
+                elif i == 2:
+                    self.ui.lineEdit_DiscountAmount(item)
+                elif i == 3:
+                    for x, season in enumerate(self.season_data):
+                        if season[0] == item:
+                            self.ui.comboBox_SeasonID.setCurrentIndex(item-1)
+    def get_data(self):
+        selected_name = self.ui.comboBox_SelectPromotion.currentText()
+        promotion_details = []
+        for i, row in enumerate(self.season_data):
+            if row[1] == selected_name:
+                promotion_details.append(row)
+            return promotion_details
+
+    def save_data(self):
+        promotion_details = self.get_data()
+        promotion_details[0][1] = self.ui.lineEdit_PromotionDescription.text()
+        promotion_details[0][1] = self.ui.lineEdit_DiscountAmount.text()
+        promotion_details[0][2] = int()
+        for row in self.season_data:
+            if row[1] == self.ui.comboBox_SeasonID.currentText():
+                promotion_details[0][2] = row[0]
+        promotionconnection = server_connection()
+        cursor = promotionconnection.cursor()
+        cursor.execute("UPDATE Promotions SET DESCRIPTION = ?, DISCOUNT_AMOUNT = ?, SEASON_ID = ? WHERE CUSTOMER_PROMO_CODE = ? ",
+                       promotion_details[0][1], promotion_details[0][2], promotion_details[0][3], promotion_details[0][0])
+        promotionconnection.commit()
+        self.ui.lineEdit_PromotionDescription.clear()
+        self.ui.lineEdit_DiscountAmount.clear()
+        self.ui.comboBox_SeasonID.clear()
+        self.table_data = self.load_data()
+        self.set_promotionlist()
+
+
+    def delete_data(self):
+        promotion_details = self.get_data()
+        promotionconnection = server_connection()
+        cursor = promotionconnection.cursor()
+        cursor.execute("UPDATE Promotion SET IS_DELETE = 1 WHERE CUSTOMER_PROMO_CODE = ?", promotion_details[0][0])
+        promotionconnection.commit()
+        self.ui.lineEdit_PromotionDescription.clear()
+        self.ui.lineEdit_DiscountAmount.clear()
+        self.ui.comboBox_SeasonID.clear()
+        self.table_data = self.load_data()[0]
+        self.set_promotionlist()
+
 
 # ==> CHANNEL FORMS CLASSES
 class ChannelDetailsForm(QMainWindow):
@@ -2041,6 +2405,45 @@ class ChannelDetailsForm(QMainWindow):
         self.ui = Ui_ChannelDetails()
         self.ui.setupUi(self)
 
+# NEW CHANNEL FORM
+class ChannelDetailsForm(QMainWindow):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.ui = Ui_NewChannelStatusForm()
+        self.ui.setupUi(self)
+        self.status_data = self.load_data()[0]
+        self.display_data()
+        self.ui.submit_Button.clicked.connect(self.add_data)
+        self.ui.clear_button.clicked.connect(self.clear_form)
+
+
+    @staticmethod
+    def load_data(self):
+        cursor = server_connection().cursor()
+        data = cursor.execute('SELECT * FROM Channel_Status WHERE IS_DELETE = 0')
+        status_data = [[item for item in row] for row in data]
+        return status_data
+
+    def display_data(self):
+        status_list = []
+        for status in self.status_data:
+            status_list.append(status[1])
+        self.ui.comboBox_StatusCode.addItems(status_list)
+
+    def add_data(self):
+        description = self.ui.lineEdit_ChannelDescription.text()
+        status_code = int()
+        for row in self.status_data:
+            if row[1] == self.ui.comboBox_StatusCode.currentText():
+                status_code = row[0]
+        cnxn = server.connection()
+        cursor = cnxn.cursor(0)
+        cursor.execute("INSERT INTO Channel (CHANNEL_DESCRIPTION, CHA_STATUS_CODE,"
+                       "IS_DELETE) VALUES (?, ?, 0)", description, status_code)
+        cnxn.commit()
+
+    def clear_form(self):
+        self.ui.lineEdit_ChannelDescription.clear()
 
 # ==> RETURN CODE
 class ReturnCodeDetail(QMainWindow):
@@ -2048,6 +2451,77 @@ class ReturnCodeDetail(QMainWindow):
         super().__init__(*args, **kwargs)
         self.ui = Ui_ReturnCodeStatus()
         self.ui.setupUi(self)
+        self.table_data = self.load_data()
+        self.set_return_code_list()
+        self.ui.comboBox_SelectID.currentIndexChanged.connect(self.display_data)
+        self.ui.addButton.clicked.connect(self.add_data)
+        self.ui.deleteButton.clicked.connect(self.delete_data)
+        self.ui.updateButton.clicked.connect(self.update_data)
+
+    @staticmethod
+    def load_data():
+        cursor = server_connection().cursor()
+        data = cursor.execute('SELECT * FROM Return_Code WHERE IS_DELETE = 0')
+        table_data = [[item for item in row] for row in data]
+        return table_data
+
+    def set_return_code_list(self):
+        statuses = []
+        for row in self.table_data:
+            for i, name in enumerate(row):
+                if i == 1:
+                    statuses.append(name)
+        self.ui.comboBox_SelectID.addItems(statuses)
+
+    def get_data(self):
+        selected_name = self.ui.comboBox_SelectID.currentText()
+        status_details = []
+        for i, row in enumerate(self.table_data):
+            if row[1] == selected_name:
+                status_details.append(row)
+        return status_details
+
+    def display_data(self):
+        status_details = self.get_data()
+        for row in status_details:
+            for i, item in enumerate(row):
+                if i == 1:
+                    self.ui.lineEdit_IDDescription.setText(item)
+
+    def update_data(self):
+        status_details = self.get_data()
+        status_details[0][1] = self.ui.lineEdit_IDDescription.text()
+        returncnxn = server_connection()
+        cursor = returncnxn.cursor()
+        cursor.execute("UPDATE Return_Code SET DESCRIPTION = ? WHERE RETURN_CODE_ID = ?",
+                       status_details[0][1], status_details[0][0])
+        returncnxn.commit()
+        self.ui.comboBox_SelectID.clear()
+        self.table_data = self.load_data()
+        self.set_return_code_list()
+
+    def delete_data(self):
+        status_details = self.get_data()
+        returncnxn = server_connection()
+        cursor = returncnxn.cursor()
+        cursor.execute("UPDATE Return_Code SET IS_DELETE = 1 WHERE RETURN_CODE_ID = ?",
+                       status_details[0][0])
+        returncnxn.commit()
+        self.ui.comboBox_SelectID.clear()
+        self.table_data = self.load_data()
+        self.set_return_code_list()
+
+    def add_data(self):
+        insert_data = self.ui.lineEdit_EnterNewID.text()
+        returncnxn = server_connection()
+        cursor = returncnxn.cursor()
+        cursor.execute("INSERT INTO Return_Code (DESCRIPTION, IS_DELETE) VALUES (?,0)", insert_data)
+        returncnxn.commit()
+        self.ui.comboBox_SelectID.clear()
+        self.table_data = self.load_data()
+        self.set_return_code_list()
+        self.ui.lineEdit_EnterNewID.clear()
+
 
 
 # ==> RESOURCES
