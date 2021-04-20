@@ -104,7 +104,7 @@ class MainScreen(QMainWindow):
                        "List of Products and Product Information by Size", "Product Metadata Listing",
                        "Current Customers with Promo Codes", "Products by Category", "Comparing Countries Order",
                        "Social Media Traffic", "Order History", "State with purchase between 300 and 1000",
-                       "Most Popular Item by Color", "Most Popular Shipping Vendor", "Active Customer Support Tickets",
+                       "Most Popular Item by Color", "Most Popular by State", "Waiting/Pending Customer Support Tickets",
                        "Closed Invoices", "Open Invoice Orders Sorted By Date",
                        "Free Shipping on Single Item Orders over $150",
                        "Purchases between $700 and $1,500 rewarded coupons",
@@ -2583,10 +2583,14 @@ class ReportView(QMainWindow):
         self.ui = Ui_reportwindow()
         self.ui.setupUi(self)
         self.get_data()
+        self.setWindowTitle(self.selected)
+        self.ui.reportname.setText(self.selected)
+        self.ui.criteria_desc.setHidden(True)
         self.ui.pushButton.clicked.connect(self.set_checked)
 
     def get_data(self, *args):
         if self.selected == 'Returned Customer Orders':
+            self.ui.pushButton.setHidden(True)
             cursor = server_connection().cursor()
             data = cursor.execute("SELECT Order_Customer.ORDER_ID, Customer.CUSTOMER_ID, Customer.CUST_FIRSTNAME, "
                                   "Customer.CUST_LASTNAME, Order_Line.ORDER_LINE_ID, Return_Code_Line.RET_CODE_LINE_ID,"
@@ -2603,6 +2607,7 @@ class ReportView(QMainWindow):
             column_total = len(attributes)
             self.display_data(attributes, column_total, report_data)
         elif self.selected == 'Promo Season Report':
+            self.ui.pushButton.setHidden(True)
             cursor = server_connection().cursor()
             data = cursor.execute("SELECT Order_Customer.ORDER_ID, Promotion_History.CUSTOMER_ID, "
                                   "Promotion.CUSTOMER_PROMO_CODE, Promotion.DESCRIPTION, "
@@ -2617,6 +2622,7 @@ class ReportView(QMainWindow):
             column_total = len(attributes)
             self.display_data(attributes, column_total, report_data)
         elif self.selected == 'Orders processed by each employee':
+            self.ui.pushButton.setHidden(True)
             cursor = server_connection().cursor()
             data = cursor.execute("SELECT Order_Customer.EMP_ID, Employee.FIRST_NAME, Employee.LAST_NAME, "
                                   "COUNT(Order_Customer.EMP_ID), Employee_Status.DESCRIPTION, "
@@ -2632,6 +2638,7 @@ class ReportView(QMainWindow):
             column_total = len(attributes)
             self.display_data(attributes, column_total, report_data)
         elif self.selected == 'Annual report of generated revenue':
+            self.ui.pushButton.setHidden(True)
             cursor = server_connection().cursor()
             data = cursor.execute("SELECT Customer.CUSTOMER_ID, Order_Customer.ORDER_ID, "
                                   "FORMAT(Order_Customer.ORDER_DATE, 'yyyy-MM-dd'), State_Province.STATE_PROVINCE_NAME,"
@@ -2648,6 +2655,7 @@ class ReportView(QMainWindow):
             column_total = len(attributes)
             self.display_data(attributes, column_total, report_data)
         elif self.selected == 'Social Media Traffic':
+            self.ui.pushButton.setHidden(True)
             cursor = server_connection().cursor()
             data = cursor.execute("SELECT Order_Customer.ORDER_ID, Customer.CUST_FIRSTNAME, Customer.CUST_LASTNAME,"
                                   "Customer.CUST_FACEBOOK, Customer.CUST_INSTAGRAM, Channel.CHANNEL_DESCRIPTION,"
@@ -2655,12 +2663,14 @@ class ReportView(QMainWindow):
                                   "ON Channel.CHANNEL_ID = Order_Customer.CHANNEL_ID INNER JOIN Channel_Status ON "
                                   "Channel_Status.CHA_STATUS_CODE = Channel.CHA_STATUS_CODE INNER JOIN Customer "
                                   "ON Customer.CUSTOMER_ID = Order_Customer.CUSTOMER_ID WHERE Channel.CHANNEL_ID = 3 "
-                                  "AND Customber.IS_DELETE = 0")
+                                  "AND Customer.IS_DELETE = 0")
             report_data = [[item for item in row] for row in data]
             attributes = ["Order Number", "First Name", "Last Name", "Facebook", "Instagram", "From", "Active/Inactive"]
             column_total = len(attributes)
             self.display_data(attributes, column_total, report_data)
+            # FIXME: Make me variable
         elif self.selected == 'Order History':
+            self.ui.pushButton.setHidden(True)
             cursor = server_connection().cursor()
             data = cursor.execute("DECLARE @Orderdate date SELECT @Orderdate = '2020-02-17 00:00:00' SELECT "
                                   "Order_Customer.ORDER_ID, Customer.CUSTOMER_ID, Customer.CUST_FIRSTNAME, "
@@ -2677,6 +2687,7 @@ class ReportView(QMainWindow):
             column_total = len(attributes)
             self.display_data(attributes, column_total, report_data)
         elif self.selected == 'Most purchased products within a certain timeframe':
+            self.ui.pushButton.setHidden(True)
             cursor = server_connection().cursor()
             data = cursor.execute("DECLARE @start_date date, @end_date date "
                                   "SELECT @start_date = '2020-06-06 00:00:01.000' "
@@ -2700,6 +2711,8 @@ class ReportView(QMainWindow):
             self.display_data(attributes, column_total, report_data)
         # todo: This is the working report with the variable criteria feature
         elif self.selected == 'Product Ratings by Category':
+            self.ui.criteria_desc.setHidden(False)
+            self.ui.criteria_desc.setText("Now Showing Duvet's")
             prod_type = "duvet"
 
             def sql_code(prod):
@@ -2721,7 +2734,6 @@ class ReportView(QMainWindow):
             report_data = sql_code(prod_type)
             attributes = ["Rating", "Product Name", "Product Category", "Color", "Material Type", "Size"]
             column_total = len(attributes)
-            print(report_data)
             self.display_data(attributes, column_total, report_data)
             # This code only run when the edit criteria button is pressed
             if self.checked:
@@ -2738,12 +2750,320 @@ class ReportView(QMainWindow):
                 """box returns a tuple with two values. The first one would be whatever is chosen from the drop down
                 If it is a .getText I don't think it will return as a list or tuple."""
                 prod_type = box[0]
+                self.ui.criteria_desc.setText(f"Now Showing {prod_type}'s")
                 # Recall the sql code function to get data based on criteria
                 report_data = sql_code(prod_type)
                 # Set button to false so it wont be stuck in a loop
                 self.checked = False
                 # Recall the display data function so the new info can appear
                 self.display_data(attributes, column_total, report_data)
+        elif self.selected == 'Top Delivery Carriers Since Year Start':
+            self.ui.criteria_desc.setHidden(False)
+            self.ui.criteria_desc.setText("Start date: 2021-01-01")
+            start_date = '2021-01-01'
+
+            def sql_code(date):
+                cnxn = server_connection().cursor()
+                records = cnxn.execute("DECLARE @start_date date, @end_date date SELECT @start_date = ? "
+                                       "SELECT @end_date = getdate() SELECT Shipment.Vendor_ID, "
+                                       "Shipment_Vendor.Vendor, count(Shipment.Vendor_ID), "
+                                       "Order_Status.Order_Status_Description FROM Order_Customer INNER JOIN "
+                                       "Order_Status ON order_status.Order_Status_ID = order_customer.Order_Status_ID "
+                                       "INNER JOIN Shipment ON Shipment.Order_ID = Order_Customer.Order_ID "
+                                       "INNER JOIN Shipment_Vendor ON Shipment_Vendor.Vendor_ID = Shipment.Vendor_ID "
+                                       "WHERE Order_Customer.Order_Date between @start_date "
+                                       "and @end_date and Shipment.IS_DELETE = 0 GROUP BY "
+                                       "Order_Status.Order_Status_Description, Shipment.Vendor_ID, "
+                                       "Shipment_Vendor.Vendor ORDER BY count(Shipment.Vendor_ID) desc;", date)
+                report = [[item for item in row] for row in records]
+                return report
+            report_data = sql_code(start_date)
+            attributes = ["Vendor ID", "Carrier", "Total Orders", "Status"]
+            column_total = len(attributes)
+            self.display_data(attributes, column_total, report_data)
+            if self.checked:
+                criteria_box = QtWidgets.QInputDialog()
+                box = criteria_box.getText(None, 'Start Date Criteria', 'Please enter date as yyyy-mm-dd')
+                start_date = box[0]
+                self.ui.criteria_desc.setText(f"Start date: {start_date}")
+                report_data = sql_code(start_date)
+                self.checked = False
+                self.display_data(attributes, column_total, report_data)
+        elif self.selected == 'Products Costing Over a Certain Amount':
+            self.ui.criteria_desc.setHidden(False)
+            self.ui.criteria_desc.setText("$200 and above")
+            cost = 200
+
+            def sql_code(price):
+                cnxn = server_connection().cursor()
+                records = cnxn.execute("DECLARE @price int SELECT @price = ? SELECT  Product.Product_Name "
+                                      "AS 'Product Name', Product.Product_Description AS 'Product Description', "
+                                      "format(Product.Price, 'C2', 'en-US')  AS 'Product Price',Color.COLOR_DESCRIPTION "
+                                      "AS 'Product Color', MATERIAL.MATERIAL_DESCRIPTION AS 'Material Type',"
+                                      "SIZE.SIZE_DESCRIPTION AS 'Product Size'"
+                                      "FROM Product INNER JOIN Color ON Color.Color_Code = Product.Color_Code INNER "
+                                      "JOIN MATERIAL ON MATERIAL.MATERIAL_CODE = Product.Material_Code INNER JOIN SIZE "
+                                      "ON SIZE.SIZE_CODE = Product.Size_Code WHERE Product.Price > @price AND "
+                                      "Product.IS_DELETE = 0 ORDER BY Product.Price desc", price)
+                report = [[item for item in row] for row in records]
+                return report
+            report_data = sql_code(cost)
+            attributes = ["Product Name", "Product Description", "Product Price", "Product Color", "Material Type",
+                          "Product Size"]
+            column_total = len(attributes)
+            self.display_data(attributes, column_total, report_data)
+            if self.checked:
+                criteria_box = QtWidgets.QInputDialog()
+                box = criteria_box.getInt(None, 'Minimum Price', 'Set New Minimum Price')
+                cost = box[0]
+                self.ui.criteria_desc.setText(f"${cost} and above")
+                report_data = sql_code(cost)
+                self.checked = False
+                self.display_data(attributes, column_total, report_data)
+        elif self.selected == 'List of Products and Product Information by Size':
+            self.ui.criteria_desc.setHidden(False)
+            self.ui.criteria_desc.setText("Size: Full")
+            size = 'Full'
+
+            def sql_code(prod_size):
+                cnxn = server_connection().cursor()
+                records = cnxn.execute("DECLARE @size varchar(20) SELECT @size = ? SELECT Product.PRODUCT_ID "
+                                       "AS 'Product ID', Product.PRODUCT_NAME AS 'Product', Size.SIZE_DESCRIPTION "
+                                       "AS 'Size', Product_Type.PRODUCT_TYPE_DESCRIPTION AS 'Product Description',"
+                                       "Thread.THREAD_DESCRIPTION AS 'Thread Count', Material.MATERIAL_DESCRIPTION "
+                                       "AS 'Material', format(Product.PRICE,'C2','en-US') AS 'Price' FROM Product "
+                                       "INNER JOIN Product_Type ON Product_Type.PRODUCT_TYPE_CODE = "
+                                       "Product.PRODUCT_TYPE_CODE INNER JOIN Thread ON Thread.THREAD_CODE = "
+                                       "Product.THREAD_CODE INNER JOIN Material ON Material.MATERIAL_CODE = "
+                                       "Product.MATERIAL_CODE INNER JOIN Size ON Size.SIZE_CODE = "
+                                       "Product.SIZE_CODE WHERE Size.SIZE_DESCRIPTION = @size AND Product.IS_DELETE = 0"
+                                       "ORDER BY Product.PRODUCT_ID", prod_size)
+                report = [[item for item in row] for row in records]
+                return report
+            report_data = sql_code(size)
+            attributes = ["Product ID", "Product", "Size", "Product Description", "Thread Count", "Material", "Price"]
+            column_total = len(attributes)
+            self.display_data(attributes, column_total, report_data)
+            if self.checked:
+                cursor = server_connection().cursor()
+                data = cursor.execute('SELECT * FROM Size WHERE IS_DELETE = 0')
+                sizes = []
+                for size in data:
+                    sizes.append(size[1])
+                criteria_box = QtWidgets.QInputDialog()
+                box = criteria_box.getItem(None, 'Size Options', 'Choose a product size', sizes)
+                size = box[0]
+                self.ui.criteria_desc.setText(f"Size: {size}")
+                report_data = sql_code(size)
+                self.checked = False
+                self.display_data(attributes, column_total, report_data)
+        # todo: Add criteria description
+        elif self.selected == 'Product Metadata Listing':
+            self.ui.criteria_desc.setHidden(False)
+            start_date = '2020-06-01'
+            end_date = '2020-08-31'
+
+            def sql_code(start, end):
+                cnxn = server_connection().cursor()
+                records = cnxn.execute("DECLARE @start_date date, @end_date date SELECT @start_date = ? SELECT "
+                                       "@end_date = ? SELECT Order_Line.ORDER_ID AS 'Order Number', "
+                                       "format(Order_Customer.Order_Date, 'yyyy-MM-dd') AS 'Order Date',"
+                                       "Product.PRODUCT_ID AS 'Product ID', Product.PRODUCT_NAME AS 'Product', "
+                                       "Order_Line.QUANTITY AS 'Product Quantity Sold for Order', "
+                                       "Rating_Scale.PRODUCT_RATING_DESC AS 'Product Rating', "
+                                       "Product_Status.PRODUCT_STATUS_DES AS 'Product Status' FROM Product INNER JOIN "
+                                       "Order_Line ON Order_Line.PRODUCT_ID = Product.PRODUCT_ID INNER JOIN "
+                                       "Product_Rating ON Product_Rating.PRODUCT_ID = Product.PRODUCT_ID INNER JOIN "
+                                       "Rating_Scale on Rating_Scale.PRODUCT_RATING_CODE = "
+                                       "Product_Rating.PRODUCT_RATING_CODE INNER JOIN Product_Status ON "
+                                       "Product_Status.PRODUCT_STATUS_CODE = Product.PRODUCT_STATUS_CODE INNER JOIN "
+                                       "Order_Customer ON Order_Customer.ORDER_ID = Order_Line.ORDER_ID WHERE "
+                                       "Order_Customer.ORDER_DATE BETWEEN @start_date AND @end_date AND "
+                                       "Product.IS_DELETE = 0 ORDER BY Order_Line.ORDER_ID", start, end)
+                report = [[item for item in row] for row in records]
+                return report
+            report_data = sql_code(start_date, end_date)
+            attributes = ["Order Number", "Order Date", "Product ID", "Product", "Product Quantity Sold for Order",
+                          "Product Rating", "Product Status"]
+            column_total = len(attributes)
+            self.display_data(attributes, column_total, report_data)
+            if self.checked:
+                criteria_box = QtWidgets.QInputDialog()
+                box = criteria_box.getText(None, 'Criteria', 'Enter start date - yyyy-mm-dd')
+                start_date = box[0]
+                box = criteria_box.getText(None, 'Criteria', 'Enter end date - yyyy-mm-dd')
+                end_date = box[0]
+                report_data = sql_code(start_date, end_date)
+                self.checked = False
+                self.display_data(attributes, column_total, report_data)
+        elif self.selected == 'Current Customers with Promo Codes':
+            self.ui.pushButton.setHidden(True)
+            cursor = server_connection().cursor()
+            data = cursor.execute("DECLARE @desc varchar(100) SELECT @desc = 'Active. Account is in the process of "
+                                  "being billed' SELECT Customer.CUSTOMER_ID AS 'Customer ID', Customer.CUST_LASTNAME "
+                                  "AS 'Last Name', Country.COUNTRY_NAME AS 'Country', Customer_Status.DESCRIPTION "
+                                  "AS 'Status', Promotion.DESCRIPTION AS 'Promotion', Promo_Season.END_DATE AS "
+                                  "'Promotion Expiration' From Customer INNER JOIN Customer_Status ON "
+                                  "Customer_Status.CUSTOMER_STATUS_ID = Customer.CUSTOMER_STATUS_ID INNER JOIN "
+                                  "Country ON Country.COUNTRY_ID = Customer.COUNTRY_ID INNER JOIN Promotion_History "
+                                  "ON Promotion_History.CUSTOMER_ID = Customer.CUSTOMER_ID INNER JOIN Promotion ON "
+                                  "Promotion.CUSTOMER_PROMO_CODE = Promotion_History.CUSTOMER_PROMO_CODE INNER JOIN "
+                                  "Promo_Season ON Promo_Season.SEASON_ID = Promotion.SEASON_ID WHERE "
+                                  "Customer_Status.DESCRIPTION = @desc AND Customer.IS_DELETE = 0 ORDER BY "
+                                  "Customer.CUSTOMER_ID")
+            report_data = [[item for item in row] for row in data]
+            attributes = ["Customer ID", "Last Name", "Country", "Status", "Promotion", "Promotion Expiration"]
+            column_total = len(attributes)
+            self.display_data(attributes, column_total, report_data)
+        elif self.selected == 'Products by Category':
+            self.ui.criteria_desc.setHidden(False)
+            self.ui.criteria_desc.setText("Now Showing Duvet's")
+            prod_type = "duvet"
+
+            def sql_code(prod):
+                cnxn = server_connection().cursor()
+                records = cnxn.execute("DECLARE @type varchar(20) SELECT @type = ? SELECT Product.PRODUCT_NAME "
+                                       "AS 'Product Name', Product_Type.PRODUCT_TYPE_DESCRIPTION AS 'Category', "
+                                       "Size.SIZE_DESCRIPTION AS 'Size', Product_History.PRODUCT_HISTORY_DESCRIPTION "
+                                       "AS 'Collection' FROM Product INNER JOIN Product_Type ON "
+                                       "Product_Type.PRODUCT_TYPE_CODE = Product.PRODUCT_TYPE_CODE INNER JOIN Size ON "
+                                       "Size.SIZE_CODE = Product.SIZE_CODE INNER JOIN Product_History ON "
+                                       "Product_History.PRODUCT_HISTORY_CODE = Product.PRODUCT_HISTORY_CODE WHERE "
+                                       "Product_Type.PRODUCT_TYPE_DESCRIPTION = @type AND Product.IS_DELETE = 0 ORDER "
+                                       "BY Size.SIZE_DESCRIPTION", prod)
+                report = [[item for item in row] for row in records]
+                return report
+            report_data = sql_code(prod_type)
+            attributes = ["Product Name", "Category", "Size", "Collection"]
+            column_total = len(attributes)
+            self.display_data(attributes, column_total, report_data)
+            if self.checked:
+                cursor = server_connection().cursor()
+                data = cursor.execute('SELECT * FROM Product_Type WHERE IS_DELETE = 0 ')
+                types = []
+                for item in data:
+                    types.append(item[1])
+                criteria_box = QtWidgets.QInputDialog()
+                box = criteria_box.getItem(None, 'Criteria', 'Enter Product Type', types)
+                prod_type = box[0]
+                self.ui.criteria_desc.setText(f"Now Showing {prod_type}'s")
+                report_data = sql_code(prod_type)
+                self.checked = False
+                self.display_data(attributes, column_total, report_data)
+        elif self.selected == 'Comparing Countries Order':
+            self.ui.pushButton.setHidden(True)
+            cursor = server_connection().cursor()
+            data = cursor.execute("DECLARE @USA int, @Mex int SELECT @USA = '234', @MEX='158' SELECT "
+                                  "Order_Customer.ORDER_ID AS 'Order Number', Customer.CUSTOMER_ID AS 'Customer ID',"
+                                  "Customer.CUST_FIRSTNAME AS 'First Name', Customer.CUST_LASTNAME AS 'Last Name',"
+                                  "Order_Customer.ORDER_DATE AS 'Date', State_Province.State_Province_Name AS 'State',"
+                                  "Country.COUNTRY_NAME AS 'Country' FROM Order_Customer "
+                                  "INNER JOIN Country ON Country.COUNTRY_ID = Order_Customer.COUNTRY_ID "
+                                  "INNER JOIN State_Province ON State_Province.State_Province_Id = Order_Customer.STATE_PROVINCE_ID "
+                                  "INNER JOIN Customer ON Customer.CUSTOMER_ID = Order_Customer.CUSTOMER_ID WHERE "
+                                  "Order_Customer.COUNTRY_ID=@USA OR Order_Customer.COUNTRY_ID=@MEX AND "
+                                  "Order_Customer.IS_DELETE = 0")
+            report_data = [[item for item in row] for row in data]
+            attributes = ["Order Number", "Customer ID", "First Name", "Last Name", "Date", "State", "Country"]
+            column_total = len(attributes)
+            self.display_data(attributes, column_total, report_data)
+        elif self.selected == 'State with purchase between 300 and 1000':
+            self.ui.pushButton.setHidden(True)
+            cursor = server_connection().cursor()
+            data = cursor.execute("DECLARE @Tex int SELECT @Tex='234' SELECT Order_Customer.ORDER_ID AS 'Order Number', "
+                                  "Customer.CUST_FIRSTNAME AS 'First Name', Customer.CUST_LASTNAME AS 'Last Name',"
+                                  "Country.COUNTRY_NAME AS 'Country', State_Province.STATE_PROVINCE_ID AS 'State ID', "
+                                  "State_Province.State_Province_Name AS 'State', Order_Customer.ORDER_DATE AS 'Date', "
+                                  "Invoice.PURCHASE_TOTAL AS 'Purchase Total' FROM Order_Customer "
+                                  "INNER JOIN Invoice On Invoice.INVOICE_ID=Order_Customer.INVOICE_ID "
+                                  "INNER JOIN Country ON Country.COUNTRY_ID = Order_Customer.COUNTRY_ID "
+                                  "INNER JOIN State_Province ON State_Province.State_Province_Id=Order_Customer.STATE_PROVINCE_ID "
+                                  "INNER JOIN Customer ON Customer.CUSTOMER_ID = ORder_Customer.CUSTOMER_ID "
+                                  "WHERE (Order_Customer.COUNTRY_ID LIKE @TEX AND "
+                                  "Order_Customer.STATE_PROVINCE_ID= '56' AND Invoice.PURCHASE_TOTAL BETWEEN 300 "
+                                  "AND 1000) AND Order_Customer.IS_DELETE = 0")
+            report_data = [[item for item in row] for row in data]
+            attributes = ["Order Number", "First Name", "Last Name", "Country", "State ID", "State", "Date",
+                          "Purchase Total"]
+            column_total = len(attributes)
+            self.display_data(attributes, column_total, report_data)
+        elif self.selected == 'Most Popular Item by Color':
+            self.ui.pushButton.setHidden(True)
+            cursor = server_connection().cursor()
+            data = cursor.execute("DECLARE @o_l_status_ID INT, @year DATETIME SELECT @o_l_status_ID='3', @year='2020' "
+                                  "SELECT Color.COLOR_DESCRIPTION AS 'Color', Product.PRODUCT_ID AS 'ProductID', "
+                                  "Product.PRODUCT_NAME AS 'Product Name', "
+                                  "Product.PRODUCT_DESCRIPTION AS 'Description', SUM(Order_Line.QUANTITY) AS 'Quantity' "
+                                  "FROM Order_Line INNER JOIN Product ON Product.PRODUCT_ID = Order_Line.PRODUCT_ID "
+                                  "INNER JOIN Color ON Color.COLOR_CODE = Product.COLOR_CODE "
+                                  "INNER JOIN Order_Line_Status ON Order_Line_Status.ORDER_LINE_STATUS_ID = "
+                                  "Order_Line.ORDER_LINE_STATUS_ID INNER JOIN Order_Customer ON "
+                                  "Order_Customer.ORDER_ID = Order_Line.ORDER_ID WHERE Order_Line.ORDER_LINE_ID != "
+                                  "@o_l_status_ID AND YEAR(Order_Customer.ORDER_DATE) = YEAR(@year) AND "
+                                  "Product.IS_DELETE = 0 GROUP BY Color.COLOR_DESCRIPTION, Product.PRODUCT_ID, "
+                                  "Product.PRODUCT_NAME, Product.PRODUCT_DESCRIPTION ORDER BY 'Color' ASC, "
+                                  "'Quantity' DESC")
+            report_data = [[item for item in row] for row in data]
+            attributes = ["Color", "Product ID", "Product Name", "Description", "Quantity"]
+            column_total = len(attributes)
+            self.display_data(attributes, column_total, report_data)
+        elif self.selected == 'Most Popular by State':
+            self.ui.pushButton.setHidden(True)
+            cursor = server_connection().cursor()
+            data = cursor.execute("DECLARE @Start_Date date, @End_Date date SELECT @Start_Date = '2020-10-01', "
+                                  "@End_Date = '2020-12-31' SELECT "
+                                  "Product_Type.PRODUCT_TYPE_DESCRIPTION AS 'Category', "
+                                  "State_Province.STATE_PROVINCE_NAME AS 'State', "
+                                  "SUM(Order_Line.QUANTITY) AS 'Quantity Sold' FROM Order_Customer "
+                                  "JOIN Order_Line ON Order_Line.ORDER_ID = Order_Customer.ORDER_ID "
+                                  "JOIN Product ON Product.PRODUCT_ID = Order_Line.PRODUCT_ID "
+                                  "JOIN State_Province ON State_Province.STATE_PROVINCE_ID = Order_Customer.STATE_PROVINCE_ID "
+                                  "JOIN Product_Type ON Product_Type.PRODUCT_TYPE_CODE = Product.PRODUCT_TYPE_CODE "
+                                  "WHERE Order_Customer.ORDER_DATE >= @Start_Date AND "
+                                  "Order_Customer.ORDER_DATE <= @End_Date AND State_Province.IS_DELETE = 0 "
+                                  "GROUP BY Product_Type.PRODUCT_TYPE_DESCRIPTION, State_Province.STATE_PROVINCE_NAME "
+                                  "ORDER BY SUM(Order_Line.QUANTITY) DESC, State_Province.STATE_PROVINCE_NAME")
+            report_data = [[item for item in row] for row in data]
+            attributes = ["Category", "State", "Quantity Sold"]
+            column_total = len(attributes)
+            self.display_data(attributes, column_total, report_data)
+        elif self.selected == 'Waiting/Pending Customer Support Tickets':
+            self.ui.pushButton.setHidden(True)
+            cursor = server_connection().cursor()
+            data = cursor.execute("SELECT Customer.Cust_FirstName AS 'First Name', Customer.Cust_LastName AS 'Last Name', "
+                                  "Customer_Support.CustSupport_ID AS 'Support Ticket', "
+                                  "Customer_Support_Status.CS_STATUS_DESCRIPTION AS 'Ticket Status', "
+                                  "Order_Customer.Order_ID AS 'Customer Order', "
+                                  "Customer_Support_Status.CS_STATUS_DESCRIPTION AS 'Customer Issue'," 
+                                  "Customer.Cust_PrimaryPhone AS 'Customer Phone', "
+                                  "Customer.Cust_Email AS 'Customer E-Mail' FROM Customer "
+                                  "INNER JOIN Customer_Support ON Customer_Support.Customer_ID = Customer.Customer_ID "
+                                  "INNER JOIN Customer_Support_Status ON Customer_Support_Status.CustSupport_Status_ID "
+                                  "= Customer_Support.CustSupport_Status_ID "
+                                  "INNER JOIN Order_Customer ON Order_Customer.Customer_ID = Customer.Customer_ID "
+                                  "WHERE Customer_Support_Status.CS_STATUS_DESCRIPTION in ('Waiting', 'Pending') "
+                                  "AND Customer.IS_DELETE = 0")
+            report_data = [[item for item in row] for row in data]
+            attributes = ["First Name", "Last Name", "Support Ticket", "Customer Order", "Customer Issue",
+                          "Customer Phone", "Customer Email"]
+            column_total = len(attributes)
+            self.display_data(attributes, column_total, report_data)
+        elif self.selected == "Closed Invoices":
+            self.ui.pushButton.setHidden(True)
+            cursor = server_connection().cursor()
+            data = cursor.execute("SELECT Customer.CUSTOMER_ID As 'Customer ID', Customer.CUST_LASTNAME As 'Last Name', "
+                                  "Customer.CUST_FIRSTNAME As 'First Name', Invoice.INVOICE_ID As 'Invoice ID', "
+                                  "format(Payment.Amount,'C2','en-US') AS 'Total', "
+                                  "Invoice_Status.INVOICE_STATUS_DESCRIPTION As 'Invoice Status' "
+                                  "FROM Customer Join Order_Customer ON Order_Customer.CUSTOMER_ID = Customer.CUSTOMER_ID "
+                                  "Join Invoice ON Invoice.INVOICE_ID = Order_Customer.INVOICE_ID "
+                                  "Join Payment ON Payment.INVOICE_ID = Invoice.INVOICE_ID "
+                                  "Join Invoice_Status ON Invoice_Status.INVOICE_STATUS_ID = Invoice.INVOICE_STATUS_ID "
+                                  "WHERE Invoice_Status.INVOICE_STATUS_ID = 2 AND Customer.IS_DELETE = 0")
+            report_data = [[item for item in row] for row in data]
+            attributes = ["Customer ID", "Last Name", "First Name", "Invoice ID", "Total", "Invoice Status"]
+            column_total = len(attributes)
+            self.display_data(attributes, column_total, report_data)
 
     def set_checked(self):
         self.checked = True
