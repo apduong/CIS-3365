@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>951</width>
-    <height>714</height>
+    <width>1204</width>
+    <height>728</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -39,8 +39,8 @@ QScrollBar{background: black;}</string>
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>929</width>
-         <height>692</height>
+         <width>1182</width>
+         <height>706</height>
         </rect>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -70,7 +70,7 @@ QScrollBar{background: black;}</string>
               <string notr="true">color:#6A7AA6</string>
              </property>
              <property name="text">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;New Employee&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              <string>New &lt;strong&gt; Employee &lt;/strong&gt;</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -221,14 +221,14 @@ QPlainTextEdit{background-color:white;}
             <widget class="QComboBox" name="comboBox_Country">
              <property name="minimumSize">
               <size>
-               <width>130</width>
-               <height>0</height>
+               <width>250</width>
+               <height>25</height>
               </size>
              </property>
              <property name="maximumSize">
               <size>
-               <width>140</width>
-               <height>16777215</height>
+               <width>250</width>
+               <height>25</height>
               </size>
              </property>
             </widget>
@@ -237,14 +237,14 @@ QPlainTextEdit{background-color:white;}
             <widget class="QLabel" name="label_8">
              <property name="minimumSize">
               <size>
-               <width>175</width>
-               <height>0</height>
+               <width>220</width>
+               <height>25</height>
               </size>
              </property>
              <property name="maximumSize">
               <size>
-               <width>175</width>
-               <height>16777215</height>
+               <width>220</width>
+               <height>25</height>
               </size>
              </property>
              <property name="font">
@@ -265,14 +265,14 @@ QPlainTextEdit{background-color:white;}
             <widget class="QLabel" name="label_11">
              <property name="minimumSize">
               <size>
-               <width>175</width>
-               <height>0</height>
+               <width>220</width>
+               <height>25</height>
               </size>
              </property>
              <property name="maximumSize">
               <size>
-               <width>175</width>
-               <height>16777215</height>
+               <width>220</width>
+               <height>70</height>
               </size>
              </property>
              <property name="font">
@@ -281,8 +281,11 @@ QPlainTextEdit{background-color:white;}
                <pointsize>10</pointsize>
               </font>
              </property>
+             <property name="lineWidth">
+              <number>0</number>
+             </property>
              <property name="text">
-              <string>Date of Birth</string>
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Date of Birth &lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:7pt;&quot;&gt;yyyy-mm-dd&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignCenter</set>
@@ -301,38 +304,47 @@ QPlainTextEdit{background-color:white;}
               <string notr="true">QLineEdit{(&quot;yyyy-mm-dd&quot;)}</string>
              </property>
              <property name="inputMask">
-              <string/>
+              <string>0000-00-00;_</string>
              </property>
              <property name="text">
-              <string/>
-             </property>
-             <property name="placeholderText">
-              <string>Enter Birthdate</string>
+              <string>--</string>
              </property>
             </widget>
            </item>
            <item row="2" column="3">
             <widget class="QLineEdit" name="lineEdit_PostalCode">
+             <property name="minimumSize">
+              <size>
+               <width>70</width>
+               <height>25</height>
+              </size>
+             </property>
              <property name="maximumSize">
               <size>
                <width>70</width>
-               <height>16777215</height>
+               <height>25</height>
               </size>
              </property>
-             <property name="maxLength">
-              <number>10</number>
+             <property name="inputMask">
+              <string>000000;_</string>
              </property>
-             <property name="placeholderText">
-              <string>Enter Postal</string>
+             <property name="maxLength">
+              <number>6</number>
              </property>
             </widget>
            </item>
            <item row="1" column="2">
             <widget class="QLabel" name="label_5">
+             <property name="minimumSize">
+              <size>
+               <width>220</width>
+               <height>25</height>
+              </size>
+             </property>
              <property name="maximumSize">
               <size>
-               <width>175</width>
-               <height>16777215</height>
+               <width>220</width>
+               <height>25</height>
               </size>
              </property>
              <property name="font">
@@ -358,14 +370,14 @@ QPlainTextEdit{background-color:white;}
             <widget class="QLineEdit" name="lineEdit_FirstName">
              <property name="minimumSize">
               <size>
-               <width>250</width>
-               <height>0</height>
+               <width>170</width>
+               <height>25</height>
               </size>
              </property>
              <property name="maximumSize">
               <size>
-               <width>260</width>
-               <height>16777215</height>
+               <width>170</width>
+               <height>25</height>
               </size>
              </property>
              <property name="text">
@@ -383,14 +395,33 @@ QPlainTextEdit{background-color:white;}
             </widget>
            </item>
            <item row="7" column="3">
-            <widget class="QComboBox" name="comboBox_EmployeeStatusID"/>
+            <widget class="QComboBox" name="comboBox_EmployeeStatusID">
+             <property name="minimumSize">
+              <size>
+               <width>170</width>
+               <height>25</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>900</width>
+               <height>25</height>
+              </size>
+             </property>
+            </widget>
            </item>
            <item row="0" column="0">
             <widget class="QLabel" name="label_7">
              <property name="minimumSize">
               <size>
                <width>220</width>
-               <height>0</height>
+               <height>25</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>220</width>
+               <height>25</height>
               </size>
              </property>
              <property name="font">
@@ -418,13 +449,13 @@ QPlainTextEdit{background-color:white;}
              <property name="minimumSize">
               <size>
                <width>220</width>
-               <height>0</height>
+               <height>25</height>
               </size>
              </property>
              <property name="maximumSize">
               <size>
-               <width>180</width>
-               <height>16777215</height>
+               <width>220</width>
+               <height>25</height>
               </size>
              </property>
              <property name="font">
@@ -452,13 +483,13 @@ QPlainTextEdit{background-color:white;}
              <property name="minimumSize">
               <size>
                <width>220</width>
-               <height>0</height>
+               <height>25</height>
               </size>
              </property>
              <property name="maximumSize">
               <size>
-               <width>180</width>
-               <height>16777215</height>
+               <width>220</width>
+               <height>25</height>
               </size>
              </property>
              <property name="font">
@@ -483,10 +514,16 @@ QPlainTextEdit{background-color:white;}
            </item>
            <item row="2" column="1">
             <widget class="QLineEdit" name="lineEdit_MiddleName">
+             <property name="minimumSize">
+              <size>
+               <width>170</width>
+               <height>25</height>
+              </size>
+             </property>
              <property name="maximumSize">
               <size>
-               <width>115</width>
-               <height>16777215</height>
+               <width>170</width>
+               <height>25</height>
               </size>
              </property>
              <property name="maxLength">
@@ -502,13 +539,13 @@ QPlainTextEdit{background-color:white;}
              <property name="minimumSize">
               <size>
                <width>220</width>
-               <height>0</height>
+               <height>25</height>
               </size>
              </property>
              <property name="maximumSize">
               <size>
                <width>250</width>
-               <height>35</height>
+               <height>25</height>
               </size>
              </property>
              <property name="font">
@@ -533,10 +570,16 @@ QPlainTextEdit{background-color:white;}
            </item>
            <item row="1" column="1">
             <widget class="QLineEdit" name="lineEdit_LastName">
+             <property name="minimumSize">
+              <size>
+               <width>170</width>
+               <height>25</height>
+              </size>
+             </property>
              <property name="maximumSize">
               <size>
-               <width>110</width>
-               <height>16777215</height>
+               <width>170</width>
+               <height>25</height>
               </size>
              </property>
              <property name="maxLength">
@@ -549,10 +592,16 @@ QPlainTextEdit{background-color:white;}
            </item>
            <item row="6" column="1">
             <widget class="QLineEdit" name="lineEdit_Address1">
+             <property name="minimumSize">
+              <size>
+               <width>400</width>
+               <height>25</height>
+              </size>
+             </property>
              <property name="maximumSize">
               <size>
-               <width>260</width>
-               <height>16777215</height>
+               <width>400</width>
+               <height>25</height>
               </size>
              </property>
              <property name="maxLength">
@@ -567,14 +616,14 @@ QPlainTextEdit{background-color:white;}
             <widget class="QLabel" name="label_12">
              <property name="minimumSize">
               <size>
-               <width>175</width>
-               <height>0</height>
+               <width>220</width>
+               <height>25</height>
               </size>
              </property>
              <property name="maximumSize">
               <size>
-               <width>175</width>
-               <height>16777215</height>
+               <width>220</width>
+               <height>25</height>
               </size>
              </property>
              <property name="font">
@@ -596,13 +645,13 @@ QPlainTextEdit{background-color:white;}
              <property name="minimumSize">
               <size>
                <width>220</width>
-               <height>0</height>
+               <height>25</height>
               </size>
              </property>
              <property name="maximumSize">
               <size>
-               <width>180</width>
-               <height>16777215</height>
+               <width>220</width>
+               <height>25</height>
               </size>
              </property>
              <property name="font">
@@ -621,10 +670,16 @@ QPlainTextEdit{background-color:white;}
            </item>
            <item row="7" column="1">
             <widget class="QLineEdit" name="lineEdit_Address2">
+             <property name="minimumSize">
+              <size>
+               <width>400</width>
+               <height>25</height>
+              </size>
+             </property>
              <property name="maximumSize">
               <size>
-               <width>260</width>
-               <height>16777215</height>
+               <width>400</width>
+               <height>25</height>
               </size>
              </property>
              <property name="maxLength">
@@ -639,14 +694,14 @@ QPlainTextEdit{background-color:white;}
             <widget class="QLabel" name="label_14">
              <property name="minimumSize">
               <size>
-               <width>130</width>
-               <height>0</height>
+               <width>220</width>
+               <height>25</height>
               </size>
              </property>
              <property name="maximumSize">
               <size>
-               <width>175</width>
-               <height>16777215</height>
+               <width>220</width>
+               <height>25</height>
               </size>
              </property>
              <property name="font">
@@ -667,20 +722,38 @@ QPlainTextEdit{background-color:white;}
             <widget class="QComboBox" name="comboBox_StateProvince">
              <property name="minimumSize">
               <size>
-               <width>100</width>
-               <height>0</height>
+               <width>200</width>
+               <height>25</height>
               </size>
              </property>
              <property name="maximumSize">
               <size>
-               <width>130</width>
-               <height>16777215</height>
+               <width>200</width>
+               <height>25</height>
               </size>
              </property>
             </widget>
            </item>
            <item row="8" column="0">
             <widget class="QLabel" name="label">
+             <property name="minimumSize">
+              <size>
+               <width>220</width>
+               <height>25</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>220</width>
+               <height>25</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <family>Montserrat Medium</family>
+               <pointsize>10</pointsize>
+              </font>
+             </property>
              <property name="text">
               <string>City</string>
              </property>
@@ -691,10 +764,16 @@ QPlainTextEdit{background-color:white;}
            </item>
            <item row="8" column="1">
             <widget class="QLineEdit" name="lineEdit_City">
+             <property name="minimumSize">
+              <size>
+               <width>240</width>
+               <height>25</height>
+              </size>
+             </property>
              <property name="maximumSize">
               <size>
-               <width>150</width>
-               <height>16777215</height>
+               <width>240</width>
+               <height>25</height>
               </size>
              </property>
              <property name="maxLength">

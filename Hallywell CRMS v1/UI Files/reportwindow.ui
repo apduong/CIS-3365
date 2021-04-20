@@ -114,7 +114,7 @@ QPushButton::hover{border:2px solid white; background-color:#F27E14; color:white
            </font>
           </property>
           <property name="sizeAdjustPolicy">
-           <enum>QAbstractScrollArea::AdjustToContents</enum>
+           <enum>QAbstractScrollArea::AdjustIgnored</enum>
           </property>
           <property name="showGrid">
            <bool>true</bool>
@@ -125,13 +125,19 @@ QPushButton::hover{border:2px solid white; background-color:#F27E14; color:white
           <attribute name="horizontalHeaderHighlightSections">
            <bool>false</bool>
           </attribute>
-          <attribute name="horizontalHeaderStretchLastSection">
+          <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
            <bool>true</bool>
+          </attribute>
+          <attribute name="horizontalHeaderStretchLastSection">
+           <bool>false</bool>
           </attribute>
           <attribute name="verticalHeaderVisible">
            <bool>true</bool>
           </attribute>
           <attribute name="verticalHeaderHighlightSections">
+           <bool>false</bool>
+          </attribute>
+          <attribute name="verticalHeaderStretchLastSection">
            <bool>false</bool>
           </attribute>
          </widget>

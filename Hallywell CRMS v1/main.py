@@ -89,7 +89,7 @@ class LoadingWindow(QMainWindow):
 
     def open_mainscreen(self):
         self.ui = MainScreen()
-        self.ui.show()
+        self.ui.showMaximized()
 
 
 class MainScreen(QMainWindow):
@@ -119,8 +119,8 @@ class MainScreen(QMainWindow):
         self.ui.comboBox_Report.addItems(report_list)
         # ===> ASSIGN ALL BUTTONS TO OPEN FORMS
         # ==> Customer Forms
-        self.ui.addCusButton.clicked.connect(self.open_NewCustomerForm)
-        self.ui.edit_cus.clicked.connect(self.open_CustomerDetailsForm)
+        self.ui.addCusButton.clicked.connect(self.open_newcustomerform)
+        self.ui.edit_cus.clicked.connect(self.open_customerdetailsform)
         # ==> Order Forms
         # self.ui.addOrdButton.clicked.connect()  # TODO: Create Order Class and Open Function
         self.ui.edit_order_status.clicked.connect(self.open_OrderDetail)
@@ -172,14 +172,14 @@ class MainScreen(QMainWindow):
     # todo: add functions to open all forms
     # ==> CUSTOMER FORMS
     # NEW CUSTOMER FORM
-    def open_NewCustomerForm(self):  # FIXME: Make this function name lower case
+    def open_newcustomerform(self):  # FIXME: Make this function name lower case
         self.form = NewCustomerForm()
-        self.form.show()
+        self.form.showMaximized()
 
     # CUSTOMER DETAILS FORM
-    def open_CustomerDetailsForm(self):  # FIXME: Make this function name lower case
+    def open_customerdetailsform(self):  # FIXME: Make this function name lower case
         self.form = CustomerDetailsForm()
-        self.form.show()
+        self.form.showMaximized()
 
     # ==> ORDER FORMS
     # ORDER STATUS DETAILS
@@ -356,18 +356,287 @@ class MainScreen(QMainWindow):
 # REQ: All form functionality will be added here
 # todo: Create classes for all forms
 # ==> CUSTOMER FORMS CLASSES
+# Fully tested
+# todo: add window icon, remove customer status
 class NewCustomerForm(QMainWindow):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.ui = Ui_NewCustomerForm()
         self.ui.setupUi(self)
+        self.country = self.load_data()[0]
+        self.state = self.load_data()[1]
+        self.status = self.load_data()[2]
+        self.display_data()
+        self.ui.submit_button.clicked.connect(self.add_data)
+        self.ui.clear_button.clicked.connect(self.clear_form)
+
+    @staticmethod
+    def load_data():
+        cursor = server_connection().cursor()
+        data = cursor.execute('SELECT * FROM Country WHERE IS_DELETE = 0')
+        country_data = [[item for item in row] for row in data]
+        data = cursor.execute('SELECT * FROM State_Province WHERE IS_DELETE = 0')
+        state_data = [[item for item in row] for row in data]
+        data = cursor.execute('SELECT * FROM Customer_Status WHERE IS_DELETE = 0')
+        status_data = [[item for item in row] for row in data]
+        return country_data, state_data, status_data
+
+    def display_data(self):
+        countries = []
+        for country in self.country:
+            countries.append(country[1])
+        country_list = sorted(countries)
+        states = []
+        for state in self.state:
+            states.append(state[1])
+        state_list = sorted(states)
+        status_list = []
+        for status in self.status:
+            status_list.append(status[1])
+        self.ui.comboBox_Country.addItems(country_list)
+        self.ui.comboBox_StateProvince.addItems(state_list)
+        self.ui.comboBox.addItems(status_list)
+
+    def add_data(self):
+        last_name = self.ui.lineEdit_LastName.text()
+        first_name = self.ui.lineEdit_FirstName.text()
+        prim_phone = str(self.ui.lineEdit_primNum.text())
+        prim_phone = prim_phone.replace("(", "").replace(")", "").replace("-", "").replace(" ", "")
+        sec_phone = str(self.ui.lineEdit_secNum.text())
+        sec_phone = sec_phone.replace("(", "").replace(")", "").replace("-", "").replace(" ", "")
+        email = self.ui.lineEdit.text()
+        country_id = int()
+        for row in self.country:
+            if row[1] == self.ui.comboBox_Country.currentText():
+                country_id = row[0]
+        state_id = int()
+        for row in self.state:
+            if row[1] == self.ui.comboBox_StateProvince.currentText():
+                state_id = row[0]
+        status_id = int()
+        for row in self.status:
+            if row[1] == self.ui.comboBox.currentText():
+                status_id = row[0]
+        address_1 = self.ui.lineEdit_Address1.text()
+        address_2 = self.ui.lineEdit_Address2.text()
+        city = self.ui.lineEdit_City.text()
+        postal = self.ui.lineEdit_PostalCode.text()
+        insta = self.ui.lineEdit_instagram.text()
+        facebook = self.ui.lineEdit_facebook.text()
+        cnxn = server_connection()
+        cursor = cnxn.cursor()
+        cursor.execute("INSERT INTO Customer (CUST_LASTNAME, CUST_FIRSTNAME, CUST_PRIMARYPHONE, CUST_SECONDARYPHONE, "
+                       "CUST_EMAIL, COUNTRY_ID, STATE_PROVINCE_ID, CUSTOMER_STATUS_ID, CUST_ADDRESS1, CUST_ADDRESS2,"
+                       " CUST_CITY, CUST_POSTALCODE, CUST_INSTAGRAM, CUST_FACEBOOK, IS_DELETE) "
+                       "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,0)", last_name, first_name, prim_phone, sec_phone, email,
+                       country_id, state_id, status_id, address_1, address_2, city, postal, insta, facebook)
+        cnxn.commit()
+        msgbox = QtWidgets.QMessageBox()
+        msgbox.information(None, 'You have a new client!', f"{first_name} {last_name}'s details "
+                                                           f"have been successfully added.")
+        self.ui.lineEdit_LastName.clear()
+        self.ui.lineEdit_FirstName.clear()
+        self.ui.lineEdit_facebook.clear()
+        self.ui.lineEdit_instagram.clear()
+        self.ui.lineEdit_City.clear()
+        self.ui.lineEdit_secNum.clear()
+        self.ui.lineEdit_Address2.clear()
+        self.ui.lineEdit_primNum.clear()
+        self.ui.lineEdit_Address1.clear()
+        self.ui.lineEdit.clear()
+        self.ui.lineEdit_PostalCode.clear()
+
+    def clear_form(self):
+        msgbox = QtWidgets.QMessageBox()
+        box = msgbox.question(None, 'Clear ALL Form Records?', 'Are you sure you want to clear this form?',
+                              msgbox.StandardButtons.Yes | msgbox.StandardButtons.No)
+        if box == msgbox.StandardButtons.Yes:
+            self.ui.lineEdit_LastName.clear()
+            self.ui.lineEdit_FirstName.clear()
+            self.ui.lineEdit_facebook.clear()
+            self.ui.lineEdit_instagram.clear()
+            self.ui.lineEdit_City.clear()
+            self.ui.lineEdit_secNum.clear()
+            self.ui.lineEdit_Address2.clear()
+            self.ui.lineEdit_primNum.clear()
+            self.ui.lineEdit_Address1.clear()
+            self.ui.lineEdit.clear()
+            self.ui.lineEdit_PostalCode.clear()
+        else:
+            pass
 
 
+# todo: add window icon
 class CustomerDetailsForm(QMainWindow):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.ui = Ui_CustomerDetailsForm()
         self.ui.setupUi(self)
+        self.table_data = (self.load_data()[0])
+        self.country = sorted(self.load_data()[1])
+        self.state = sorted(self.load_data()[2])
+        self.status = self.load_data()[3]
+        self.set_cus()
+        self.display_data()
+        self.ui.selectButton.clicked.connect(self.display_data)
+        self.ui.save_button.clicked.connect(self.update_data)
+        self.ui.delete_button.clicked.connect(self.delete_data)
+
+    @staticmethod
+    def load_data():
+        cursor = server_connection().cursor()
+        data = cursor.execute('SELECT * FROM Customer WHERE IS_DELETE = 0')
+        table_data = [[item for item in row] for row in data]
+        data = cursor.execute('SELECT * FROM Country WHERE IS_DELETE = 0')
+        country_data = [[item for item in row] for row in data]
+        data = cursor.execute('SELECT * FROM State_Province WHERE IS_DELETE = 0')
+        state_data = [[item for item in row] for row in data]
+        data = cursor.execute('SELECT * FROM Customer_Status WHERE IS_DELETE = 0')
+        status_data = [[item for item in row] for row in data]
+        return table_data, country_data, state_data, status_data
+
+    def set_cus(self):
+        cus_names = []
+        for row in self.table_data:
+            for i, name in enumerate(row):
+                if i == 1:
+                    cus_names.append(f"{row[2]} {name}")
+        self.ui.comboBox_cusname.addItems(cus_names)
+        countries = []
+        for country in self.country:
+            countries.append(country[1])
+        states = []
+        for state in self.state:
+            states.append(state[1])
+        status_list = []
+        for status in self.status:
+            status_list.append(status[1])
+        self.ui.comboBox_Country.addItems(countries)
+        self.ui.comboBox_StateProvince.addItems(states)
+        self.ui.comboBox.addItems(status_list)
+
+    def get_data(self):
+        selected_name = self.ui.comboBox_cusname.currentText()
+        name = selected_name.split()
+        customer_details = []
+        for i, row in enumerate(self.table_data):
+            if row[1] == name[1]:
+                customer_details.append(row)
+        return customer_details
+
+    def display_data(self):
+        customer_details = self.get_data()
+        for row in customer_details:
+            for i, item in enumerate(row):
+                if i == 1:
+                    self.ui.lineEdit_LastName.setText(item)
+                elif i == 2:
+                    self.ui.lineEdit_FirstName.setText(item)
+                elif i == 3:
+                    self.ui.lineEdit_primNum.setText(item)
+                elif i == 4:
+                    self.ui.lineEdit_secNum.setText(item)
+                elif i == 5:
+                    self.ui.lineEdit.setText(item)
+                elif i == 6:
+                    for country in self.country:
+                        if country[0] == item:
+                            self.ui.comboBox_Country.setCurrentIndex(item-1)
+                elif i == 7:
+                    for state in self.state:
+                        if state[0] == item:
+                            self.ui.comboBox_StateProvince.setCurrentIndex(item - 1)
+                elif i == 8:
+                    for status in self.status:
+                        if status[0] == item:
+                            self.ui.comboBox.setCurrentIndex(item - 1)
+                elif i == 9:
+                    self.ui.lineEdit_Address1.setText(item)
+                elif i == 10:
+                    self.ui.lineEdit_Address2.setText(item)
+                elif i == 11:
+                    self.ui.lineEdit_City.setText(item)
+                elif i == 12:
+                    self.ui.lineEdit_PostalCode.setText(item)
+                elif i == 13:
+                    self.ui.lineEdit_instagram.setText(item)
+                elif i == 14:
+                    self.ui.lineEdit_facebook.setText(item)
+
+    def update_data(self):
+        customer_details = self.get_data()
+        last_name = self.ui.lineEdit_LastName.text()
+        first_name = self.ui.lineEdit_FirstName.text()
+        prim_phone = str(self.ui.lineEdit_primNum.text())
+        prim_phone = prim_phone.replace("(", "").replace(")", "").replace("-", "").replace(" ", "")
+        sec_phone = str(self.ui.lineEdit_secNum.text())
+        sec_phone = sec_phone.replace("(", "").replace(")", "").replace("-", "").replace(" ", "")
+        email = self.ui.lineEdit.text()
+        country_id = int()
+        for row in self.country:
+            if row[1] == self.ui.comboBox_Country.currentText():
+                country_id = row[0]
+        state_id = int()
+        for row in self.state:
+            if row[1] == self.ui.comboBox_StateProvince.currentText():
+                state_id = row[0]
+        status_id = int()
+        for row in self.status:
+            if row[1] == self.ui.comboBox.currentText():
+                status_id = row[0]
+        address_1 = self.ui.lineEdit_Address1.text()
+        address_2 = self.ui.lineEdit_Address2.text()
+        city = self.ui.lineEdit_City.text()
+        postal = self.ui.lineEdit_PostalCode.text()
+        insta = self.ui.lineEdit_instagram.text()
+        facebook = self.ui.lineEdit_facebook.text()
+        msgbox = QtWidgets.QMessageBox()
+        box = msgbox.question(None, 'Save Changes?', "Are you sure you want to save changes to this customer?",
+                              msgbox.StandardButtons.Yes | msgbox.StandardButtons.No)
+        if box == msgbox.StandardButtons.Yes:
+            cnxn = server_connection()
+            cursor = cnxn.cursor()
+            cursor.execute("UPDATE Customer SET CUST_LASTNAME = ?, CUST_FIRSTNAME = ?, CUST_PRIMARYPHONE =?, "
+                           "CUST_SECONDARYPHONE =?,CUST_EMAIL = ?, COUNTRY_ID = ?, STATE_PROVINCE_ID = ?, "
+                           "CUSTOMER_STATUS_ID = ?, CUST_ADDRESS1 = ?, CUST_ADDRESS2 = ?, CUST_CITY = ?, "
+                           "CUST_POSTALCODE = ?, CUST_INSTAGRAM = ?, CUST_FACEBOOK = ?, IS_DELETE = 0 "
+                           "WHERE CUSTOMER_ID = ?", last_name, first_name, prim_phone, sec_phone, email,
+                           country_id, state_id, status_id, address_1, address_2, city, postal, insta, facebook,
+                           customer_details[0][0])
+            cnxn.commit()
+            msgbox = QtWidgets.QMessageBox()
+            msgbox.information(None, 'Changes Made', f"Your changes to {first_name} {last_name}'s details "
+                                                     f" have been successfully made.")
+            # Re-query Table Data
+            self.ui.comboBox_cusname.clear()
+            self.table_data = self.load_data()[0]
+            self.set_cus()
+        else:
+            msgbox = QtWidgets.QMessageBox()
+            msgbox.information(None, 'No Changes', f"No changes were made to {first_name} {last_name}'s details.")
+
+        self.ui.comboBox_cusname.clear()
+        self.table_data = self.load_data()[0]
+        self.set_cus()
+        self.display_data()
+
+    def delete_data(self):
+        customer_details = self.get_data()
+        msgbox = QtWidgets.QMessageBox()
+        box = msgbox.warning(None, 'Delete Customer', f"Are you sure you want to delete this customer?",
+                             msgbox.StandardButtons.Yes | msgbox.StandardButtons.No)
+        if box == msgbox.StandardButtons.Yes:
+            cnxn = server_connection()
+            cursor = cnxn.cursor()
+            cursor.execute("UPDATE Customer SET IS_DELETE = 1 WHERE CUSTOMER_ID = ?", customer_details[0][0])
+            cnxn.commit()
+            # Re-query Table Data
+            self.ui.comboBox_cusname.clear()
+            self.table_data = self.load_data()[0]
+            self.set_cus()
+            self.display_data()
+        else:
+            pass
 
 
 # ==> ORDER FORMS CLASSES
@@ -467,6 +736,7 @@ class NewProductForm(QMainWindow):
         self.display_data()
         self.ui.submit_Button.clicked.connect(self.add_data)
         self.ui.clear_button.clicked.connect(self.clear_form)
+        self.ui.description_box.textChanged.connect(self.description_count)
 
     @staticmethod
     def load_data():
@@ -568,11 +838,30 @@ class NewProductForm(QMainWindow):
                        "VALUES (?,?,?,?,?,?,?,?,?,?,?,0)", product_name, product_desc, product_price, status_code,
                        type_code, size_code, history_code, thread_code, material_code, color_code, manu_code)
         cnxn.commit()
-
-    def clear_form(self):
+        msgbox = QtWidgets.QMessageBox()
+        msgbox.information(None, 'New Product Added', f"{product_name} has been added to the database.")
         self.ui.prod_name.clear()
         self.ui.Product_Price.setValue(0.00)
         self.ui.description_box.clear()
+
+    def clear_form(self):
+        msgbox = QtWidgets.QMessageBox()
+        box = msgbox.question(None, 'Clear ALL Form Records?', 'Are you sure you want to clear this form?',
+                              msgbox.StandardButtons.Yes | msgbox.StandardButtons.No)
+        if box == msgbox.StandardButtons.Yes:
+            self.ui.prod_name.clear()
+            self.ui.Product_Price.setValue(0.00)
+            self.ui.description_box.clear()
+        else:
+            pass
+
+    def description_count(self):
+        text_length = len(self.ui.description_box.toPlainText())
+        count = 250 - text_length
+        self.ui.characters_remaining.setText(str(count) + " characters remaining")
+        if text_length >= 250:
+            msgbox = QtWidgets.QMessageBox()
+            msgbox.critical(None, 'Text Limit Exceed', 'You have exceed the text limit. Please reduce characters!')
 
 
 # Fully Functional
@@ -744,33 +1033,51 @@ class ProductDetail(QMainWindow):
         for row in self.manufacturer_data:
             if row[1] == self.ui.comboBox_Manu.currentText():
                 manu_code = row[0]
-        cnxn = server_connection()
-        cursor = cnxn.cursor()
-        cursor.execute("UPDATE PRODUCT SET PRODUCT_NAME = ?, PRODUCT_DESCRIPTION = ?, PRICE = ?,"
-                       " PRODUCT_STATUS_CODE = ?, PRODUCT_TYPE_CODE = ?, SIZE_CODE = ?, PRODUCT_HISTORY_CODE = ?, "
-                       "THREAD_CODE = ?, MATERIAL_CODE = ?, COLOR_CODE = ?, MANUFACTURER_ID = ?, IS_DELETE = 0 "
-                       "WHERE PRODUCT_ID = ?", product_name, product_desc, product_price, status_code,
-                       type_code, size_code, history_code, thread_code, material_code, color_code, manu_code,
-                       product_details[0][0])
-        cnxn.commit()
-        # Re-query Table Data
-        self.ui.comboBox_selectProd.clear()
-        self.table_data = self.load_data()[0]
-        self.set_prodlist()
+        msgbox = QtWidgets.QMessageBox()
+        box = msgbox.question(None, 'Save Changes?', "Are you sure you want to save changes made to this product?",
+                              msgbox.StandardButtons.Yes | msgbox.StandardButtons.No)
+        if box == msgbox.StandardButtons.Yes:
+            cnxn = server_connection()
+            cursor = cnxn.cursor()
+            cursor.execute("UPDATE PRODUCT SET PRODUCT_NAME = ?, PRODUCT_DESCRIPTION = ?, PRICE = ?,"
+                           " PRODUCT_STATUS_CODE = ?, PRODUCT_TYPE_CODE = ?, SIZE_CODE = ?, PRODUCT_HISTORY_CODE = ?, "
+                           "THREAD_CODE = ?, MATERIAL_CODE = ?, COLOR_CODE = ?, MANUFACTURER_ID = ?, IS_DELETE = 0 "
+                           "WHERE PRODUCT_ID = ?", product_name, product_desc, product_price, status_code,
+                           type_code, size_code, history_code, thread_code, material_code, color_code, manu_code,
+                           product_details[0][0])
+            cnxn.commit()
+            # Re-query Table Data
+            self.ui.comboBox_selectProd.clear()
+            self.table_data = self.load_data()[0]
+            self.set_prodlist()
+        else:
+            msgbox = QtWidgets.QMessageBox()
+            msgbox.information(None, 'No Changes', f"No changes were made to {product_name}'s details.")
+            self.ui.comboBox_selectProd.clear()
+            self.table_data = self.load_data()[0]
+            self.set_prodlist()
+            self.display_data()
 
     def delete_data(self):
         product_details = self.get_data()
-        cnxn = server_connection()
-        cursor = cnxn.cursor()
-        cursor.execute("UPDATE Product SET IS_DELETE = 1 WHERE PRODUCT_ID = ?", product_details[0][0])
-        cnxn.commit()
-        # Re-query Table Data
-        self.ui.comboBox_selectProd.clear()
-        self.table_data = self.load_data()[0]
-        self.set_prodlist()
+        msgbox = QtWidgets.QMessageBox()
+        box = msgbox.warning(None, 'Delete Product', f"Are you sure you want to delete {product_details[0][1]}?",
+                             msgbox.StandardButtons.Yes | msgbox.StandardButtons.No)
+        if box == msgbox.StandardButtons.Yes:
+            cnxn = server_connection()
+            cursor = cnxn.cursor()
+            cursor.execute("UPDATE Product SET IS_DELETE = 1 WHERE PRODUCT_ID = ?", product_details[0][0])
+            cnxn.commit()
+            # Re-query Table Data
+            self.ui.comboBox_selectProd.clear()
+            self.table_data = self.load_data()[0]
+            self.set_prodlist()
+            self.display_data()
+        else:
+            pass
 
 
-# todo: Test this form
+# Fully Functional
 class ProductColorDetail(QMainWindow):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -1002,7 +1309,7 @@ class ProductStatusDetail(QMainWindow):
         self.ui.lineEdit_new.clear()
 
 
-# todo: Test this form
+# Fully Functional
 class ProductThreadDetail(QMainWindow):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -1038,6 +1345,18 @@ class ProductThreadDetail(QMainWindow):
                 thread_details.append(row)
         return thread_details
 
+    def update_data(self):
+        thread_details = self.get_data()
+        thread_details[0][1] = self.ui.lineEdit_desc.text()
+        cnxn = server_connection()
+        cursor = cnxn.cursor()
+        cursor.execute("UPDATE Thread SET THREAD_DESCRIPTION = ? WHERE THREAD_CODE = ?",
+                       thread_details[0][1], thread_details[0][0])
+        cnxn.commit()
+        self.ui.comboBox_select.clear()
+        self.table_data = self.load_data()
+        self.set_threadlist()
+
     def display_data(self):
         thread_details = self.get_data()
         for row in thread_details:
@@ -1067,7 +1386,7 @@ class ProductThreadDetail(QMainWindow):
         self.ui.lineEdit_new.clear()
 
 
-# todo: Test this form
+# Fully Functional
 class ProductHistoryDetail(QMainWindow):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -1110,6 +1429,18 @@ class ProductHistoryDetail(QMainWindow):
                 if i == 1:
                     self.ui.lineEdit_desc.setText(item)
 
+    def update_data(self):
+        history_details = self.get_data()
+        history_details[0][1] = self.ui.lineEdit_desc.text()
+        cnxn = server_connection()
+        cursor = cnxn.cursor()
+        cursor.execute("UPDATE Product_History SET PRODUCT_HISTORY_DESCRIPTION = ? WHERE PRODUCT_HISTORY_CODE = ?",
+                       history_details[0][1], history_details[0][0])
+        cnxn.commit()
+        self.ui.comboBox_select.clear()
+        self.table_data = self.load_data()
+        self.set_historylist()
+
     def delete_data(self):  # Logical Delete Only
         history_details = self.get_data()
         cnxn = server_connection()
@@ -1133,7 +1464,7 @@ class ProductHistoryDetail(QMainWindow):
         self.ui.lineEdit_new.clear()
 
 
-# todo: Test this form
+# Fully Functional
 class ProductMaterialDetail(QMainWindow):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -1176,6 +1507,18 @@ class ProductMaterialDetail(QMainWindow):
                 if i == 1:
                     self.ui.lineEdit_desc.setText(item)
 
+    def update_data(self):
+        material_details = self.get_data()
+        material_details[0][1] = self.ui.lineEdit_desc.text()
+        cnxn = server_connection()
+        cursor = cnxn.cursor()
+        cursor.execute("UPDATE Material SET MATERIAL_DESCRIPTION = ? WHERE MATERIAL_CODE = ?",
+                       material_details[0][1], material_details[0][0])
+        cnxn.commit()
+        self.ui.comboBox_select.clear()
+        self.table_data = self.load_data()
+        self.set_materiallist()
+
     def delete_data(self):  # Logical Delete Only
         material_details = self.get_data()
         cnxn = server_connection()
@@ -1198,24 +1541,60 @@ class ProductMaterialDetail(QMainWindow):
         self.ui.lineEdit_new.clear()
 
 
-# todo: Test this form
+# Fully Functional
 class ProductTypeDetail(QMainWindow):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.ui = Ui_ProductTypeDetail()
         self.ui.setupUi(self)
+        self.table_data = self.load_data()
+        self.set_typelist()
+        self.ui.comboBox_select.currentIndexChanged.connect(self.display_data)
+        self.ui.addButton.clicked.connect(self.add_data)
+        self.ui.deleteButton.clicked.connect(self.delete_data)
+        self.ui.updateButton.clicked.connect(self.update_data)
+
+    @staticmethod
+    def load_data():
+        cursor = server_connection().cursor()
+        data = cursor.execute('SELECT * FROM Product_Type WHERE IS_DELETE = 0 ')
+        table_data = [[item for item in row] for row in data]
+        return table_data
+
+    def get_data(self):
+        selected_name = self.ui.comboBox_select.currentText()
+        type_details = []
+        for i, row in enumerate(self.table_data):
+            if row[1] == selected_name:
+                type_details.append(row)
+        return type_details
+
+    def set_typelist(self):
+        types = []
+        for row in self.table_data:
+            for i, name in enumerate(row):
+                if i == 1:
+                    types.append(name)
+        self.ui.comboBox_select.addItems(types)
+
+    def display_data(self):
+        type_details = self.get_data()
+        for row in type_details:
+            for i, item in enumerate(row):
+                if i == 1:
+                    self.ui.lineEdit_desc.setText(item)
 
     def update_data(self):
-        thread_details = self.get_data()
-        thread_details[0][1] = self.ui.lineEdit_desc.text()
+        type_details = self.get_data()
+        type_details[0][1] = self.ui.lineEdit_desc.text()
         cnxn = server_connection()
         cursor = cnxn.cursor()
-        cursor.execute("UPDATE Thread SET THREAD_DESCRIPTION = ? WHERE THREAD_CODE = ?",
-                       thread_details[0][1], thread_details[0][0])
+        cursor.execute("UPDATE Product_Type SET PRODUCT_TYPE_DESCRIPTION = ? WHERE PRODUCT_TYPE_CODE = ?",
+                       type_details[0][1], type_details[0][0])
         cnxn.commit()
         self.ui.comboBox_select.clear()
         self.table_data = self.load_data()
-        self.set_threadlist()
+        self.set_typelist()
 
     def delete_data(self):  # Logical Delete Only
         type_details = self.get_data()
@@ -1239,24 +1618,81 @@ class ProductTypeDetail(QMainWindow):
         self.ui.lineEdit_new.clear()
 
 
-# todo: Test this form
+# Fully Functional
 class ProductSizeDetail(QMainWindow):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.ui = Ui_ProductSizeDetail()
         self.ui.setupUi(self)
+        self.table_data = self.load_data()
+        self.set_sizelist()
+        self.ui.comboBox_select.currentIndexChanged.connect(self.display_data)
+        self.ui.addButton.clicked.connect(self.add_data)
+        self.ui.deleteButton.clicked.connect(self.delete_data)
+        self.ui.updateButton.clicked.connect(self.update_data)
+
+    @staticmethod
+    def load_data():
+        cursor = server_connection().cursor()
+        data = cursor.execute('SELECT * FROM Size WHERE IS_DELETE = 0 ')
+        table_data = [[item for item in row] for row in data]
+        return table_data
+
+    def get_data(self):
+        selected_name = self.ui.comboBox_select.currentText()
+        size_details = []
+        for i, row in enumerate(self.table_data):
+            if row[1] == selected_name:
+                size_details.append(row)
+        return size_details
+
+    def set_sizelist(self):
+        sizes = []
+        for row in self.table_data:
+            for i, name in enumerate(row):
+                if i == 1:
+                    sizes.append(name)
+        self.ui.comboBox_select.addItems(sizes)
+
+    def display_data(self):
+        size_details = self.get_data()
+        for row in size_details:
+            for i, item in enumerate(row):
+                if i == 1:
+                    self.ui.lineEdit_desc.setText(item)
 
     def update_data(self):
-        history_details = self.get_data()
-        history_details[0][1] = self.ui.lineEdit_desc.text()
+        size_details = self.get_data()
+        size_details[0][1] = self.ui.lineEdit_desc.text()
         cnxn = server_connection()
         cursor = cnxn.cursor()
-        cursor.execute("UPDATE Product_History SET PRODUCT_HISTORY_DESCRIPTION = ? WHERE PRODUCT_HISTORY_CODE = ?",
-                       history_details[0][1], history_details[0][0])
+        cursor.execute("UPDATE Size SET SIZE_DESCRIPTION = ? WHERE SIZE_CODE = ?",
+                       size_details[0][1], size_details[0][0])
         cnxn.commit()
         self.ui.comboBox_select.clear()
         self.table_data = self.load_data()
-        self.set_historylist()
+        self.set_sizelist()
+
+    def delete_data(self):  # Logical Delete Only
+        size_details = self.get_data()
+        cnxn = server_connection()
+        cursor = cnxn.cursor()
+        cursor.execute("UPDATE Size SET IS_DELETE = 1 WHERE SIZE_CODE = ?", size_details[0][0])
+        cnxn.commit()
+        self.ui.comboBox_select.clear()
+        self.table_data = self.load_data()
+        self.set_sizelist()
+
+    def add_data(self):
+        insert_data = self.ui.lineEdit_new.text()
+        cnxn = server_connection()
+        cursor = cnxn.cursor()
+        cursor.execute("INSERT INTO Size (SIZE_DESCRIPTION, IS_DELETE) VALUES (?, 0)", insert_data)
+        cnxn.commit()
+        self.ui.comboBox_select.clear()
+        self.table_data = self.load_data()
+        self.set_sizelist()
+        self.ui.lineEdit_new.clear()
 
 
 # ==> SHIPMENT FORMS CLASSES
@@ -1332,6 +1768,100 @@ class NewEmployeeForm(QMainWindow):
         super().__init__(*args, **kwargs)
         self.ui = Ui_NewEmployeeForm()
         self.ui.setupUi(self)
+        self.country_data = self.load_data()[0]
+        self.state_data = self.load_data()[1]
+        self.status_data = self.load_data()[2]
+        self.display_data()
+        self.ui.save_Button.clicked.connect(self.add_data)
+        self.ui.delete_Button.clicked.connect(self.clear_form)
+
+    @staticmethod
+    def load_data():
+        cursor = server_connection().cursor()
+        data = cursor.execute('SELECT * FROM Country WHERE IS_DELETE = 0')
+        country_data = [[item for item in row] for row in data]
+        data = cursor.execute('SELECT * FROM State_Province WHERE IS_DELETE = 0')
+        state_data = [[item for item in row] for row in data]
+        data = cursor.execute('SELECT * FROM Employee_Status WHERE IS_DELETE = 0')
+        status_data = [[item for item in row] for row in data]
+        return country_data, state_data, status_data
+
+    def display_data(self):
+        country_list = []
+        for i, item in enumerate(self.country_data):
+            country_list.append(item[1])
+        self.ui.comboBox_Country.addItems(country_list)
+        state_data = []
+        for i, item in enumerate(self.state_data):
+            state_data.append(item[1])
+        self.ui.comboBox_StateProvince.addItems(state_data)
+        status_data = []
+        for i, item in enumerate(self.status_data):
+            status_data.append(item[1])
+        self.ui.comboBox_EmployeeStatusID.addItems(status_data)
+
+    def add_data(self):
+        first_name = self.ui.lineEdit_FirstName.text()
+        lastname = self.ui.lineEdit_LastName.text()
+        middle = self.ui.lineEdit_MiddleName.text()
+        address_1 = self.ui.lineEdit_Address1.text()
+        address_2 = self.ui.lineEdit_Address2.text()
+        city = self.ui.lineEdit_City.text()
+        state_code = int()
+        for row in self.state_data:
+            if row[1] == self.ui.comboBox_StateProvince.currentText():
+                state_code = row[0]
+        country = int()
+        for row in self.country_data:
+            if row[1] == self.ui.comboBox_Country.currentText():
+                country = row[0]
+        postal_code = self.ui.lineEdit_PostalCode.text()
+        dob = self.ui.lineEdit_DateOfBirth.text()
+        status = int()
+        for row in self.status_data:
+            if row[1] == self.ui.comboBox_EmployeeStatusID.currentText():
+                status = row[0]
+        cnxn = server_connection()
+        cursor = cnxn.cursor()
+        cursor.execute("INSERT INTO Employee (FIRST_NAME, MIDDLE_NAME, LAST_NAME, ADDRESS_1, ADDRESS_2,"
+                       " CITY, STATE_PROVINCE_ID, POSTAL_CODE, COUNTRY_ID, DATE_OF_BIRTH, EMPLOYEE_STATUS_ID,"
+                       " IS_DELETE) VALUES (?,?,?,?,?,?,?,?,?,?,?,0)", first_name, middle, lastname, address_1, address_2, city,
+                       state_code, postal_code, country, dob, status)
+        cnxn.commit()
+        msgbox = QtWidgets.QMessageBox()
+        msgbox.information(None, 'New Product Added', f"{first_name} {lastname} has been added to the database.")
+        self.ui.lineEdit_FirstName.clear()
+        self.ui.lineEdit_LastName.clear()
+        self.ui.lineEdit_MiddleName.clear()
+        self.ui.lineEdit_Address1.clear()
+        self.ui.lineEdit_Address2.clear()
+        self.ui.lineEdit_City.clear()
+        self.ui.comboBox_StateProvince.clear()
+        self.ui.comboBox_Country.clear()
+        self.ui.lineEdit_PostalCode.clear()
+        self.ui.lineEdit_DateOfBirth.clear()
+        self.ui.comboBox_EmployeeStatusID.clear()
+
+    def clear_form(self):
+        msgbox = QtWidgets.QMessageBox()
+        msgbox.setStyleSheet("QMessageBox{background-color:white;}")
+        message = msgbox.question(self, 'Clear Form', 'Are you sure you want to clear this form?',
+                                  msgbox.StandardButtons.Yes | msgbox.StandardButtons.No)
+
+        if message == msgbox.StandardButtons.Yes:
+            self.ui.lineEdit_FirstName.clear()
+            self.ui.lineEdit_LastName.clear()
+            self.ui.lineEdit_MiddleName.clear()
+            self.ui.lineEdit_Address1.clear()
+            self.ui.lineEdit_Address2.clear()
+            self.ui.lineEdit_City.clear()
+            self.ui.comboBox_StateProvince.clear()
+            self.ui.comboBox_Country.clear()
+            self.ui.lineEdit_PostalCode.clear()
+            self.ui.lineEdit_DateOfBirth.clear()
+            self.ui.comboBox_EmployeeStatusID.clear()
+        else:
+            pass
 
 
 # TODO: Test function
@@ -3084,13 +3614,15 @@ class ReportView(QMainWindow):
         for row_number, row_data in enumerate(report_data):
             for column_number, data in enumerate(row_data):
                 self.ui.tableWidget.setItem(row_number + 1, column_number, QtWidgets.QTableWidgetItem(str(data)))
+        self.ui.tableWidget.resizeColumnsToContents()
+        self.ui.tableWidget.resizeRowsToContents()
 
 
 # ==> RESOURCES
 def server_connection():
     conn = pyodbc.connect('Driver={SQL Server};'  # Leave this as is
                           'Server=LAPTOP-S6PL64NB;'  # Enter your local Server Name
-                          'Database=CIS33655_Official;'  # Enter your Database Name
+                          'Database=GUI_Test;'  # Enter your Database Name
                           'Trusted_Connection=yes;')  # Leave this as is
     return conn
 
