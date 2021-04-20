@@ -48,6 +48,9 @@ class Ui_reportwindow(object):
         self.tableWidget.verticalHeader().setVisible(False)
         self.tableWidget.verticalHeader().setHighlightSections(False)
         self.verticalLayout_2.addWidget(self.tableWidget)
+        self.pushButton = QtWidgets.QPushButton(self.scrollAreaWidgetContents)
+        self.pushButton.setObjectName("pushButton")
+        self.verticalLayout_2.addWidget(self.pushButton)
         self.scrollArea.setWidget(self.scrollAreaWidgetContents)
         self.verticalLayout.addWidget(self.scrollArea)
         reportwindow.setCentralWidget(self.centralwidget)
@@ -59,6 +62,7 @@ class Ui_reportwindow(object):
         _translate = QtCore.QCoreApplication.translate
         reportwindow.setWindowTitle(_translate("reportwindow", "Report Title Here"))
         self.reportname.setText(_translate("reportwindow", "Report Name Here"))
+        self.pushButton.setText(_translate("reportwindow", "Edit criteria"))
 
 
 if __name__ == "__main__":

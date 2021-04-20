@@ -45,7 +45,8 @@ from ManufacturerContactForm import Ui_ManufacturerContactForm
 from ManufacturerDetail import Ui_ManufacturerStatus
 from ManufacturerDetailsForm import Ui_ManufacturerDetails
 # ==> Promotion Forms
-from PromotionDetailsForm import Ui_PromotionDetails  # FIXME: Class name and form name should be more descriptive.. Eg, 'NewPromotion'
+from PromotionDetailsForm import \
+    Ui_PromotionDetails  # FIXME: Class name and form name should be more descriptive.. Eg, 'NewPromotion'
 from NewPromotionForm import Ui_NewPromotionForm
 # ==> Channel Forms
 from ChannelDetailsForm import Ui_ChannelDetails
@@ -138,8 +139,8 @@ class MainScreen(QMainWindow):
         self.ui.edit_thread.clicked.connect(self.open_productthreaddetail)
         self.ui.edit_stat.clicked.connect(self.open_productstatusdetail)
         # ==> Shipment Forms
-        #self.ui.addShip.clicked.connect(self.open_NewShipmentForm)
-        #self.ui.edit_shipdet.clicked.connect(self.open_ShipmentDetailsForm)
+        # self.ui.addShip.clicked.connect(self.open_NewShipmentForm)
+        # self.ui.edit_shipdet.clicked.connect(self.open_ShipmentDetailsForm)
         # ==> Employee Forms
         self.ui.addEmploy.clicked.connect(self.open_NewEmployeeForm)
         self.ui.edit_empdet.clicked.connect(self.open_employeedetails)
@@ -286,14 +287,13 @@ class MainScreen(QMainWindow):
         self.form = DistributorContactForm()
         self.form.show()
 
-
     # FIXME: Duplicate Distributor Details function calls.
     # DISTRIBUTOR DETAILS
     def open_DistributorDetailsForm(self):
         self.form = DistributorDetailsForm()
         self.form.show()
 
-     # DISTRIBUTOR STATUS
+    # DISTRIBUTOR STATUS
     def open_distributorstatusdetail(self):
         self.form = DistributorStatus()
         self.form.show()
@@ -387,7 +387,7 @@ class OrderDetail(QMainWindow):
     @staticmethod
     def load_data():
         cursor = server_connection().cursor()
-        data =  cursor.execute('SELECT * FROM Order_Status WHERE IS_DELETE = 0')
+        data = cursor.execute('SELECT * FROM Order_Status WHERE IS_DELETE = 0')
         table_data = [[item for item in row] for row in data]
         return table_data
 
@@ -488,7 +488,7 @@ class NewProductForm(QMainWindow):
         data = cursor.execute('SELECT * FROM Manufacturer WHERE IS_DELETE = 0')
         manufacturer_data = [[item for item in row] for row in data]
         return product_status_data, product_type_data, product_size_data, product_history_data, \
-            product_thread_data, product_material_data, manufacturer_data, color_data
+               product_thread_data, product_material_data, manufacturer_data, color_data
 
     def display_data(self):
         status_list = []
@@ -618,7 +618,7 @@ class ProductDetail(QMainWindow):
         data = cursor.execute('SELECT * FROM Manufacturer WHERE IS_DELETE = 0')
         manufacturer_data = [[item for item in row] for row in data]
         return table_data, product_status_data, product_type_data, product_size_data, product_history_data, \
-            product_thread_data, product_material_data, manufacturer_data, color_data
+               product_thread_data, product_material_data, manufacturer_data, color_data
 
     def set_prodlist(self):
         product_names = []
@@ -681,27 +681,27 @@ class ProductDetail(QMainWindow):
                 elif i == 4:
                     for status in self.product_status_data:
                         if status[0] == item:
-                            self.ui.comboBox.setCurrentIndex(item-1)
+                            self.ui.comboBox.setCurrentIndex(item - 1)
                 elif i == 5:
                     for types in self.product_type_data:
                         if types[0] == item:
-                            self.ui.comboBox_Type.setCurrentIndex(item-1)
+                            self.ui.comboBox_Type.setCurrentIndex(item - 1)
                 elif i == 6:
                     for size in self.product_size_data:
                         if size[0] == item:
-                            self.ui.comboBox_Size.setCurrentIndex(item-1)
+                            self.ui.comboBox_Size.setCurrentIndex(item - 1)
                 elif i == 7:
                     for history in self.product_history_data:
                         if history[0] == item:
-                            self.ui.comboBox_History.setCurrentIndex(item-1)
+                            self.ui.comboBox_History.setCurrentIndex(item - 1)
                 elif i == 8:
                     for thread in self.product_thread_data:
                         if thread[0] == item:
-                            self.ui.comboBox_Thread.setCurrentIndex(item-1)
+                            self.ui.comboBox_Thread.setCurrentIndex(item - 1)
                 elif i == 9:
                     for material in self.product_material_data:
                         if material[0] == item:
-                            self.ui.comboBox_Material.setCurrentIndex(item-1)
+                            self.ui.comboBox_Material.setCurrentIndex(item - 1)
                 elif i == 10:
                     for x, color in enumerate(self.color_data):
                         if color[0] == item:
@@ -1045,7 +1045,6 @@ class ProductThreadDetail(QMainWindow):
                 if i == 1:
                     self.ui.lineEdit_desc.setText(item)
 
-
     def delete_data(self):  # Logical Delete Only
         thread_details = self.get_data()
         cnxn = server_connection()
@@ -1111,7 +1110,6 @@ class ProductHistoryDetail(QMainWindow):
                 if i == 1:
                     self.ui.lineEdit_desc.setText(item)
 
-
     def delete_data(self):  # Logical Delete Only
         history_details = self.get_data()
         cnxn = server_connection()
@@ -1126,7 +1124,8 @@ class ProductHistoryDetail(QMainWindow):
         insert_data = self.ui.lineEdit_new.text()
         cnxn = server_connection()
         cursor = cnxn.cursor()
-        cursor.execute("INSERT INTO Product_History (PRODUCT_HISTORY_DESCRIPTION, IS_DELETE) VALUES (?, 0)", insert_data)
+        cursor.execute("INSERT INTO Product_History (PRODUCT_HISTORY_DESCRIPTION, IS_DELETE) VALUES (?, 0)",
+                       insert_data)
         cnxn.commit()
         self.ui.comboBox_select.clear()
         self.table_data = self.load_data()
@@ -1176,7 +1175,6 @@ class ProductMaterialDetail(QMainWindow):
             for i, item in enumerate(row):
                 if i == 1:
                     self.ui.lineEdit_desc.setText(item)
-
 
     def delete_data(self):  # Logical Delete Only
         material_details = self.get_data()
@@ -1323,6 +1321,7 @@ class ShipmentDetailsForm(QMainWindow):
             for i, item in enumerate(row):
                 if i == 1:
                     self.ui.lineEdit_desc.setText(item)
+
 
 # FIXME: Try not to commit changes that breaks the entire program
 
@@ -1495,11 +1494,11 @@ class EmployeeDetailsForm(QMainWindow):
                 elif i == 7:
                     for x, state in enumerate(self.state_data):
                         if state[0] == item:
-                            self.ui.comboBox_StateProvince.setCurrentIndex(item-1)
+                            self.ui.comboBox_StateProvince.setCurrentIndex(item - 1)
                 elif i == 8:
                     for x, country in enumerate(self.country_data):
                         if country[0] == item:
-                            self.ui.comboBox_Country.setCurrentIndex(item-1)
+                            self.ui.comboBox_Country.setCurrentIndex(item - 1)
                 elif i == 9:
                     self.ui.lineEdit_PostalCode.setText(str(item))
                 elif i == 10:
@@ -1507,7 +1506,8 @@ class EmployeeDetailsForm(QMainWindow):
                 elif i == 11:
                     for x, status in enumerate(self.status_data):
                         if status[0] == item:
-                            self.ui.comboBox_EmployeeStatusID.setCurrentIndex(item-1)
+                            self.ui.comboBox_EmployeeStatusID.setCurrentIndex(item - 1)
+
     def get_data(self):
         selected_name = self.ui.comboBox_SelectEmployee.currentText()
         employee_details = []
@@ -1540,10 +1540,13 @@ class EmployeeDetailsForm(QMainWindow):
                 employee_details[0][11] = row[0]
         employeeconnection = server_connection()
         cursor = employeeconnection.cursor()
-        cursor.execute("UPDATE Employee SET FIRST_NAME = ?, LAST_NAME = ?, MIDDLE_NAME = ?, ADDRESS_1 = ?, ADDRESS_2 = ?, CITY = ?, STATE_PROVINCE_ID = ?, COUNTRY_ID = ?, POSTAL_CODE = ?,"
-                       "DATE_OF_BIRTH = ?, EMPLOYEE_STATUS_ID = ? WHERE EMP_ID = ?", employee_details[0][1], employee_details[0][2],employee_details[0][3], employee_details[0][4],
-                       employee_details[0][5], employee_details[0][6], employee_details[0][7], employee_details[0][8], employee_details[0][9], employee_details[0][10],
-                       employee_details[0][11], employee_details[0][0])
+        cursor.execute(
+            "UPDATE Employee SET FIRST_NAME = ?, LAST_NAME = ?, MIDDLE_NAME = ?, ADDRESS_1 = ?, ADDRESS_2 = ?, CITY = ?, STATE_PROVINCE_ID = ?, COUNTRY_ID = ?, POSTAL_CODE = ?,"
+            "DATE_OF_BIRTH = ?, EMPLOYEE_STATUS_ID = ? WHERE EMP_ID = ?", employee_details[0][1],
+            employee_details[0][2], employee_details[0][3], employee_details[0][4],
+            employee_details[0][5], employee_details[0][6], employee_details[0][7], employee_details[0][8],
+            employee_details[0][9], employee_details[0][10],
+            employee_details[0][11], employee_details[0][0])
         employeeconnection.commit()
         self.ui.lineEdit_FirstName.clear()
         self.ui.lineEdit_LastName.clear()
@@ -1680,6 +1683,7 @@ class NewDistributorContact(QMainWindow):
         self.ui.lineEdit_DisName.clear()
         self.ui.lineEdit_email.clear()
         self.ui.lineEdit_DisCN.clear()
+
 
 # Fully Functional
 class DistributorContactForm(QMainWindow):
@@ -1831,13 +1835,13 @@ class DistributorDetailsForm(QMainWindow):
                 elif i == 4:
                     for state in self.state_data:
                         if state[0] == item:
-                            self.ui.comboBox_state.setCurrentIndex(item-1)
+                            self.ui.comboBox_state.setCurrentIndex(item - 1)
                 elif i == 5:
                     self.ui.lineEdit_postalcode.setText(str(item))
                 elif i == 6:
                     for status in self.status_data:
                         if status[0] == item:
-                            self.ui.comboBox_disstat.setCurrentIndex(item-1)
+                            self.ui.comboBox_disstat.setCurrentIndex(item - 1)
 
     def delete_data(self):
         dis_details = self.get_data()
@@ -1998,6 +2002,7 @@ class NewManufacturerForm(QMainWindow):
         self.ui.lineEdit_man_address.clear()
         self.ui.lineEdit_email.clear()
         self.ui.lineEdit_number.clear()
+
 
 # todo: Test this form
 class NewManufacturerContactForm(QMainWindow):
@@ -2183,7 +2188,7 @@ class ManufacturerDetailsForm(QMainWindow):
                 elif i == 5:
                     for x, status in enumerate(self.status_data):
                         if status[0] == item:
-                            self.ui.comboBox_ManufacturerStatusID.setCurrentIndex(item-1)
+                            self.ui.comboBox_ManufacturerStatusID.setCurrentIndex(item - 1)
 
     def get_data(self):
         selected_name = self.ui.comboBox_SearchManufacturer.currentText()
@@ -2205,9 +2210,11 @@ class ManufacturerDetailsForm(QMainWindow):
                 manufacturer_details[0][5] = row[0]
         manufacturerconnection = server_connection()
         cursor = manufacturerconnection.cursor()
-        cursor.execute("UPDATE Manufacturer SET M_NAME = ?, M_ADDRESS = ?, M_EMAIL = ?, M_PHONE = ?, MANUFACTURER_STATUS_ID = ? "
-                       "WHERE MANUFACTURER_ID = ?", manufacturer_details[0][1], manufacturer_details[0][2], manufacturer_details[0][3],
-                       manufacturer_details[0][4], manufacturer_details[0][5], manufacturer_details[0][0])
+        cursor.execute(
+            "UPDATE Manufacturer SET M_NAME = ?, M_ADDRESS = ?, M_EMAIL = ?, M_PHONE = ?, MANUFACTURER_STATUS_ID = ? "
+            "WHERE MANUFACTURER_ID = ?", manufacturer_details[0][1], manufacturer_details[0][2],
+            manufacturer_details[0][3],
+            manufacturer_details[0][4], manufacturer_details[0][5], manufacturer_details[0][0])
         manufacturerconnection.commit()
         self.ui.lineEdit_ManufacturerName.clear()
         self.ui.lineEdit_ManufacturerAddress.clear()
@@ -2229,7 +2236,8 @@ class ManufacturerDetailsForm(QMainWindow):
         self.table_data = self.load_data()[0]
         self.set_manufacturerlist()
 
-#Fully Functioning Form
+
+# Fully Functioning Form
 class ManufacturerDetail(QMainWindow):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -2349,7 +2357,6 @@ class NewPromotionForm(QMainWindow):
         self.ui.lineEdit_DiscountAmount.clear()
 
 
-
 # Promotion
 class PromotionDetailsForm(QMainWindow):
     def __init__(self, *args, **kwargs):
@@ -2363,7 +2370,6 @@ class PromotionDetailsForm(QMainWindow):
         self.ui.selectButton.clicked.connect(self.display_data)
         self.ui.save_Button.clicked.connect(self.save_data)
         self.ui.delete_Button.clicked.connect(self.delete_data)
-
 
     @staticmethod
     def load_data():
@@ -2400,7 +2406,8 @@ class PromotionDetailsForm(QMainWindow):
                 elif i == 3:
                     for x, season in enumerate(self.season_data):
                         if season[0] == item:
-                            self.ui.comboBox_SeasonID.setCurrentIndex(item-1)
+                            self.ui.comboBox_SeasonID.setCurrentIndex(item - 1)
+
     def get_data(self):
         selected_name = self.ui.comboBox_SelectPromotion.currentText()
         promotion_details = []
@@ -2419,15 +2426,15 @@ class PromotionDetailsForm(QMainWindow):
                 promotion_details[0][2] = row[0]
         promotionconnection = server_connection()
         cursor = promotionconnection.cursor()
-        cursor.execute("UPDATE Promotions SET DESCRIPTION = ?, DISCOUNT_AMOUNT = ?, SEASON_ID = ? WHERE CUSTOMER_PROMO_CODE = ? ",
-                       promotion_details[0][1], promotion_details[0][2], promotion_details[0][3], promotion_details[0][0])
+        cursor.execute(
+            "UPDATE Promotions SET DESCRIPTION = ?, DISCOUNT_AMOUNT = ?, SEASON_ID = ? WHERE CUSTOMER_PROMO_CODE = ? ",
+            promotion_details[0][1], promotion_details[0][2], promotion_details[0][3], promotion_details[0][0])
         promotionconnection.commit()
         self.ui.lineEdit_PromotionDescription.clear()
         self.ui.lineEdit_DiscountAmount.clear()
         self.ui.comboBox_SeasonID.clear()
         self.table_data = self.load_data()
         self.set_promotionlist()
-
 
     def delete_data(self):
         promotion_details = self.get_data()
@@ -2460,7 +2467,6 @@ class NewChannelStatusForm(QMainWindow):
         self.display_data()
         self.ui.submit_Button.clicked.connect(self.add_data)
         self.ui.clear_button.clicked.connect(self.clear_form)
-
 
     @staticmethod
     def load_data():
@@ -2572,15 +2578,14 @@ class ReturnCodeDetail(QMainWindow):
 class ReportView(QMainWindow):
     def __init__(self, selected, *args, **kwargs):
         self.selected = selected
+        self.checked = False
         super().__init__(*args, **kwargs)
         self.ui = Ui_reportwindow()
         self.ui.setupUi(self)
-        self.display_data()
+        self.get_data()
+        self.ui.pushButton.clicked.connect(self.set_checked)
 
-    def get_data(self):
-        report_data = ""
-        attributes = ""
-        column_total = int()
+    def get_data(self, *args):
         if self.selected == 'Returned Customer Orders':
             cursor = server_connection().cursor()
             data = cursor.execute("SELECT Order_Customer.ORDER_ID, Customer.CUSTOMER_ID, Customer.CUST_FIRSTNAME, "
@@ -2596,6 +2601,7 @@ class ReportView(QMainWindow):
             attributes = ["Order ID", "Customer ID", "First Name", "Last Name", "Detail ID", "Return ID", "Return Code",
                           "Return Description"]
             column_total = len(attributes)
+            self.display_data(attributes, column_total, report_data)
         elif self.selected == 'Promo Season Report':
             cursor = server_connection().cursor()
             data = cursor.execute("SELECT Order_Customer.ORDER_ID, Promotion_History.CUSTOMER_ID, "
@@ -2609,14 +2615,143 @@ class ReportView(QMainWindow):
             report_data = [[item for item in row] for row in data]
             attributes = ["Order ID", "Customer ID", "Promo Code", "Description", "Start Date", "End Date", "Season"]
             column_total = len(attributes)
-        return report_data, attributes, column_total
+            self.display_data(attributes, column_total, report_data)
+        elif self.selected == 'Orders processed by each employee':
+            cursor = server_connection().cursor()
+            data = cursor.execute("SELECT Order_Customer.EMP_ID, Employee.FIRST_NAME, Employee.LAST_NAME, "
+                                  "COUNT(Order_Customer.EMP_ID), Employee_Status.DESCRIPTION, "
+                                  "State_Province.STATE_PROVINCE_NAME FROM Employee RIGHT JOIN Order_Customer ON "
+                                  "Order_Customer.EMP_ID = Employee.EMP_ID RIGHT JOIN Employee_Status ON "
+                                  "Employee_Status.EMPLOYEE_STATUS_ID = Employee.EMPLOYEE_STATUS_ID RIGHT JOIN "
+                                  "State_Province ON State_Province.STATE_PROVINCE_ID =Employee.STATE_PROVINCE_ID "
+                                  "WHERE ORDER_DATE between '2021-01-01' and '2021-01-31' and Employee.IS_DELETE = 0 "
+                                  "GROUP BY Order_Customer.EMP_ID, FIRST_NAME, LAST_NAME, Employee_Status.DESCRIPTION, "
+                                  "State_Province.STATE_PROVINCE_NAME")
+            report_data = [[item for item in row] for row in data]
+            attributes = ["Employee ID", " First Name", "Last Name", "Orders Processed", "Status", "Location"]
+            column_total = len(attributes)
+            self.display_data(attributes, column_total, report_data)
+        elif self.selected == 'Annual report of generated revenue':
+            cursor = server_connection().cursor()
+            data = cursor.execute("SELECT Customer.CUSTOMER_ID, Order_Customer.ORDER_ID, "
+                                  "FORMAT(Order_Customer.ORDER_DATE, 'yyyy-MM-dd'), State_Province.STATE_PROVINCE_NAME,"
+                                  "Invoice.PURCHASE_TOTAL, CONCAT('$',SUM(Invoice.PURCHASE_TOTAL) "
+                                  "OVER(ORDER BY Customer.CUSTOMER_ID ASC)) FROM Customer RIGHT JOIN Order_Customer ON "
+                                  "Order_Customer.CUSTOMER_ID = Customer.CUSTOMER_ID RIGHT JOIN Invoice ON "
+                                  "Invoice.INVOICE_ID = Order_Customer.INVOICE_ID RIGHT JOIN State_Province ON "
+                                  "State_Province.STATE_PROVINCE_ID = Customer.STATE_PROVINCE_ID WHERE ORDER_DATE "
+                                  "between '2020-01-01' and '2020-12-31' AND Order_Customer.IS_DELETE = 0 GROUP BY "
+                                  "Customer.CUSTOMER_ID, Order_Customer.ORDER_ID, Order_Customer.ORDER_DATE, "
+                                  "Invoice.PURCHASE_TOTAL, State_Province.STATE_PROVINCE_NAME")
+            report_data = [[item for item in row] for row in data]
+            attributes = ["Customer ID", "Order ID", "Order Date", "Location", "Sales", "Running Total"]
+            column_total = len(attributes)
+            self.display_data(attributes, column_total, report_data)
+        elif self.selected == 'Social Media Traffic':
+            cursor = server_connection().cursor()
+            data = cursor.execute("SELECT Order_Customer.ORDER_ID, Customer.CUST_FIRSTNAME, Customer.CUST_LASTNAME,"
+                                  "Customer.CUST_FACEBOOK, Customer.CUST_INSTAGRAM, Channel.CHANNEL_DESCRIPTION,"
+                                  "Channel_Status.CHA_DESCRIPTION FROM Order_Customer INNER JOIN CHannel "
+                                  "ON Channel.CHANNEL_ID = Order_Customer.CHANNEL_ID INNER JOIN Channel_Status ON "
+                                  "Channel_Status.CHA_STATUS_CODE = Channel.CHA_STATUS_CODE INNER JOIN Customer "
+                                  "ON Customer.CUSTOMER_ID = Order_Customer.CUSTOMER_ID WHERE Channel.CHANNEL_ID = 3 "
+                                  "AND Customber.IS_DELETE = 0")
+            report_data = [[item for item in row] for row in data]
+            attributes = ["Order Number", "First Name", "Last Name", "Facebook", "Instagram", "From", "Active/Inactive"]
+            column_total = len(attributes)
+            self.display_data(attributes, column_total, report_data)
+        elif self.selected == 'Order History':
+            cursor = server_connection().cursor()
+            data = cursor.execute("DECLARE @Orderdate date SELECT @Orderdate = '2020-02-17 00:00:00' SELECT "
+                                  "Order_Customer.ORDER_ID, Customer.CUSTOMER_ID, Customer.CUST_FIRSTNAME, "
+                                  "Customer.CUST_LASTNAME, Order_Customer.ORDER_DATE, "
+                                  "Order_Status.ORDER_STATUS_DESCRIPTION, State_Province.State_Province_Name FROM "
+                                  "Order_Customer INNER JOIN Order_Status ON Order_Status.ORDER_STATUS_ID = "
+                                  "Order_Customer.ORDER_STATUS_ID INNER JOIN State_Province ON "
+                                  "State_Province.State_Province_Id=Order_Customer.STATE_PROVINCE_ID INNER JOIN "
+                                  "Customer ON Customer.CUSTOMER_ID = Order_Customer.CUSTOMER_ID WHERE "
+                                  "Order_Customer.ORDER_DATE >= @Orderdate AND Order_Customer.ORDER_DATE< '2020-05-17' "
+                                  "AND Order_Customer.IS_DELETE = 0")
+            report_data = [[item for item in row] for row in data]
+            attributes = ["Order Number", "Customer ID", "First Name", "Last Name", "Date", "Order Status", "State"]
+            column_total = len(attributes)
+            self.display_data(attributes, column_total, report_data)
+        elif self.selected == 'Most purchased products within a certain timeframe':
+            cursor = server_connection().cursor()
+            data = cursor.execute("DECLARE @start_date date, @end_date date "
+                                  "SELECT @start_date = '2020-06-06 00:00:01.000' "
+                                  "SELECT @end_date = '2020-08-05 23:59:59:000' "
+                                  "SELECT format(Order_Customer.Order_Date, 'yyyy-MM-dd') AS 'Order Date', "
+                                  "Product.PRODUCT_NAME AS 'Product Name', Order_Line.QUANTITY AS 'Quantity Sold on "
+                                  "Order Date', Color.COLOR_DESCRIPTION AS 'Product Color', "
+                                  "Thread.THREAD_DESCRIPTION AS 'Thread Count', Size.SIZE_DESCRIPTION AS "
+                                  "'Size' FROM Product INNER JOIN Color ON Color.COLOR_CODE = Product.COLOR_CODE "
+                                  "INNER JOIN Thread ON Thread.THREAD_CODE = Product.THREAD_CODE INNER JOIN Size ON "
+                                  "Size.SIZE_CODE = Product.SIZE_CODE INNER JOIN Order_Line ON Order_Line.PRODUCT_ID = "
+                                  "Product.PRODUCT_ID INNER JOIN Order_Customer ON Order_Customer.ORDER_ID = "
+                                  "Order_Line.ORDER_ID WHERE Order_Customer.ORDER_DATE BETWEEN @start_date AND "
+                                  "@end_date "
+                                  "AND Product.IS_DELETE = 0 GROUP BY Order_Customer.ORDER_DATE, Product.PRODUCT_NAME, "
+                                  "Order_Line.QUANTITY, Color.COLOR_DESCRIPTION, Thread.THREAD_DESCRIPTION, "
+                                  "Size.SIZE_DESCRIPTION ORDER BY SUM(Order_Line.QUANTITY) DESC")
+            report_data = [[item for item in row] for row in data]
+            attributes = ["Order Date", "Product Name", "Quantity Sold on Order Date", "Product Color", "Thread Count"]
+            column_total = len(attributes)
+            self.display_data(attributes, column_total, report_data)
+        # todo: This is the working report with the variable criteria feature
+        elif self.selected == 'Product Ratings by Category':
+            prod_type = "duvet"
 
-    def display_data(self):
+            def sql_code(prod):
+                cnxn = server_connection().cursor()
+                records = cnxn.execute(
+                    "DECLARE @type varchar(20) SELECT @type = ? SELECT Rating_Scale.PRODUCT_RATING_DESC, "
+                    "Product.PRODUCT_NAME, Product_Type.PRODUCT_TYPE_DESCRIPTION, Color.COLOR_DESCRIPTION, "
+                    "Material.MATERIAL_DESCRIPTION, Size.SIZE_DESCRIPTION FROM Product INNER JOIN "
+                    "Product_Type ON Product_Type.PRODUCT_TYPE_CODE = Product.PRODUCT_TYPE_CODE INNER "
+                    "JOIN Color ON Color.COLOR_CODE = Product.COLOR_CODE INNER JOIN Material ON "
+                    "Material.MATERIAL_CODE = Product.MATERIAL_CODE INNER JOIN Size ON Size.SIZE_CODE "
+                    "= Product.SIZE_CODE INNER JOIN Product_Rating ON Product_Rating.PRODUCT_ID = "
+                    "Product.PRODUCT_ID INNER JOIN Rating_Scale on Rating_Scale.PRODUCT_RATING_CODE = "
+                    "Product_Rating.PRODUCT_RATING_CODE WHERE Product_Type.PRODUCT_TYPE_DESCRIPTION = "
+                    "@type AND Product.IS_DELETE = 0 ORDER BY Product_Rating.PRODUCT_RATING_CODE",
+                    prod)
+                report = [[item for item in row] for row in records]
+                return report
+            report_data = sql_code(prod_type)
+            attributes = ["Rating", "Product Name", "Product Category", "Color", "Material Type", "Size"]
+            column_total = len(attributes)
+            print(report_data)
+            self.display_data(attributes, column_total, report_data)
+            # This code only run when the edit criteria button is pressed
+            if self.checked:
+                # Stuff for drop down menu
+                cursor = server_connection().cursor()
+                data = cursor.execute('SELECT * FROM Product_Type WHERE IS_DELETE = 0 ')
+                types = []
+                for item in data:
+                    types.append(item[1])
+                # Instance of the input box
+                criteria_box = QtWidgets.QInputDialog()
+                # If you need an drop down it'll be .getItem. If you need a text box, it'll be .getText
+                box = criteria_box.getItem(None, 'Criteria', 'Enter Product Type', types)
+                """box returns a tuple with two values. The first one would be whatever is chosen from the drop down
+                If it is a .getText I don't think it will return as a list or tuple."""
+                prod_type = box[0]
+                # Recall the sql code function to get data based on criteria
+                report_data = sql_code(prod_type)
+                # Set button to false so it wont be stuck in a loop
+                self.checked = False
+                # Recall the display data function so the new info can appear
+                self.display_data(attributes, column_total, report_data)
+
+    def set_checked(self):
+        self.checked = True
+        self.get_data()
+
+    def display_data(self, attributes, column_total, report_data):
         # Set Column Total based on SQL Report Headers Document
-        attributes = self.get_data()[1]
-        column_total = self.get_data()[2]
         row_total = 1
-        report_data = self.get_data()[0]
         # Set row count
         for _ in report_data:
             row_total += 1
