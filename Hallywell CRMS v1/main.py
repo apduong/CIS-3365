@@ -43,12 +43,12 @@ from NewManufacturerForm import Ui_NewManufacturerForm
 from NewManufacturerContact import Ui_NewManufacturerContact
 from ManufacturerContactForm import Ui_ManufacturerContactForm
 from ManufacturerDetail import Ui_ManufacturerStatus
-from ManufacturerDetailsForm import Ui_ManufacturerDetails
+from ManuacturerDetailsForm import Ui_ManufacturerDetails
 # ==> Promotion Forms
-from PromotionDetailsForm import Ui_PromotionDetails  # FIXME: Class name and form name should be more descriptive.. Eg, 'NewPromotion'
+from PromtionDetailsForm import Ui_PromotionDetails
 from NewPromotionForm import Ui_NewPromotionForm
 # ==> Channel Forms
-from ChannelDetailsForm import Ui_ChannelDetails
+#from ChannelDetailsForm import Ui_ChannelDetails
 from NewChannelStatusForm import Ui_NewChannelStatusForm
 
 counter = 0
@@ -2889,6 +2889,11 @@ class NewPromotionForm(QMainWindow):
         cursor.execute("INSERT INTO Promotion (DESCRIPTION, DISCOUNT_AMOUNT, SEASON_ID, IS_DELETE)"
                        "VALUES (?, ?, ?, 0)", description, discount_amount, season_id_code)
         cnxn.commit()
+        """msgbox = QtWidgets.QMessagesBox()
+        msgbox.information(None, 'You added a new promotion!', f"{description}"
+                           f"coupon has been successfully added.")
+        self.ui.lineEdit_PromotionDescription.clear()"""
+
 
     def clear_form(self):
         self.ui.lineEdit_PromotionDescription.clear()
@@ -2901,8 +2906,8 @@ class PromotionDetailsForm(QMainWindow):
         super().__init__(*args, **kwargs)
         self.ui = Ui_PromotionDetails()
         self.ui.setupUi(self)
-        self.table_data = self.load_data()
-        self.season_data = self.load_data()
+        self.table_data = self.load_data()[0]
+        self.season_data = self.load_data()[1]
         self.set_promotionlist()
         self.ui.selectButton.clicked.connect(self.display_data)
         self.ui.save_Button.clicked.connect(self.save_data)
@@ -2927,12 +2932,13 @@ class PromotionDetailsForm(QMainWindow):
                 if i == 1:
                     promotion_names.append(name)
         self.ui.comboBox_SelectPromotion.addItems(promotion_names)
+        print(promotion_names)
 
         seasonal_list = []
         for item in self.season_data:
             for row, name in enumerate(item):
                 if row == 1:
-                    seasonal_list.append(item[1])
+                    seasonal_list.append(name)
         self.ui.comboBox_SeasonID.addItems(seasonal_list)
 
     def display_data(self):
@@ -3106,11 +3112,11 @@ class ReturnCodeDetail(QMainWindow):
         for row in status_details:
             for i, item in enumerate(row):
                 if i == 1:
-                    self.ui.lineEdit_IDDescription.setText(item)
+                    self.ui.textEdit_StatusDesc.setText(item)
 
     def update_data(self):
         status_details = self.get_data()
-        status_details[0][1] = self.ui.lineEdit_IDDescription.text()
+        status_details[0][1] = self.ui.textEdit_StatusDesc.text()
         returncnxn = server_connection()
         cursor = returncnxn.cursor()
         cursor.execute("UPDATE Return_Code SET DESCRIPTION = ? WHERE RETURN_CODE_ID = ?",
@@ -3132,7 +3138,7 @@ class ReturnCodeDetail(QMainWindow):
         self.set_return_code_list()
 
     def add_data(self):
-        insert_data = self.ui.lineEdit_EnterNewID.text()
+        insert_data = self.ui.textEdit_AddDescription.text()
         returncnxn = server_connection()
         cursor = returncnxn.cursor()
         cursor.execute("INSERT INTO Return_Code (DESCRIPTION, IS_DELETE) VALUES (?,0)", insert_data)
@@ -3140,7 +3146,7 @@ class ReturnCodeDetail(QMainWindow):
         self.ui.comboBox_SelectID.clear()
         self.table_data = self.load_data()
         self.set_return_code_list()
-        self.ui.lineEdit_EnterNewID.clear()
+        self.ui.textEdit_AddDescription.clear()
 
 
 class ReportView(QMainWindow):
