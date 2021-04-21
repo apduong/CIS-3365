@@ -2,16 +2,15 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QColor
 from PyQt6.QtWidgets import *
+import pyodbc
 from loadingscreen import Ui_LoadingScreen
 from mainscreen import Ui_MainScreen
 from reportwindow import Ui_reportwindow
-import pyodbc
-# todo: import all form classes here
 # ==> Customer Forms
 from NewCustomerForm import Ui_NewCustomerForm
 from CustomerDetailsForm import Ui_CustomerDetailsForm
 # ==> Order Forms
-from OrderDetail import Ui_OrderStatus  # FIXME: Class name does not match the form name
+from OrderDetail import Ui_OrderStatus
 # ==> ReturnCode Forms
 from ReturnCodeDetail import Ui_ReturnCodeStatus
 # ==> Product Forms
@@ -25,9 +24,6 @@ from ProductMaterialDetail import Ui_ProductMaterialDetail
 from ProductHistoryDetail import Ui_ProductHistoryDetail
 from ProductThreadDetail import Ui_ProductThreadDetail
 from ProductSizeDetail import Ui_ProductSizeDetail
-# ==> Shipment Forms
-from NewShipmentForm import Ui_NewShipmentForm
-from ShipmentDetailsForm import Ui_ShipmentDetails
 # ==> Employee Forms
 from NewEmployeeForm import Ui_NewEmployeeForm
 from EmployeeDetail import Ui_EmployeeStatus
@@ -46,7 +42,7 @@ from ManufacturerDetail import Ui_ManufacturerStatus
 from ManufacturerDetailsForm import Ui_ManufacturerDetails
 # ==> Promotion Forms
 from PromotionDetailsForm import \
-    Ui_PromotionDetails  # FIXME: Class name and form name should be more descriptive.. Eg, 'NewPromotion'
+    Ui_PromotionDetails
 from NewPromotionForm import Ui_NewPromotionForm
 # ==> Channel Forms
 from ChannelDetailsForm import Ui_ChannelDetails
@@ -124,9 +120,6 @@ class MainScreen(QMainWindow):
         # ==> Order Forms
         # self.ui.addOrdButton.clicked.connect()  # TODO: Create Order Class and Open Function
         self.ui.edit_order_status.clicked.connect(self.open_OrderDetail)
-        # ==> Payment Forms
-        # self.ui.addPayButton.clicked.connect(self.open_newpayment)
-        # self.ui.edit_pay_det.clicked.connect(self.open_paymentdetails)
         # ==> Product Forms
         self.ui.addButton.clicked.connect(self.open_productform)
         self.ui.edit_color.clicked.connect(self.open_productcolordetail)
@@ -138,9 +131,6 @@ class MainScreen(QMainWindow):
         self.ui.edit_prodsize.clicked.connect(self.open_productsizedetail)
         self.ui.edit_thread.clicked.connect(self.open_productthreaddetail)
         self.ui.edit_stat.clicked.connect(self.open_productstatusdetail)
-        # ==> Shipment Forms
-        # self.ui.addShip.clicked.connect(self.open_NewShipmentForm)
-        # self.ui.edit_shipdet.clicked.connect(self.open_ShipmentDetailsForm)
         # ==> Employee Forms
         self.ui.addEmploy.clicked.connect(self.open_NewEmployeeForm)
         self.ui.edit_empdet.clicked.connect(self.open_employeedetails)
@@ -168,196 +158,251 @@ class MainScreen(QMainWindow):
         # ==> Reports
         self.ui.pushButton_SelectReport.clicked.connect(self.open_report)
 
+    @staticmethod
+    def set_icon():
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap("hallywell_icon.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
+        return icon
+
     # ===> PLACE FORM DISPLAY FUNCTIONS BELOW HERE
     # todo: add functions to open all forms
     # ==> CUSTOMER FORMS
     # NEW CUSTOMER FORM
     def open_newcustomerform(self):  # FIXME: Make this function name lower case
         self.form = NewCustomerForm()
+        icon = self.set_icon()
+        self.form.setWindowIcon(icon)
         self.form.showMaximized()
 
     # CUSTOMER DETAILS FORM
     def open_customerdetailsform(self):  # FIXME: Make this function name lower case
         self.form = CustomerDetailsForm()
+        icon = self.set_icon()
+        self.form.setWindowIcon(icon)
         self.form.showMaximized()
 
     # ==> ORDER FORMS
     # ORDER STATUS DETAILS
     def open_OrderDetail(self):
         self.form = OrderDetail()
+        icon = self.set_icon()
+        self.form.setWindowIcon(icon)
         self.form.show()
 
     # ==> RETURN CODE FORMS
     # Return code status
     def open_ReturnCodeDetail(self):
         self.form = ReturnCodeDetail()
+        icon = self.set_icon()
+        self.form.setWindowIcon(icon)
         self.form.show()
 
     # ==> PRODUCT FORMS
     # NEW PRODUCT FORM
     def open_productform(self):
         self.form = NewProductForm()
-        self.form.show()
+        icon = self.set_icon()
+        self.form.setWindowIcon(icon)
+        self.form.showMaximized()
 
     # PRODUCT DETAIL FORM
     def open_productdetail(self):
         self.form = ProductDetail()
-        self.form.show()
+        icon = self.set_icon()
+        self.form.setWindowIcon(icon)
+        self.form.showMaximized()
 
     # PRODUCT COLOR DETAIL
     def open_productcolordetail(self):
         self.form = ProductColorDetail()
+        icon = self.set_icon()
+        self.form.setWindowIcon(icon)
         self.form.show()
 
     # PRODUCT RATING DETAIL
     def open_productratingdetail(self):
         self.form = ProductRatingDetail()
+        icon = self.set_icon()
+        self.form.setWindowIcon(icon)
         self.form.show()
 
     # PRODUCT STATUS DETAIL
     def open_productstatusdetail(self):
         self.form = ProductStatusDetail()
+        icon = self.set_icon()
+        self.form.setWindowIcon(icon)
         self.form.show()
 
     # PRODUCT TYPE DETAIL
     def open_producttypedetail(self):
         self.form = ProductTypeDetail()
+        icon = self.set_icon()
+        self.form.setWindowIcon(icon)
         self.form.show()
 
     # PRODUCT THREAD DETAIL
     def open_productthreaddetail(self):
         self.form = ProductThreadDetail()
+        icon = self.set_icon()
+        self.form.setWindowIcon(icon)
         self.form.show()
 
     # PRODUCT SIZE DETAIL
     def open_productsizedetail(self):
         self.form = ProductSizeDetail()
+        icon = self.set_icon()
+        self.form.setWindowIcon(icon)
         self.form.show()
 
     # PRODUCT MATERIAL DETAIL
     def open_productmaterialdetail(self):
         self.form = ProductMaterialDetail()
+        icon = self.set_icon()
+        self.form.setWindowIcon(icon)
         self.form.show()
 
     # PRODUCT HISTORY DETAIL
     def open_producthistorydetail(self):
         self.form = ProductHistoryDetail()
-        self.form.show()
-
-    # ==> SHIPMENT FORMS
-    # NEW SHIPMENT
-    def open_NewShipmentForm(self):
-        self.form = NewShipmentForm()
-        self.form.show()
-
-    # SHIPMENT DETAILS
-    def open_ShipmentDetailsForm(self):
-        self.form = ShipmentDetailsForm()
+        icon = self.set_icon()
+        self.form.setWindowIcon(icon)
         self.form.show()
 
     # ==> EMPLOYEE FORMS
     # NEW EMPLOYEE FORM
     def open_NewEmployeeForm(self):
         self.form = NewEmployeeForm()
+        icon = self.set_icon()
+        self.form.setWindowIcon(icon)
         self.form.show()
 
     # EMPLOYEE DETAILS
     def open_employeedetails(self):
         self.form = EmployeeDetailsForm()
+        icon = self.set_icon()
+        self.form.setWindowIcon(icon)
         self.form.show()
 
     # EMPLOYEE STATUS DETAILS
     def open_employeedetail(self):
         self.form = EmployeeDetail()
+        icon = self.set_icon()
+        self.form.setWindowIcon(icon)
         self.form.show()
 
     # ==> DISTRIBUTOR FORMS
     # NEW DISTRIBUTOR FORM
     def open_newdistributorform(self):
         self.form = NewDistributorForm()
+        icon = self.set_icon()
+        self.form.setWindowIcon(icon)
         self.form.show()
 
     # NEW DISTRIBUTOR CONTACT
     def open_newdistributorcontact(self):
         self.form = NewDistributorContact()
+        icon = self.set_icon()
+        self.form.setWindowIcon(icon)
         self.form.show()
 
     # DISTRIBUTOR CONTACT FORM
     def open_DistributorContactForm(self):  # FIXME: Make this function name lower case
         self.form = DistributorContactForm()
+        icon = self.set_icon()
+        self.form.setWindowIcon(icon)
         self.form.show()
 
     # FIXME: Duplicate Distributor Details function calls.
     # DISTRIBUTOR DETAILS
     def open_DistributorDetailsForm(self):
         self.form = DistributorDetailsForm()
+        icon = self.set_icon()
+        self.form.setWindowIcon(icon)
         self.form.show()
 
     # DISTRIBUTOR STATUS
     def open_distributorstatusdetail(self):
         self.form = DistributorStatus()
+        icon = self.set_icon()
+        self.form.setWindowIcon(icon)
         self.form.show()
 
     # ==> MANUFACTURER FORMS
     # NEW MANUFACTURER FORM
     def open_newmanufacturerform(self):
         self.form = NewManufacturerForm()
+        icon = self.set_icon()
+        self.form.setWindowIcon(icon)
         self.form.show()
 
     def open_newmanufacturercontactform(self):
         self.form = NewManufacturerContactForm()
+        icon = self.set_icon()
+        self.form.setWindowIcon(icon)
         self.form.show()
 
     # MANUFACTURER CONTACT FORM
     def open_ManufacturerContactForm(self):  # FIXME: Make this function name lower case
         self.form = ManufacturerContactForm()
+        icon = self.set_icon()
+        self.form.setWindowIcon(icon)
         self.form.show()
 
     # MANUFACTURER DETAILS
     def open_ManufacturerDetailsForm(self):
         self.form = ManufacturerDetailsForm()
+        icon = self.set_icon()
+        self.form.setWindowIcon(icon)
         self.form.show()
 
     # MANUFACTURER STATUS DETAILS
     def open_ManufacturerDetail(self):
         self.form = ManufacturerDetail()
+        icon = self.set_icon()
+        self.form.setWindowIcon(icon)
         self.form.show()
 
     # ==> PROMOTION FORMS
     # PROMOTION
     def open_NewPromotionForm(self):
         self.form = NewPromotionForm()
+        icon = self.set_icon()
+        self.form.setWindowIcon(icon)
         self.form.show()
 
     # PROMOTION DETAILS
     def open_PromotionDetailsForm(self):
         self.form = PromotionDetailsForm()
+        icon = self.set_icon()
+        self.form.setWindowIcon(icon)
         self.form.show()
 
     # ==> Channel FORMS
     # CHANNEL DETAILS FORM
     def open_ChannelDetailsForm(self):  # FIXME: Make this function name lower case
         self.form = ChannelDetailsForm()
+        icon = self.set_icon()
+        self.form.setWindowIcon(icon)
         self.form.show()
 
     # NEW CHANNEL FORM
     def open_NewChannelStausForm(self):
         self.form = NewChannelStatusForm()
+        icon = self.set_icon()
+        self.form.setWindowIcon(icon)
         self.form.show()
 
     # REPORTS
     def open_report(self):
         selected_report = self.ui.comboBox_Report.currentText()
         self.report = ReportView(selected_report)
+        icon = self.set_icon()
+        self.report.setWindowIcon(icon)
         self.report.show()
 
 
 # ===> PLACE DESIGN CLASSES BELOW HERE
-# REQ: All form functionality will be added here
-# todo: Create classes for all forms
 # ==> CUSTOMER FORMS CLASSES
-# Fully tested
-# todo: add window icon, remove customer status
 class NewCustomerForm(QMainWindow):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -462,7 +507,6 @@ class NewCustomerForm(QMainWindow):
             pass
 
 
-# todo: add window icon
 class CustomerDetailsForm(QMainWindow):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -587,7 +631,7 @@ class CustomerDetailsForm(QMainWindow):
         insta = self.ui.lineEdit_instagram.text()
         facebook = self.ui.lineEdit_facebook.text()
         msgbox = QtWidgets.QMessageBox()
-        box = msgbox.question(None, 'Save Changes?', "Are you sure you want to save changes to this customer?",
+        box = msgbox.question(None, 'Save Changes', "Are you sure you want to save changes to this customer?",
                               msgbox.StandardButtons.Yes | msgbox.StandardButtons.No)
         if box == msgbox.StandardButtons.Yes:
             cnxn = server_connection()
@@ -600,21 +644,17 @@ class CustomerDetailsForm(QMainWindow):
                            country_id, state_id, status_id, address_1, address_2, city, postal, insta, facebook,
                            customer_details[0][0])
             cnxn.commit()
-            msgbox = QtWidgets.QMessageBox()
-            msgbox.information(None, 'Changes Made', f"Your changes to {first_name} {last_name}'s details "
-                                                     f" have been successfully made.")
             # Re-query Table Data
             self.ui.comboBox_cusname.clear()
             self.table_data = self.load_data()[0]
             self.set_cus()
+            self.display_data()
+            msgbox = QtWidgets.QMessageBox()
+            msgbox.information(None, 'Changes Made', f"Your changes to {first_name} {last_name}'s details "
+                                                     f" have been successfully made.")
         else:
             msgbox = QtWidgets.QMessageBox()
             msgbox.information(None, 'No Changes', f"No changes were made to {first_name} {last_name}'s details.")
-
-        self.ui.comboBox_cusname.clear()
-        self.table_data = self.load_data()[0]
-        self.set_cus()
-        self.display_data()
 
     def delete_data(self):
         customer_details = self.get_data()
@@ -715,7 +755,6 @@ class OrderDetail(QMainWindow):
 
 
 # ==> PRODUCT FORMS CLASSES
-# Fully Functional
 class NewProductForm(QMainWindow):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -842,7 +881,7 @@ class NewProductForm(QMainWindow):
 
     def clear_form(self):
         msgbox = QtWidgets.QMessageBox()
-        box = msgbox.question(None, 'Clear ALL Form Records?', 'Are you sure you want to clear this form?',
+        box = msgbox.question(None, 'Clear Form', 'Are you sure you want to clear this form?',
                               msgbox.StandardButtons.Yes | msgbox.StandardButtons.No)
         if box == msgbox.StandardButtons.Yes:
             self.ui.prod_name.clear()
@@ -860,7 +899,6 @@ class NewProductForm(QMainWindow):
             msgbox.critical(None, 'Text Limit Exceed', 'You have exceed the text limit. Please reduce characters!')
 
 
-# Fully Functional
 class ProductDetail(QMainWindow):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -1053,13 +1091,10 @@ class ProductDetail(QMainWindow):
             self.ui.comboBox_selectProd.clear()
             self.table_data = self.load_data()[0]
             self.set_prodlist()
+            self.display_data()
         else:
             msgbox = QtWidgets.QMessageBox()
             msgbox.information(None, 'No Changes', f"No changes were made to {product_name}'s details.")
-            self.ui.comboBox_selectProd.clear()
-            self.table_data = self.load_data()[0]
-            self.set_prodlist()
-            self.display_data()
 
     def delete_data(self):
         product_details = self.get_data()
@@ -1089,7 +1124,6 @@ class ProductDetail(QMainWindow):
             msgbox.critical(None, 'Text Limit Exceed', 'You have exceed the text limit. Please reduce characters!')
 
 
-# Fully Functional
 class ProductColorDetail(QMainWindow):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -1166,7 +1200,6 @@ class ProductColorDetail(QMainWindow):
         self.ui.lineEdit_new.clear()
 
 
-# Fully Functional
 class ProductRatingDetail(QMainWindow):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -1243,7 +1276,6 @@ class ProductRatingDetail(QMainWindow):
         self.ui.lineEdit_new.clear()
 
 
-# Fully Functional
 class ProductStatusDetail(QMainWindow):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -1320,7 +1352,6 @@ class ProductStatusDetail(QMainWindow):
         self.ui.lineEdit_new.clear()
 
 
-# Fully Functional
 class ProductThreadDetail(QMainWindow):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -1397,7 +1428,6 @@ class ProductThreadDetail(QMainWindow):
         self.ui.lineEdit_new.clear()
 
 
-# Fully Functional
 class ProductHistoryDetail(QMainWindow):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -1475,7 +1505,6 @@ class ProductHistoryDetail(QMainWindow):
         self.ui.lineEdit_new.clear()
 
 
-# Fully Functional
 class ProductMaterialDetail(QMainWindow):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -1552,7 +1581,6 @@ class ProductMaterialDetail(QMainWindow):
         self.ui.lineEdit_new.clear()
 
 
-# Fully Functional
 class ProductTypeDetail(QMainWindow):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -1629,7 +1657,6 @@ class ProductTypeDetail(QMainWindow):
         self.ui.lineEdit_new.clear()
 
 
-# Fully Functional
 class ProductSizeDetail(QMainWindow):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -1706,73 +1733,6 @@ class ProductSizeDetail(QMainWindow):
         self.ui.lineEdit_new.clear()
 
 
-# ==> SHIPMENT FORMS CLASSES
-# FIXME: Class name on NewShipmentForm and ShipmentDetails is the same
-class NewShipmentForm(QMainWindow):  # FIXME: Capitalize the F in form :)
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.ui = Ui_NewShipmentForm()
-        self.ui.setupUi(self)
-
-    def update_data(self):
-        type_details = self.get_data()
-        type_details[0][1] = self.ui.lineEdit_desc.text()
-        cnxn = server_connection()
-        cursor = cnxn.cursor()
-        cursor.execute("UPDATE Product_Type SET PRODUCT_TYPE_DESCRIPTION = ? WHERE PRODUCT_TYPE_CODE = ?",
-                       type_details[0][1], type_details[0][0])
-        cnxn.commit()
-        self.ui.comboBox_select.clear()
-        self.table_data = self.load_data()
-        self.set_typelist()
-
-
-class ShipmentDetailsForm(QMainWindow):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.ui = Ui_ShipmentDetails()
-        self.ui.setupUi(self)
-        self.table_data = self.load_data()
-        self.set_typelist()
-        self.ui.comboBox_select.currentIndexChanged.connect(self.display_data)
-        self.ui.addButton.clicked.connect(self.add_data)
-        self.ui.deleteButton.clicked.connect(self.delete_data)
-        self.ui.updateButton.clicked.connect(self.update_data)
-
-    @staticmethod
-    def load_data():
-        cursor = server_connection().cursor()
-        data = cursor.execute('SELECT * FROM Product_Type WHERE IS_DELETE = 0 ')
-        table_data = [[item for item in row] for row in data]
-        return table_data
-
-    def set_typelist(self):
-        types = []
-        for row in self.table_data:
-            for i, name in enumerate(row):
-                if i == 1:
-                    types.append(name)
-        self.ui.comboBox_select.addItems(types)
-
-    def get_data(self):
-        selected_name = self.ui.comboBox_select.currentText()
-        type_details = []
-        for i, row in enumerate(self.table_data):
-            if row[1] == selected_name:
-                type_details.append(row)
-        return type_details
-
-    def display_data(self):
-        type_details = self.get_data()
-        for row in type_details:
-            for i, item in enumerate(row):
-                if i == 1:
-                    self.ui.lineEdit_desc.setText(item)
-
-
-# FIXME: Try not to commit changes that breaks the entire program
-
-
 # ==> EMPLOYEE FORMS CLASSES
 class NewEmployeeForm(QMainWindow):
     def __init__(self, *args, **kwargs):
@@ -1840,7 +1800,7 @@ class NewEmployeeForm(QMainWindow):
                        state_code, postal_code, country, dob, status)
         cnxn.commit()
         msgbox = QtWidgets.QMessageBox()
-        msgbox.information(None, 'New Product Added', f"{first_name} {lastname} has been added to the database.")
+        msgbox.information(None, 'New Employee Added', f"{first_name} {lastname} has been added to the database.")
         self.ui.lineEdit_FirstName.clear()
         self.ui.lineEdit_LastName.clear()
         self.ui.lineEdit_MiddleName.clear()
@@ -1856,9 +1816,8 @@ class NewEmployeeForm(QMainWindow):
     def clear_form(self):
         msgbox = QtWidgets.QMessageBox()
         msgbox.setStyleSheet("QMessageBox{background-color:white;}")
-        message = msgbox.question(self, 'Clear Form', 'Are you sure you want to clear this form?',
+        message = msgbox.question(None, 'Clear Form', 'Are you sure you want to clear this form?',
                                   msgbox.StandardButtons.Yes | msgbox.StandardButtons.No)
-
         if message == msgbox.StandardButtons.Yes:
             self.ui.lineEdit_FirstName.clear()
             self.ui.lineEdit_LastName.clear()
@@ -2125,7 +2084,6 @@ class EmployeeDetailsForm(QMainWindow):
 
 
 # ==> DISTRIBUTOR FORMS CLASSES
-# todo: Test this form
 class NewDistributorForm(QMainWindow):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -2176,12 +2134,20 @@ class NewDistributorForm(QMainWindow):
                        "DIS_STATUS_ID, IS_DELETE) VALUES (?,?,?,?,?,?,0)", dis_name, address, city, int(postal_code),
                        state_code, status_code)
         cnxn.commit()
+        msgbox = QtWidgets.QMessageBox()
+        msgbox.information(None, 'New Distributor Added', f"{dis_name} has been added to the database.")
 
     def clear_form(self):
-        self.ui.lineEdit_DisName.clear()
-        self.ui.lineEdit_postalcode.clear()
-        self.ui.lineEdit_DisCity.clear()
-        self.ui.lineEdit_DisAddress.clear()
+        msgbox = QtWidgets.QMessageBox()
+        box = msgbox.question(None, 'Clear Form', 'Are you sure you want to clear this form?',
+                              msgbox.StandardButtons.Yes | msgbox.StandardButtons.No)
+        if box == msgbox.StandardButtons.Yes:
+            self.ui.lineEdit_DisName.clear()
+            self.ui.lineEdit_postalcode.clear()
+            self.ui.lineEdit_DisCity.clear()
+            self.ui.lineEdit_DisAddress.clear()
+        else:
+            pass
 
 
 class NewDistributorContact(QMainWindow):
@@ -2219,14 +2185,21 @@ class NewDistributorContact(QMainWindow):
         cursor.execute("INSERT INTO Distributor_Contact (DC_NAME, CONTACT_NUMBER, EMAIL, DISTRIBUTOR_ID, IS_DELETE)"
                        " VALUES (?,?,?,?,0)", mc_name, mc_number, mc_email, manu_id)
         cnxn.commit()
+        msgbox = QtWidgets.QMessageBox()
+        msgbox.information(None, 'New Distributor Contact Added', f"{mc_name} has been added to the database.")
 
     def clear_form(self):
-        self.ui.lineEdit_DisName.clear()
-        self.ui.lineEdit_email.clear()
-        self.ui.lineEdit_DisCN.clear()
+        msgbox = QtWidgets.QMessageBox()
+        box = msgbox.question(None, 'Clear Form', 'Are you sure you want to clear this form?',
+                              msgbox.StandardButtons.Yes | msgbox.StandardButtons.No)
+        if box == msgbox.StandardButtons.Yes:
+            self.ui.lineEdit_DisName.clear()
+            self.ui.lineEdit_email.clear()
+            self.ui.lineEdit_DisCN.clear()
+        else:
+            pass
 
 
-# Fully Functional
 class DistributorContactForm(QMainWindow):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -2294,25 +2267,45 @@ class DistributorContactForm(QMainWindow):
         contact_name = self.ui.lineEdit_DisName.text()
         contact_number = self.ui.lineEdit_DisCN.text()
         contact_email = self.ui.lineEdit_email.text()
-        cnxn = server_connection()
-        cursor = cnxn.cursor()
-        cursor.execute("UPDATE Distributor_Contact SET DC_NAME = ?, CONTACT_NUMBER = ?, EMAIL = ?, DISTRIBUTOR_ID = ?,"
-                       " IS_DELETE = 0 WHERE DIS_CONTACT_ID = ?", contact_name, contact_number, contact_email,
-                       contact_details[0][4], contact_details[0][0])
-        cnxn.commit()
-        self.table_data = self.load_data()[0]
+        msgbox = QtWidgets.QMessageBox()
+        box = msgbox.question(None, 'Save Changes', "Are you sure you want to save changes made to this contact?",
+                              msgbox.StandardButtons.Yes | msgbox.StandardButtons.No)
+        if box == msgbox.StandardButtons.Yes:
+            cnxn = server_connection()
+            cursor = cnxn.cursor()
+            cursor.execute("UPDATE Distributor_Contact SET DC_NAME = ?, CONTACT_NUMBER = ?, EMAIL = ?, DISTRIBUTOR_ID = ?,"
+                           " IS_DELETE = 0 WHERE DIS_CONTACT_ID = ?", contact_name, contact_number, contact_email,
+                           contact_details[0][4], contact_details[0][0])
+            cnxn.commit()
+            self.ui.comboBox_contact.clear()
+            self.table_data = self.load_data()[0]
+            self.set_discon()
+            self.display_data()
+            msgbox = QtWidgets.QMessageBox()
+            msgbox.information(None, 'Changes Made', f"Your changes to {contact_name}'s details "
+                                                     f" have been successfully made.")
+        else:
+            msgbox = QtWidgets.QMessageBox()
+            msgbox.information(None, 'No Changes', f"No changes were made to {contact_name}'s details.")
 
     def delete_data(self):
-        contact_details = self.get_data()
-        cnxn = server_connection()
-        cursor = cnxn.cursor()
-        cursor.execute("UPDATE Distributor_Contact SET IS_DELETE = 1 WHERE DIS_CONTACT_ID = ?", contact_details[0][0])
-        cnxn.commit()
-        self.table_data = self.load_data()[0]
+        msgbox = QtWidgets.QMessageBox()
+        box = msgbox.warning(None, 'Delete Contact', f"Are you sure you want to delete this contact?",
+                             msgbox.StandardButtons.Yes | msgbox.StandardButtons.No)
+        if box == msgbox.StandardButtons.Yes:
+            contact_details = self.get_data()
+            cnxn = server_connection()
+            cursor = cnxn.cursor()
+            cursor.execute("UPDATE Distributor_Contact SET IS_DELETE = 1 WHERE DIS_CONTACT_ID = ?", contact_details[0][0])
+            cnxn.commit()
+            self.ui.comboBox_contact.clear()
+            self.table_data = self.load_data()[0]
+            self.set_discon()
+            self.display_data()
+        else:
+            pass
 
 
-# Fully Functional
-# idea: change the warehouse address line edit to a Plain Text
 class DistributorDetailsForm(QMainWindow):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -2386,14 +2379,21 @@ class DistributorDetailsForm(QMainWindow):
 
     def delete_data(self):
         dis_details = self.get_data()
-        cnxn = server_connection()
-        cursor = cnxn.cursor()
-        cursor.execute("UPDATE Distributor SET IS_DELETE = 1 WHERE DISTRIBUTOR_ID = ?", dis_details[0][0])
-        cnxn.commit()
-        # Re-query Table Data
-        self.ui.comboBox_disname.clear()
-        self.table_data = self.load_data()[0]
-        self.set_dislist()
+        msgbox = QtWidgets.QMessageBox()
+        box = msgbox.warning(None, 'Delete Manufacturer', f"Are you sure you want to delete this customer?",
+                             msgbox.StandardButtons.Yes | msgbox.StandardButtons.No)
+        if box == msgbox.StandardButtons.Yes:
+            cnxn = server_connection()
+            cursor = cnxn.cursor()
+            cursor.execute("UPDATE Distributor SET IS_DELETE = 1 WHERE DISTRIBUTOR_ID = ?", dis_details[0][0])
+            cnxn.commit()
+            # Re-query Table Data
+            self.ui.comboBox_disname.clear()
+            self.table_data = self.load_data()[0]
+            self.set_dislist()
+            self.display_data()
+        else:
+            pass
 
     def update_data(self):
         dis_details = self.get_data()
@@ -2409,16 +2409,27 @@ class DistributorDetailsForm(QMainWindow):
         for status in self.status_data:
             if status[1] == self.ui.comboBox_disstat.currentText():
                 status_id = status[0]
-        cnxn = server_connection()
-        cursor = cnxn.cursor()
-        cursor.execute("UPDATE Distributor SET DIS_NAME = ?, WAREHOUSE_ADDRESS = ?, CITY = ?, STATE_PROVINCE_ID = ?, "
-                       "POSTAL_CODE = ?, DIS_STATUS_ID = ?, IS_DELETE = 0 WHERE DISTRIBUTOR_ID = ?", dis_name, dis_addr,
-                       dis_city, state_code, int(postal_code), status_id, dis_details[0][0])
-        cnxn.commit()
-        # Re-query Table Data
-        self.ui.comboBox_disname.clear()
-        self.table_data = self.load_data()[0]
-        self.set_dislist()
+        msgbox = QtWidgets.QMessageBox()
+        box = msgbox.question(None, 'Save Changes', "Are you sure you want to save changes to this distributor?",
+                              msgbox.StandardButtons.Yes | msgbox.StandardButtons.No)
+        if box == msgbox.StandardButtons.Yes:
+            cnxn = server_connection()
+            cursor = cnxn.cursor()
+            cursor.execute("UPDATE Distributor SET DIS_NAME = ?, WAREHOUSE_ADDRESS = ?, CITY = ?, STATE_PROVINCE_ID = ?, "
+                           "POSTAL_CODE = ?, DIS_STATUS_ID = ?, IS_DELETE = 0 WHERE DISTRIBUTOR_ID = ?", dis_name, dis_addr,
+                           dis_city, state_code, int(postal_code), status_id, dis_details[0][0])
+            cnxn.commit()
+            # Re-query Table Data
+            self.ui.comboBox_disname.clear()
+            self.table_data = self.load_data()[0]
+            self.set_dislist()
+            self.display_data()
+            msgbox = QtWidgets.QMessageBox()
+            msgbox.information(None, 'Changes Made', f"Your changes to {dis_name}'s details "
+                                                     f" have been successfully made.")
+        else:
+            msgbox = QtWidgets.QMessageBox()
+            msgbox.information(None, 'No Changes', f"No changes were made to {dis_name}'s details.")
 
 
 # Fully Functional
@@ -2536,12 +2547,20 @@ class NewManufacturerForm(QMainWindow):
         cursor.execute("INSERT INTO Manufacturer (M_NAME, M_ADDRESS, M_EMAIL, M_PHONE, MANUFACTURER_STATUS_ID,"
                        " IS_DELETE) VALUES (?,?,?,?,?,0)", manu_name, address, email, number, status_code)
         cnxn.commit()
+        msgbox = QtWidgets.QMessageBox()
+        msgbox.information(None, 'New Manufacturer Added', f"{manu_name} has been added to the database.")
 
     def clear_form(self):
-        self.ui.lineEdit_man_name.clear()
-        self.ui.lineEdit_man_address.clear()
-        self.ui.lineEdit_email.clear()
-        self.ui.lineEdit_number.clear()
+        msgbox = QtWidgets.QMessageBox()
+        box = msgbox.question(None, 'Clear ALL Form Records?', 'Are you sure you want to clear this form?',
+                              msgbox.StandardButtons.Yes | msgbox.StandardButtons.No)
+        if box == msgbox.StandardButtons.Yes:
+            self.ui.lineEdit_man_name.clear()
+            self.ui.lineEdit_man_address.clear()
+            self.ui.lineEdit_email.clear()
+            self.ui.lineEdit_number.clear()
+        else:
+            pass
 
 
 class NewManufacturerContactForm(QMainWindow):
@@ -2578,11 +2597,19 @@ class NewManufacturerContactForm(QMainWindow):
         cursor.execute("INSERT INTO Manufacturer_Contact (MC_NAME, MC_NUMBER, MC_EMAIL, MANUFACTURER_ID, IS_DELETE)"
                        " VALUES (?,?,?,?,0)", mc_name, mc_number, mc_email, manu_id)
         cnxn.commit()
+        msgbox = QtWidgets.QMessageBox()
+        msgbox.information(None, 'New Manufacturer Contact Added', f"{mc_name} has been added to the database.")
 
     def clear_form(self):
-        self.ui.lineEdit_DisName.clear()
-        self.ui.lineEdit_email.clear()
-        self.ui.lineEdit_DisCN.clear()
+        msgbox = QtWidgets.QMessageBox()
+        box = msgbox.question(None, 'Clear Form', 'Are you sure you want to clear this form?',
+                              msgbox.StandardButtons.Yes | msgbox.StandardButtons.No)
+        if box == msgbox.StandardButtons.Yes:
+            self.ui.lineEdit_DisName.clear()
+            self.ui.lineEdit_email.clear()
+            self.ui.lineEdit_DisCN.clear()
+        else:
+            pass
 
 
 class ManufacturerContactForm(QMainWindow):
@@ -2652,21 +2679,43 @@ class ManufacturerContactForm(QMainWindow):
         contact_name = self.ui.lineEdit_DisName.text()
         contact_number = self.ui.lineEdit_DisCN.text()
         contact_email = self.ui.lineEdit_email.text()
-        cnxn = server_connection()
-        cursor = cnxn.cursor()
-        cursor.execute("UPDATE Manufacturer_Contact SET MC_NAME = ?, MC_NUMBER = ?, MC_EMAIL = ?, MANUFACTURER_ID = ?,"
-                       " IS_DELETE = 0 WHERE MANUFCONTACT_ID = ?", contact_name, contact_number, contact_email,
-                       contact_details[0][4], contact_details[0][0])
-        cnxn.commit()
-        self.table_data = self.load_data()[0]
+        msgbox = QtWidgets.QMessageBox()
+        box = msgbox.question(None, 'Save Changes', "Are you sure you want to save changes to this contact?",
+                              msgbox.StandardButtons.Yes | msgbox.StandardButtons.No)
+        if box == msgbox.StandardButtons.Yes:
+            cnxn = server_connection()
+            cursor = cnxn.cursor()
+            cursor.execute("UPDATE Manufacturer_Contact SET MC_NAME = ?, MC_NUMBER = ?, MC_EMAIL = ?, MANUFACTURER_ID = ?,"
+                           " IS_DELETE = 0 WHERE MANUFCONTACT_ID = ?", contact_name, contact_number, contact_email,
+                           contact_details[0][4], contact_details[0][0])
+            cnxn.commit()
+            self.ui.comboBox_contact.clear()
+            self.table_data = self.load_data()[0]
+            self.set_discon()
+            self.display_data()
+            msgbox = QtWidgets.QMessageBox()
+            msgbox.information(None, 'Changes Made', f"Your changes to {contact_name}'s details "
+                                                     f" have been successfully made.")
+        else:
+            msgbox = QtWidgets.QMessageBox()
+            msgbox.information(None, 'No Changes', f"No changes were made to {contact_name}'s details.")
 
     def delete_data(self):
         contact_details = self.get_data()
-        cnxn = server_connection()
-        cursor = cnxn.cursor()
-        cursor.execute("UPDATE Manufacturer_Contact SET IS_DELETE = 1 WHERE MANUFCONTACT_ID = ?", contact_details[0][0])
-        cnxn.commit()
-        self.table_data = self.load_data()[0]
+        msgbox = QtWidgets.QMessageBox()
+        box = msgbox.warning(None, 'Delete Contact', f"Are you sure you want to delete this contact?",
+                             msgbox.StandardButtons.Yes | msgbox.StandardButtons.No)
+        if box == msgbox.StandardButtons.Yes:
+            cnxn = server_connection()
+            cursor = cnxn.cursor()
+            cursor.execute("UPDATE Manufacturer_Contact SET IS_DELETE = 1 WHERE MANUFCONTACT_ID = ?", contact_details[0][0])
+            cnxn.commit()
+            self.ui.comboBox_contact.clear()
+            self.table_data = self.load_data()[0]
+            self.set_discon()
+            self.display_data()
+        else:
+            pass
 
 
 class ManufacturerDetailsForm(QMainWindow):
@@ -3125,7 +3174,7 @@ class ReportView(QMainWindow):
         self.ui.criteria_desc.setHidden(True)
         self.ui.pushButton.clicked.connect(self.set_checked)
 
-    def get_data(self, *args):
+    def get_data(self):
         if self.selected == 'Returned Customer Orders':
             self.ui.pushButton.setHidden(True)
             cursor = server_connection().cursor()
@@ -3180,7 +3229,7 @@ class ReportView(QMainWindow):
             data = cursor.execute("SELECT Customer.CUSTOMER_ID, Order_Customer.ORDER_ID, "
                                   "FORMAT(Order_Customer.ORDER_DATE, 'yyyy-MM-dd'), State_Province.STATE_PROVINCE_NAME,"
                                   "Invoice.PURCHASE_TOTAL, CONCAT('$',SUM(Invoice.PURCHASE_TOTAL) "
-                                  "OVER(ORDER BY Customer.CUSTOMER_ID ASC)) FROM Customer RIGHT JOIN Order_Customer ON "
+                                  "OVER(ORDER BY Customer.CUSTOMER_ID)) FROM Customer RIGHT JOIN Order_Customer ON "
                                   "Order_Customer.CUSTOMER_ID = Customer.CUSTOMER_ID RIGHT JOIN Invoice ON "
                                   "Invoice.INVOICE_ID = Order_Customer.INVOICE_ID RIGHT JOIN State_Province ON "
                                   "State_Province.STATE_PROVINCE_ID = Customer.STATE_PROVINCE_ID WHERE ORDER_DATE "
@@ -3272,27 +3321,20 @@ class ReportView(QMainWindow):
             attributes = ["Rating", "Product Name", "Product Category", "Color", "Material Type", "Size"]
             column_total = len(attributes)
             self.display_data(attributes, column_total, report_data)
-            # This code only run when the edit criteria button is pressed
             if self.checked:
-                # Stuff for drop down menu
                 cursor = server_connection().cursor()
                 data = cursor.execute('SELECT * FROM Product_Type WHERE IS_DELETE = 0 ')
                 types = []
                 for item in data:
                     types.append(item[1])
-                # Instance of the input box
                 criteria_box = QtWidgets.QInputDialog()
-                # If you need an drop down it'll be .getItem. If you need a text box, it'll be .getText
                 box = criteria_box.getItem(None, 'Criteria', 'Enter Product Type', types)
                 """box returns a tuple with two values. The first one would be whatever is chosen from the drop down
                 If it is a .getText I don't think it will return as a list or tuple."""
                 prod_type = box[0]
                 self.ui.criteria_desc.setText(f"Now Showing {prod_type}'s")
-                # Recall the sql code function to get data based on criteria
                 report_data = sql_code(prod_type)
-                # Set button to false so it wont be stuck in a loop
                 self.checked = False
-                # Recall the display data function so the new info can appear
                 self.display_data(attributes, column_total, report_data)
         elif self.selected == 'Top Delivery Carriers Since Year Start':
             self.ui.criteria_desc.setHidden(False)
@@ -3394,7 +3436,6 @@ class ReportView(QMainWindow):
                 report_data = sql_code(size)
                 self.checked = False
                 self.display_data(attributes, column_total, report_data)
-        # todo: Add criteria description
         elif self.selected == 'Product Metadata Listing':
             self.ui.criteria_desc.setHidden(False)
             start_date = '2020-06-01'
@@ -3991,14 +4032,11 @@ class ReportView(QMainWindow):
                                   "Invoice.INVOICE_ID = Order_Customer.INVOICE_ID WHERE  ORDER_DATE between "
                                   "'2020-01-01' and '2020-12-31' AND Country.IS_DELETE = 0 GROUP BY "
                                   "State_Province.STATE_PROVINCE_NAME, Country.COUNTRY_NAME, "
-                                  "State_Province.STATE_PROVINCE_ID ORDER BY Country.COUNTRY_NAME ASC;")
+                                  "State_Province.STATE_PROVINCE_ID ORDER BY Country.COUNTRY_NAME;")
             report_data = [[item for item in row] for row in data]
             attributes = ["Country", "Region", "Average Sales"]
             column_total = len(attributes)
             self.display_data(attributes, column_total, report_data)
-
-
-
 
     def set_checked(self):
         self.checked = True
