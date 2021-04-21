@@ -45,8 +45,7 @@ from ManufacturerContactForm import Ui_ManufacturerContactForm
 from ManufacturerDetail import Ui_ManufacturerStatus
 from ManufacturerDetailsForm import Ui_ManufacturerDetails
 # ==> Promotion Forms
-from PromotionDetailsForm import \
-    Ui_PromotionDetails  # FIXME: Class name and form name should be more descriptive.. Eg, 'NewPromotion'
+from PromotionDetailsForm import Ui_PromotionDetails  # FIXME: Class name and form name should be more descriptive.. Eg, 'NewPromotion'
 from NewPromotionForm import Ui_NewPromotionForm
 # ==> Channel Forms
 from ChannelDetailsForm import Ui_ChannelDetails
