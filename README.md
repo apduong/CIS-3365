@@ -22,11 +22,12 @@ The main goal of this project phrase is to develop a fully functional GUI to int
 ## Contents
 #### Hallywell CRMS v1
 * This folder contains the official files of our GUI design. The main.py file is the core file for the GUI application.
-#### GUI TEST & PyQt GUI Prototypes
+#### ARCHIVES
 * This folder contains test files from our developmental stages
 
 ## Features
-Basic CRUD functionality
+* 30 forms to interact with MS SQL Server database
+* Access to 40 reports from the database
 
 ## Status
 Project is: _in progress_
