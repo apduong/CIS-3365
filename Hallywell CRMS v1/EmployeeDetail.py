@@ -105,7 +105,7 @@ class Ui_EmployeeStatus(object):
         self.addButton.setObjectName("addButton")
         self.gridLayout.addWidget(self.addButton, 5, 0, 1, 1)
         self.lineEdit_EnterNewStatus = QtWidgets.QLineEdit(self.frame_3)
-        self.lineEdit_EnterNewStatus.setMinimumSize(QtCore.QSize(200, 25))
+        self.lineEdit_EnterNewStatus.setMinimumSize(QtCore.QSize(210, 25))
         self.lineEdit_EnterNewStatus.setMaximumSize(QtCore.QSize(210, 25))
         font = QtGui.QFont()
         font.setFamily("Montserrat")
@@ -210,7 +210,7 @@ class Ui_EmployeeStatus(object):
     def retranslateUi(self, EmployeeStatus):
         _translate = QtCore.QCoreApplication.translate
         EmployeeStatus.setWindowTitle(_translate("EmployeeStatus", "Employee Status"))
-        self.label_2.setText(_translate("EmployeeStatus", "<html><head/><body><p><span style=\" font-weight:600;\">Employee</span> Status Details</p></body></html>"))
+        self.label_2.setText(_translate("EmployeeStatus", "<html><head/><body><p><span style=\" font-weight:600;\">Employee</span> Status Detail</p></body></html>"))
         self.label_title.setText(_translate("EmployeeStatus", "<strong>HallyWell</strong> \n"
 "Linen Company"))
         self.label.setText(_translate("EmployeeStatus", "Add New Status"))
