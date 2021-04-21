@@ -159,7 +159,7 @@ QPushButton::hover{border:2px solid white; background-color:#F27E14; color:white
             <widget class="QComboBox" name="comboBox_SelectEmployee">
              <property name="minimumSize">
               <size>
-               <width>250</width>
+               <width>275</width>
                <height>0</height>
               </size>
              </property>
@@ -237,7 +237,7 @@ QPlainTextEdit{background-color:white;}
              </property>
              <property name="maximumSize">
               <size>
-               <width>140</width>
+               <width>130</width>
                <height>16777215</height>
               </size>
              </property>
@@ -301,9 +301,15 @@ QPlainTextEdit{background-color:white;}
            </item>
            <item row="6" column="3">
             <widget class="QLineEdit" name="lineEdit_DateOfBirth">
+             <property name="minimumSize">
+              <size>
+               <width>90</width>
+               <height>0</height>
+              </size>
+             </property>
              <property name="maximumSize">
               <size>
-               <width>80</width>
+               <width>90</width>
                <height>16777215</height>
               </size>
              </property>
@@ -316,6 +322,9 @@ QPlainTextEdit{background-color:white;}
              <property name="text">
               <string/>
              </property>
+             <property name="maxLength">
+              <number>13</number>
+             </property>
              <property name="placeholderText">
               <string>Enter Birthdate</string>
              </property>
@@ -323,6 +332,12 @@ QPlainTextEdit{background-color:white;}
            </item>
            <item row="2" column="3">
             <widget class="QLineEdit" name="lineEdit_PostalCode">
+             <property name="minimumSize">
+              <size>
+               <width>70</width>
+               <height>0</height>
+              </size>
+             </property>
              <property name="maximumSize">
               <size>
                <width>70</width>
@@ -330,7 +345,7 @@ QPlainTextEdit{background-color:white;}
               </size>
              </property>
              <property name="maxLength">
-              <number>10</number>
+              <number>6</number>
              </property>
              <property name="placeholderText">
               <string>Enter Postal</string>
@@ -374,7 +389,7 @@ QPlainTextEdit{background-color:white;}
              </property>
              <property name="maximumSize">
               <size>
-               <width>260</width>
+               <width>250</width>
                <height>16777215</height>
               </size>
              </property>
@@ -382,7 +397,7 @@ QPlainTextEdit{background-color:white;}
               <string/>
              </property>
              <property name="maxLength">
-              <number>70</number>
+              <number>25</number>
              </property>
              <property name="alignment">
               <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -393,7 +408,20 @@ QPlainTextEdit{background-color:white;}
             </widget>
            </item>
            <item row="7" column="3">
-            <widget class="QComboBox" name="comboBox_EmployeeStatusID"/>
+            <widget class="QComboBox" name="comboBox_EmployeeStatusID">
+             <property name="minimumSize">
+              <size>
+               <width>130</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>130</width>
+               <height>16777215</height>
+              </size>
+             </property>
+            </widget>
            </item>
            <item row="0" column="0">
             <widget class="QLabel" name="label_7">
@@ -493,6 +521,12 @@ QPlainTextEdit{background-color:white;}
            </item>
            <item row="2" column="1">
             <widget class="QLineEdit" name="lineEdit_MiddleName">
+             <property name="minimumSize">
+              <size>
+               <width>115</width>
+               <height>0</height>
+              </size>
+             </property>
              <property name="maximumSize">
               <size>
                <width>115</width>
@@ -500,7 +534,7 @@ QPlainTextEdit{background-color:white;}
               </size>
              </property>
              <property name="maxLength">
-              <number>70</number>
+              <number>25</number>
              </property>
              <property name="placeholderText">
               <string>Enter Middle Name</string>
@@ -543,6 +577,12 @@ QPlainTextEdit{background-color:white;}
            </item>
            <item row="1" column="1">
             <widget class="QLineEdit" name="lineEdit_LastName">
+             <property name="minimumSize">
+              <size>
+               <width>110</width>
+               <height>0</height>
+              </size>
+             </property>
              <property name="maximumSize">
               <size>
                <width>110</width>
@@ -550,7 +590,7 @@ QPlainTextEdit{background-color:white;}
               </size>
              </property>
              <property name="maxLength">
-              <number>70</number>
+              <number>25</number>
              </property>
              <property name="placeholderText">
               <string>Enter Last Name</string>
@@ -559,6 +599,12 @@ QPlainTextEdit{background-color:white;}
            </item>
            <item row="6" column="1">
             <widget class="QLineEdit" name="lineEdit_Address1">
+             <property name="minimumSize">
+              <size>
+               <width>260</width>
+               <height>0</height>
+              </size>
+             </property>
              <property name="maximumSize">
               <size>
                <width>260</width>
@@ -566,7 +612,7 @@ QPlainTextEdit{background-color:white;}
               </size>
              </property>
              <property name="maxLength">
-              <number>150</number>
+              <number>100</number>
              </property>
              <property name="placeholderText">
               <string>Enter Address 1</string>
@@ -594,7 +640,7 @@ QPlainTextEdit{background-color:white;}
               </font>
              </property>
              <property name="text">
-              <string>Employee Status ID</string>
+              <string>Employee Status</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignCenter</set>
@@ -631,6 +677,12 @@ QPlainTextEdit{background-color:white;}
            </item>
            <item row="7" column="1">
             <widget class="QLineEdit" name="lineEdit_Address2">
+             <property name="minimumSize">
+              <size>
+               <width>260</width>
+               <height>0</height>
+              </size>
+             </property>
              <property name="maximumSize">
               <size>
                <width>260</width>
@@ -638,7 +690,7 @@ QPlainTextEdit{background-color:white;}
               </size>
              </property>
              <property name="maxLength">
-              <number>150</number>
+              <number>100</number>
              </property>
              <property name="placeholderText">
               <string>Enter Address 2</string>
@@ -677,7 +729,7 @@ QPlainTextEdit{background-color:white;}
             <widget class="QComboBox" name="comboBox_StateProvince">
              <property name="minimumSize">
               <size>
-               <width>100</width>
+               <width>130</width>
                <height>0</height>
               </size>
              </property>
@@ -701,6 +753,12 @@ QPlainTextEdit{background-color:white;}
            </item>
            <item row="8" column="1">
             <widget class="QLineEdit" name="lineEdit_City">
+             <property name="minimumSize">
+              <size>
+               <width>150</width>
+               <height>0</height>
+              </size>
+             </property>
              <property name="maximumSize">
               <size>
                <width>150</width>
@@ -708,7 +766,7 @@ QPlainTextEdit{background-color:white;}
               </size>
              </property>
              <property name="maxLength">
-              <number>200</number>
+              <number>30</number>
              </property>
              <property name="placeholderText">
               <string>Enter City</string>

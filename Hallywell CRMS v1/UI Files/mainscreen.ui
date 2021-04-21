@@ -2338,10 +2338,16 @@ QPushButton#addPromoButton::hover{color:#FFA553; background-color: black; border
                  </item>
                  <item row="0" column="1">
                   <widget class="QComboBox" name="comboBox_Report">
+                   <property name="minimumSize">
+                    <size>
+                     <width>0</width>
+                     <height>20</height>
+                    </size>
+                   </property>
                    <property name="maximumSize">
                     <size>
                      <width>500</width>
-                     <height>16777215</height>
+                     <height>20</height>
                     </size>
                    </property>
                    <property name="styleSheet">

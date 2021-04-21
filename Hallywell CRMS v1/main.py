@@ -1967,6 +1967,7 @@ class EmployeeDetailsForm(QMainWindow):
         self.state_data = self.load_data()[2]
         self.status_data = self.load_data()[3]
         self.set_employeelist()
+        #self.display_data()
         self.ui.selectButton.clicked.connect(self.display_data)
         self.ui.save_Button.clicked.connect(self.save_data)
         self.ui.delete_Button.clicked.connect(self.delete_data)
@@ -2928,6 +2929,13 @@ class PromotionDetailsForm(QMainWindow):
                     promotion_names.append(name)
         self.ui.comboBox_SelectPromotion.addItems(promotion_names)
 
+        seasonal_list = []
+        for item in self.season_data:
+            for row, name in enumerate(item):
+                if row == 1:
+                    seasonal_list.append(item[1])
+        self.ui.comboBox_SeasonID.addItems(seasonal_list)
+
     def display_data(self):
         selected_names = self.ui.comboBox_SelectPromotion.currentText()
         promotion_details = []
@@ -2939,7 +2947,7 @@ class PromotionDetailsForm(QMainWindow):
                 if i == 1:
                     self.ui.lineEdit_PromotionDescription.setText(item)
                 elif i == 2:
-                    self.ui.lineEdit_DiscountAmount(item)
+                    self.ui.lineEdit_DiscountAmount.setText(item)
                 elif i == 3:
                     for x, season in enumerate(self.season_data):
                         if season[0] == item:
@@ -2987,11 +2995,35 @@ class PromotionDetailsForm(QMainWindow):
 
 
 # ==> CHANNEL FORMS CLASSES
-class ChannelDetailsForm(QMainWindow):
+'''class ChannelDetailsForm(QMainWindow):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.ui = Ui_ChannelDetails()
         self.ui.setupUi(self)
+
+
+    @staticmethod
+    def load_data(self):
+        cursor = server_connection()
+
+        data = cursor.execure('SELECT * FROM Channel WHEERE IS_DELETE = 0')
+        table_data = [[item for item in row] for row in data]
+
+        data = cursor.execute('SELECT * FROM Channel_Status IS_DELETE = 0')
+        channel_data = [[item for item in row] for row in data]
+
+        return table_data, channel_data
+
+    def set_channel_list(self):
+        channel_names = []
+        for row in self.table_data:
+            for i, name in enumerate(row):
+                if i == 1:
+                    channel_names.append(name)
+        self.ui.comboBox_selectChannel.addItems(channel_names)
+
+        channel_data = []
+        for i, item in enumerate'''
 
 
 # NEW CHANNEL FORM - Fully Functional
@@ -4026,8 +4058,8 @@ class ReportView(QMainWindow):
 # ==> RESOURCES
 def server_connection():
     conn = pyodbc.connect('Driver={SQL Server};'  # Leave this as is
-                          'Server=LAPTOP-S6PL64NB;'  # Enter your local Server Name
-                          'Database=CIS33655_Official;'  # Enter your Database Name
+                          'Server=FAITH;'  # Enter your local Server Name
+                          'Database=cis3365db;'  # Enter your Database Name
                           'Trusted_Connection=yes;')  # Leave this as is
     return conn
 
