@@ -7,11 +7,15 @@
     <x>0</x>
     <y>0</y>
     <width>953</width>
-    <height>628</height>
+    <height>532</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Distributor Contact Form</string>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>../hallywell_icon.png</normaloff>../hallywell_icon.png</iconset>
   </property>
   <property name="styleSheet">
    <string notr="true">background-color:#D0DBE8;</string>
@@ -40,7 +44,7 @@ QScrollBar{background: black;}</string>
          <x>0</x>
          <y>0</y>
          <width>931</width>
-         <height>606</height>
+         <height>510</height>
         </rect>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -70,7 +74,7 @@ QScrollBar{background: black;}</string>
               <string notr="true">color:#6A7AA6</string>
              </property>
              <property name="text">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Distributor Contact &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              <string>&lt;strong&gt; Distributor&lt;/strong&gt; Contact</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -155,13 +159,13 @@ QPushButton::hover{border:2px solid white; background-color:#F27E14; color:white
              <property name="minimumSize">
               <size>
                <width>250</width>
-               <height>0</height>
+               <height>25</height>
               </size>
              </property>
              <property name="maximumSize">
               <size>
                <width>200</width>
-               <height>16777215</height>
+               <height>25</height>
               </size>
              </property>
             </widget>
@@ -194,7 +198,20 @@ QPushButton::hover{border:2px solid white; background-color:#F27E14; color:white
             </widget>
            </item>
            <item row="1" column="1">
-            <widget class="QComboBox" name="comboBox_contact"/>
+            <widget class="QComboBox" name="comboBox_contact">
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>25</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>25</height>
+              </size>
+             </property>
+            </widget>
            </item>
            <item row="1" column="0">
             <widget class="QLabel" name="label">
@@ -245,38 +262,59 @@ QPlainTextEdit{background-color:white;}
            <property name="verticalSpacing">
             <number>32</number>
            </property>
-           <item row="0" column="1">
-            <widget class="QLineEdit" name="lineEdit_DisName">
+           <item row="2" column="0">
+            <widget class="QLabel" name="label_2">
              <property name="minimumSize">
               <size>
-               <width>250</width>
-               <height>0</height>
+               <width>220</width>
+               <height>25</height>
               </size>
              </property>
              <property name="maximumSize">
               <size>
-               <width>260</width>
-               <height>16777215</height>
+               <width>220</width>
+               <height>25</height>
               </size>
              </property>
-             <property name="maxLength">
-              <number>250</number>
+             <property name="font">
+              <font>
+               <family>Montserrat Medium</family>
+               <pointsize>10</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string>Email</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignCenter</set>
-             </property>
-             <property name="placeholderText">
-              <string>First and Last Name</string>
              </property>
             </widget>
            </item>
            <item row="1" column="1">
             <widget class="QLineEdit" name="lineEdit_DisCN">
+             <property name="minimumSize">
+              <size>
+               <width>230</width>
+               <height>25</height>
+              </size>
+             </property>
              <property name="maximumSize">
               <size>
-               <width>260</width>
-               <height>16777215</height>
+               <width>230</width>
+               <height>25</height>
               </size>
+             </property>
+             <property name="font">
+              <font>
+               <family>Montserrat</family>
+               <pointsize>8</pointsize>
+              </font>
+             </property>
+             <property name="maxLength">
+              <number>15</number>
+             </property>
+             <property name="placeholderText">
+              <string>Enter Contact Number (no spaces)</string>
              </property>
             </widget>
            </item>
@@ -285,13 +323,13 @@ QPlainTextEdit{background-color:white;}
              <property name="minimumSize">
               <size>
                <width>220</width>
-               <height>0</height>
+               <height>25</height>
               </size>
              </property>
              <property name="maximumSize">
               <size>
                <width>250</width>
-               <height>35</height>
+               <height>25</height>
               </size>
              </property>
              <property name="font">
@@ -319,7 +357,13 @@ QPlainTextEdit{background-color:white;}
              <property name="minimumSize">
               <size>
                <width>220</width>
-               <height>0</height>
+               <height>25</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>220</width>
+               <height>25</height>
               </size>
              </property>
              <property name="font">
@@ -342,15 +386,64 @@ QPlainTextEdit{background-color:white;}
              </property>
             </widget>
            </item>
-           <item row="2" column="0">
-            <widget class="QLabel" name="label_2">
-             <property name="text">
-              <string>Email</string>
+           <item row="0" column="1">
+            <widget class="QLineEdit" name="lineEdit_DisName">
+             <property name="minimumSize">
+              <size>
+               <width>250</width>
+               <height>25</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>250</width>
+               <height>25</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <family>Montserrat</family>
+               <pointsize>9</pointsize>
+              </font>
+             </property>
+             <property name="maxLength">
+              <number>50</number>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+             <property name="placeholderText">
+              <string>First and Last Name</string>
              </property>
             </widget>
            </item>
            <item row="2" column="1">
-            <widget class="QLineEdit" name="lineEdit_email"/>
+            <widget class="QLineEdit" name="lineEdit_email">
+             <property name="minimumSize">
+              <size>
+               <width>400</width>
+               <height>25</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>400</width>
+               <height>25</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <family>Montserrat Medium</family>
+               <pointsize>9</pointsize>
+              </font>
+             </property>
+             <property name="maxLength">
+              <number>100</number>
+             </property>
+             <property name="placeholderText">
+              <string>Enter valid email address</string>
+             </property>
+            </widget>
            </item>
           </layout>
          </widget>

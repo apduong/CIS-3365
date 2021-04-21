@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1162</width>
-    <height>660</height>
+    <width>1171</width>
+    <height>673</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -39,8 +39,8 @@ QScrollBar{background: black;}</string>
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>1140</width>
-         <height>638</height>
+         <width>1149</width>
+         <height>651</height>
         </rect>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -73,7 +73,7 @@ QScrollBar{background: black;}</string>
               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Distributor&lt;/span&gt; Details&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
              </property>
              <property name="alignment">
-              <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+              <set>Qt::AlignCenter</set>
              </property>
             </widget>
            </item>
@@ -139,7 +139,7 @@ QPushButton::hover{border:2px solid white; background-color:#F27E14; color:white
              <property name="maximumSize">
               <size>
                <width>150</width>
-               <height>16777215</height>
+               <height>30</height>
               </size>
              </property>
              <property name="font">
@@ -188,13 +188,13 @@ QPushButton::hover{border:2px solid white; background-color:#F27E14; color:white
              <property name="minimumSize">
               <size>
                <width>410</width>
-               <height>0</height>
+               <height>25</height>
               </size>
              </property>
              <property name="maximumSize">
               <size>
                <width>410</width>
-               <height>16777215</height>
+               <height>25</height>
               </size>
              </property>
             </widget>
@@ -209,6 +209,11 @@ QPushButton::hover{border:2px solid white; background-color:#F27E14; color:white
             <width>16777215</width>
             <height>16777215</height>
            </size>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>9</pointsize>
+           </font>
           </property>
           <property name="styleSheet">
            <string notr="true">QLineEdit{background-color:white;}
@@ -232,18 +237,140 @@ QPlainTextEdit{background-color:white;}
            <property name="verticalSpacing">
             <number>32</number>
            </property>
+           <item row="4" column="1">
+            <widget class="QComboBox" name="comboBox_state">
+             <property name="minimumSize">
+              <size>
+               <width>230</width>
+               <height>25</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>240</width>
+               <height>25</height>
+              </size>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="1">
+            <widget class="QLineEdit" name="lineEdit_DisCity">
+             <property name="minimumSize">
+              <size>
+               <width>230</width>
+               <height>25</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>230</width>
+               <height>25</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <family>Montserrat Medium</family>
+               <pointsize>9</pointsize>
+              </font>
+             </property>
+             <property name="maxLength">
+              <number>30</number>
+             </property>
+             <property name="placeholderText">
+              <string>Enter City</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="QLineEdit" name="lineEdit_DisAddress">
+             <property name="minimumSize">
+              <size>
+               <width>700</width>
+               <height>25</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>700</width>
+               <height>24</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <family>Montserrat Medium</family>
+               <pointsize>9</pointsize>
+              </font>
+             </property>
+             <property name="maxLength">
+              <number>250</number>
+             </property>
+             <property name="placeholderText">
+              <string>Enter Distributor Addess</string>
+             </property>
+            </widget>
+           </item>
+           <item row="6" column="1">
+            <widget class="QComboBox" name="comboBox_disstat">
+             <property name="minimumSize">
+              <size>
+               <width>190</width>
+               <height>25</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>190</width>
+               <height>25</height>
+              </size>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QLineEdit" name="lineEdit_DisName">
+             <property name="minimumSize">
+              <size>
+               <width>350</width>
+               <height>25</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>350</width>
+               <height>25</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <family>Montserrat Medium</family>
+               <pointsize>9</pointsize>
+              </font>
+             </property>
+             <property name="inputMask">
+              <string/>
+             </property>
+             <property name="maxLength">
+              <number>50</number>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+             <property name="placeholderText">
+              <string>Enter First &amp; Last Name</string>
+             </property>
+            </widget>
+           </item>
            <item row="1" column="0">
             <widget class="QLabel" name="label_DisAddress">
              <property name="minimumSize">
               <size>
                <width>220</width>
-               <height>0</height>
+               <height>25</height>
               </size>
              </property>
              <property name="maximumSize">
               <size>
-               <width>250</width>
-               <height>35</height>
+               <width>220</width>
+               <height>25</height>
               </size>
              </property>
              <property name="font">
@@ -266,97 +393,23 @@ QPlainTextEdit{background-color:white;}
              </property>
             </widget>
            </item>
-           <item row="0" column="0">
-            <widget class="QLabel" name="label_DisName">
-             <property name="minimumSize">
-              <size>
-               <width>220</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="font">
-              <font>
-               <family>Montserrat Medium</family>
-               <pointsize>10</pointsize>
-              </font>
-             </property>
-             <property name="frameShape">
-              <enum>QFrame::Panel</enum>
-             </property>
-             <property name="frameShadow">
-              <enum>QFrame::Raised</enum>
-             </property>
-             <property name="text">
-              <string>Name</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignCenter</set>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="1">
-            <widget class="QLineEdit" name="lineEdit_DisName">
-             <property name="minimumSize">
-              <size>
-               <width>410</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>200</width>
-               <height>16777215</height>
-              </size>
-             </property>
-             <property name="maxLength">
-              <number>250</number>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignCenter</set>
-             </property>
-             <property name="placeholderText">
-              <string/>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="0">
-            <widget class="QLabel" name="label_DisCity">
-             <property name="minimumSize">
-              <size>
-               <width>220</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>180</width>
-               <height>16777215</height>
-              </size>
-             </property>
-             <property name="font">
-              <font>
-               <family>Montserrat Medium</family>
-               <pointsize>10</pointsize>
-              </font>
-             </property>
-             <property name="frameShape">
-              <enum>QFrame::Panel</enum>
-             </property>
-             <property name="frameShadow">
-              <enum>QFrame::Raised</enum>
-             </property>
-             <property name="text">
-              <string>City</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignCenter</set>
-             </property>
-            </widget>
-           </item>
            <item row="6" column="0">
             <widget class="QLabel" name="label_DisDesc">
+             <property name="minimumSize">
+              <size>
+               <width>220</width>
+               <height>25</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>220</width>
+               <height>25</height>
+              </size>
+             </property>
              <property name="font">
               <font>
+               <family>Montserrat Medium</family>
                <pointsize>10</pointsize>
               </font>
              </property>
@@ -373,13 +426,13 @@ QPlainTextEdit{background-color:white;}
              <property name="minimumSize">
               <size>
                <width>220</width>
-               <height>0</height>
+               <height>25</height>
               </size>
              </property>
              <property name="maximumSize">
               <size>
-               <width>180</width>
-               <height>16777215</height>
+               <width>220</width>
+               <height>25</height>
               </size>
              </property>
              <property name="font">
@@ -396,66 +449,18 @@ QPlainTextEdit{background-color:white;}
              </property>
             </widget>
            </item>
-           <item row="2" column="1">
-            <widget class="QLineEdit" name="lineEdit_DisCity">
-             <property name="minimumSize">
-              <size>
-               <width>490</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>490</width>
-               <height>16777215</height>
-              </size>
-             </property>
-            </widget>
-           </item>
-           <item row="5" column="1">
-            <widget class="QLineEdit" name="lineEdit_postalcode">
-             <property name="minimumSize">
-              <size>
-               <width>55</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>55</width>
-               <height>16777215</height>
-              </size>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="1">
-            <widget class="QLineEdit" name="lineEdit_DisAddress">
-             <property name="minimumSize">
-              <size>
-               <width>810</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>810</width>
-               <height>16777215</height>
-              </size>
-             </property>
-            </widget>
-           </item>
            <item row="4" column="0">
             <widget class="QLabel" name="label_DisState">
              <property name="minimumSize">
               <size>
                <width>220</width>
-               <height>0</height>
+               <height>25</height>
               </size>
              </property>
              <property name="maximumSize">
               <size>
-               <width>180</width>
-               <height>16777215</height>
+               <width>220</width>
+               <height>25</height>
               </size>
              </property>
              <property name="font">
@@ -478,35 +483,99 @@ QPlainTextEdit{background-color:white;}
              </property>
             </widget>
            </item>
-           <item row="4" column="1">
-            <widget class="QComboBox" name="comboBox_state">
+           <item row="5" column="1">
+            <widget class="QLineEdit" name="lineEdit_postalcode">
              <property name="minimumSize">
               <size>
-               <width>170</width>
-               <height>0</height>
+               <width>55</width>
+               <height>25</height>
               </size>
              </property>
              <property name="maximumSize">
               <size>
-               <width>170</width>
-               <height>16777215</height>
+               <width>55</width>
+               <height>25</height>
               </size>
+             </property>
+             <property name="font">
+              <font>
+               <family>Montserrat Medium</family>
+               <pointsize>9</pointsize>
+              </font>
+             </property>
+             <property name="inputMask">
+              <string>000000;_</string>
+             </property>
+             <property name="maxLength">
+              <number>6</number>
              </property>
             </widget>
            </item>
-           <item row="6" column="1">
-            <widget class="QComboBox" name="comboBox_disstat">
+           <item row="2" column="0">
+            <widget class="QLabel" name="label_DisCity">
              <property name="minimumSize">
               <size>
-               <width>170</width>
-               <height>0</height>
+               <width>220</width>
+               <height>25</height>
               </size>
              </property>
              <property name="maximumSize">
               <size>
-               <width>170</width>
-               <height>16777215</height>
+               <width>220</width>
+               <height>25</height>
               </size>
+             </property>
+             <property name="font">
+              <font>
+               <family>Montserrat Medium</family>
+               <pointsize>10</pointsize>
+              </font>
+             </property>
+             <property name="frameShape">
+              <enum>QFrame::Panel</enum>
+             </property>
+             <property name="frameShadow">
+              <enum>QFrame::Raised</enum>
+             </property>
+             <property name="text">
+              <string>City</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="0">
+            <widget class="QLabel" name="label_DisName">
+             <property name="minimumSize">
+              <size>
+               <width>220</width>
+               <height>25</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>220</width>
+               <height>25</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <family>Montserrat Medium</family>
+               <pointsize>10</pointsize>
+              </font>
+             </property>
+             <property name="frameShape">
+              <enum>QFrame::Panel</enum>
+             </property>
+             <property name="frameShadow">
+              <enum>QFrame::Raised</enum>
+             </property>
+             <property name="text">
+              <string>Name</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
              </property>
             </widget>
            </item>

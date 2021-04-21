@@ -395,7 +395,6 @@ class NewCustomerForm(QMainWindow):
             status_list.append(status[1])
         self.ui.comboBox_Country.addItems(country_list)
         self.ui.comboBox_StateProvince.addItems(state_list)
-        self.ui.comboBox.addItems(status_list)
 
     def add_data(self):
         last_name = self.ui.lineEdit_LastName.text()
@@ -413,10 +412,7 @@ class NewCustomerForm(QMainWindow):
         for row in self.state:
             if row[1] == self.ui.comboBox_StateProvince.currentText():
                 state_id = row[0]
-        status_id = int()
-        for row in self.status:
-            if row[1] == self.ui.comboBox.currentText():
-                status_id = row[0]
+        status_id = 2
         address_1 = self.ui.lineEdit_Address1.text()
         address_2 = self.ui.lineEdit_Address2.text()
         city = self.ui.lineEdit_City.text()
@@ -870,6 +866,7 @@ class ProductDetail(QMainWindow):
         super().__init__(*args, **kwargs)
         self.ui = Ui_ProductDetails()
         self.ui.setupUi(self)
+        self.ui.characters_remaining.setHidden(True)
         self.table_data = self.load_data()[0]
         self.product_status_data = self.load_data()[1]
         self.product_type_data = self.load_data()[2]
@@ -884,6 +881,7 @@ class ProductDetail(QMainWindow):
         self.ui.selectButton.clicked.connect(self.display_data)
         self.ui.save_Button.clicked.connect(self.update_data)
         self.ui.delete_Button.clicked.connect(self.delete_data)
+        self.ui.description_box.textChanged.connect(self.description_count)
 
     @staticmethod
     def load_data():
@@ -958,6 +956,7 @@ class ProductDetail(QMainWindow):
         return product_details
 
     def display_data(self):
+        self.ui.characters_remaining.setHidden(True)
         product_details = self.get_data()
         for row in product_details:
             for i, item in enumerate(row):
@@ -992,9 +991,13 @@ class ProductDetail(QMainWindow):
                         if material[0] == item:
                             self.ui.comboBox_Material.setCurrentIndex(item - 1)
                 elif i == 10:
-                    for x, color in enumerate(self.color_data):
+                    for color in self.color_data:
                         if color[0] == item:
                             self.ui.comboBox_Color.setCurrentIndex(item - 1)
+                elif i == 11:
+                    for manu in self.manufacturer_data:
+                        if manu[0] == item:
+                            self.ui.comboBox_Manu.setCurrentIndex(item - 1)
 
     def update_data(self):
         product_details = self.get_data()
@@ -1075,6 +1078,15 @@ class ProductDetail(QMainWindow):
             self.display_data()
         else:
             pass
+
+    def description_count(self):
+        self.ui.characters_remaining.setHidden(False)
+        text_length = len(self.ui.description_box.toPlainText())
+        count = 250 - text_length
+        self.ui.characters_remaining.setText(str(count) + " characters remaining")
+        if text_length >= 250:
+            msgbox = QtWidgets.QMessageBox()
+            msgbox.critical(None, 'Text Limit Exceed', 'You have exceed the text limit. Please reduce characters!')
 
 
 # Fully Functional
@@ -1276,7 +1288,6 @@ class ProductStatusDetail(QMainWindow):
 
     def update_data(self):
         status_details = self.get_data()
-        print(status_details)
         status_details[0][1] = self.ui.lineEdit_desc.text()
         cnxn = server_connection()
         cursor = cnxn.cursor()
@@ -1825,7 +1836,7 @@ class NewEmployeeForm(QMainWindow):
         cursor = cnxn.cursor()
         cursor.execute("INSERT INTO Employee (FIRST_NAME, MIDDLE_NAME, LAST_NAME, ADDRESS_1, ADDRESS_2,"
                        " CITY, STATE_PROVINCE_ID, POSTAL_CODE, COUNTRY_ID, DATE_OF_BIRTH, EMPLOYEE_STATUS_ID,"
-                       " IS_DELETE) VALUES (?,?,?,?,?,?,?,?,?,?,?,0)", first_name, middle, lastname, address_1, address_2, city,
+                       " IS_DELETE) VALUES (?,?,?,?,?,?,?,?,?,?,?,0)", first_name, middle, lastname, address_1, address_2 , city,
                        state_code, postal_code, country, dob, status)
         cnxn.commit()
         msgbox = QtWidgets.QMessageBox()
@@ -2488,7 +2499,6 @@ class DistributorStatus(QMainWindow):
 
 
 # ==> MANUFACTURER FORMS CLASSES
-# Fully Functional
 class NewManufacturerForm(QMainWindow):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -2534,7 +2544,6 @@ class NewManufacturerForm(QMainWindow):
         self.ui.lineEdit_number.clear()
 
 
-# todo: Test this form
 class NewManufacturerContactForm(QMainWindow):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -2576,7 +2585,6 @@ class NewManufacturerContactForm(QMainWindow):
         self.ui.lineEdit_DisCN.clear()
 
 
-# todo: Test this form
 class ManufacturerContactForm(QMainWindow):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -2894,7 +2902,6 @@ class PromotionDetailsForm(QMainWindow):
         self.ui = Ui_PromotionDetails()
         self.ui.setupUi(self)
         self.table_data = self.load_data()
-        print(self.table_data)
         self.season_data = self.load_data()
         self.set_promotionlist()
         self.ui.selectButton.clicked.connect(self.display_data)

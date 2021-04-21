@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>953</width>
-    <height>628</height>
+    <height>530</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -40,7 +40,7 @@ QScrollBar{background: black;}</string>
          <x>0</x>
          <y>0</y>
          <width>931</width>
-         <height>606</height>
+         <height>508</height>
         </rect>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -70,7 +70,7 @@ QScrollBar{background: black;}</string>
               <string notr="true">color:#6A7AA6</string>
              </property>
              <property name="text">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Manufacturer Contact &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              <string>&lt;strong&gt;Manufacturer&lt;/strong&gt; Contact</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -155,13 +155,13 @@ QPushButton::hover{border:2px solid white; background-color:#F27E14; color:white
              <property name="minimumSize">
               <size>
                <width>250</width>
-               <height>0</height>
+               <height>25</height>
               </size>
              </property>
              <property name="maximumSize">
               <size>
                <width>200</width>
-               <height>16777215</height>
+               <height>25</height>
               </size>
              </property>
             </widget>
@@ -194,7 +194,20 @@ QPushButton::hover{border:2px solid white; background-color:#F27E14; color:white
             </widget>
            </item>
            <item row="1" column="1">
-            <widget class="QComboBox" name="comboBox_contact"/>
+            <widget class="QComboBox" name="comboBox_contact">
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>25</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>25</height>
+              </size>
+             </property>
+            </widget>
            </item>
            <item row="1" column="0">
             <widget class="QLabel" name="label">
@@ -250,14 +263,19 @@ QPlainTextEdit{background-color:white;}
              <property name="minimumSize">
               <size>
                <width>250</width>
-               <height>0</height>
+               <height>25</height>
               </size>
              </property>
              <property name="maximumSize">
               <size>
                <width>260</width>
-               <height>16777215</height>
+               <height>25</height>
               </size>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>9</pointsize>
+              </font>
              </property>
              <property name="maxLength">
               <number>250</number>
@@ -272,11 +290,26 @@ QPlainTextEdit{background-color:white;}
            </item>
            <item row="1" column="1">
             <widget class="QLineEdit" name="lineEdit_DisCN">
+             <property name="minimumSize">
+              <size>
+               <width>150</width>
+               <height>25</height>
+              </size>
+             </property>
              <property name="maximumSize">
               <size>
-               <width>260</width>
-               <height>16777215</height>
+               <width>150</width>
+               <height>25</height>
               </size>
+             </property>
+             <property name="maxLength">
+              <number>11</number>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+             <property name="placeholderText">
+              <string>Enter Contact Number</string>
              </property>
             </widget>
            </item>
@@ -285,13 +318,13 @@ QPlainTextEdit{background-color:white;}
              <property name="minimumSize">
               <size>
                <width>220</width>
-               <height>0</height>
+               <height>25</height>
               </size>
              </property>
              <property name="maximumSize">
               <size>
                <width>250</width>
-               <height>35</height>
+               <height>25</height>
               </size>
              </property>
              <property name="font">
@@ -319,7 +352,13 @@ QPlainTextEdit{background-color:white;}
              <property name="minimumSize">
               <size>
                <width>220</width>
-               <height>0</height>
+               <height>25</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>25</height>
               </size>
              </property>
              <property name="font">
@@ -344,13 +383,53 @@ QPlainTextEdit{background-color:white;}
            </item>
            <item row="2" column="0">
             <widget class="QLabel" name="label_2">
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>25</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>25</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <family>Montserrat Medium</family>
+               <pointsize>10</pointsize>
+              </font>
+             </property>
              <property name="text">
               <string>Email</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
              </property>
             </widget>
            </item>
            <item row="2" column="1">
-            <widget class="QLineEdit" name="lineEdit_email"/>
+            <widget class="QLineEdit" name="lineEdit_email">
+             <property name="minimumSize">
+              <size>
+               <width>400</width>
+               <height>25</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>400</width>
+               <height>25</height>
+              </size>
+             </property>
+             <property name="maxLength">
+              <number>100</number>
+             </property>
+             <property name="placeholderText">
+              <string>Enter Email Address</string>
+             </property>
+            </widget>
            </item>
           </layout>
          </widget>
