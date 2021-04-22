@@ -1814,11 +1814,8 @@ class NewEmployeeForm(QMainWindow):
             self.ui.lineEdit_Address1.clear()
             self.ui.lineEdit_Address2.clear()
             self.ui.lineEdit_City.clear()
-            self.ui.comboBox_StateProvince.clear()
-            self.ui.comboBox_Country.clear()
             self.ui.lineEdit_PostalCode.clear()
             self.ui.lineEdit_DateOfBirth.clear()
-            self.ui.comboBox_EmployeeStatusID.clear()
         else:
             pass
 
@@ -2120,11 +2117,15 @@ class NewDistributorForm(QMainWindow):
         cnxn = server_connection()
         cursor = cnxn.cursor()
         cursor.execute("INSERT INTO Distributor (DIS_NAME, WAREHOUSE_ADDRESS, CITY, STATE_PROVINCE_ID, POSTAL_CODE, "
-                       "DIS_STATUS_ID, IS_DELETE) VALUES (?,?,?,?,?,?,0)", dis_name, address, city, int(postal_code),
-                       state_code, status_code)
+                       "DIS_STATUS_ID, IS_DELETE) VALUES (?,?,?,?,?,?,0)", dis_name, address, city, state_code,
+                       postal_code, status_code)
         cnxn.commit()
         msgbox = QtWidgets.QMessageBox()
         msgbox.information(None, 'New Distributor Added', f"{dis_name} has been added to the database.")
+        self.ui.lineEdit_DisName.clear()
+        self.ui.lineEdit_postalcode.clear()
+        self.ui.lineEdit_DisCity.clear()
+        self.ui.lineEdit_DisAddress.clear()
 
     def clear_form(self):
         msgbox = QtWidgets.QMessageBox()
@@ -2147,6 +2148,8 @@ class NewDistributorContact(QMainWindow):
         self.ui.setupUi(self)
         self.man_data = self.load_data()
         self.display_data()
+        self.ui.save_Button_DC.clicked.connect(self.add_data)
+        self.ui.delete_Button_DC.clicked.connect(self.clear_form)
 
     @staticmethod
     def load_data():
@@ -2171,11 +2174,14 @@ class NewDistributorContact(QMainWindow):
                 manu_id = row[0]
         cnxn = server_connection()
         cursor = cnxn.cursor()
-        cursor.execute("INSERT INTO Distributor_Contact (DC_NAME, CONTACT_NUMBER, EMAIL, DISTRIBUTOR_ID, IS_DELETE)"
+        cursor.execute("INSERT INTO Distributor_Contact (DC_NAME, DC_CONTACT_NUMBER, DC_EMAIL, DISTRIBUTOR_ID, IS_DELETE)"
                        " VALUES (?,?,?,?,0)", mc_name, mc_number, mc_email, manu_id)
         cnxn.commit()
         msgbox = QtWidgets.QMessageBox()
         msgbox.information(None, 'New Distributor Contact Added', f"{mc_name} has been added to the database.")
+        self.ui.lineEdit_DisName.clear()
+        self.ui.lineEdit_email.clear()
+        self.ui.lineEdit_DisCN.clear()
 
     def clear_form(self):
         msgbox = QtWidgets.QMessageBox()
@@ -2262,7 +2268,7 @@ class DistributorContactForm(QMainWindow):
         if box == msgbox.StandardButtons.Yes:
             cnxn = server_connection()
             cursor = cnxn.cursor()
-            cursor.execute("UPDATE Distributor_Contact SET DC_NAME = ?, CONTACT_NUMBER = ?, EMAIL = ?, DISTRIBUTOR_ID = ?,"
+            cursor.execute("UPDATE Distributor_Contact SET DC_NAME = ?, DC_CONTACT_NUMBER = ?, DC_EMAIL = ?, DISTRIBUTOR_ID = ?,"
                            " IS_DELETE = 0 WHERE DIS_CONTACT_ID = ?", contact_name, contact_number, contact_email,
                            contact_details[0][4], contact_details[0][0])
             cnxn.commit()
@@ -2302,7 +2308,7 @@ class DistributorDetailsForm(QMainWindow):
         self.ui.setupUi(self)
         self.table_data = self.load_data()[0]
         self.status_data = self.load_data()[1]
-        self.state_data = self.load_data()[2]
+        self.state_data = sorted(self.load_data()[2])
         self.set_dislist()
         self.display_data()
         self.ui.selectButton.clicked.connect(self.display_data)
@@ -2330,10 +2336,9 @@ class DistributorDetailsForm(QMainWindow):
         status_list = []
         for status in self.status_data:
             status_list.append(status[1])
-        states = []
+        state_list = []
         for state in self.state_data:
-            states.append(state[1])
-        state_list = sorted(states)
+            state_list.append(state[1])
         self.ui.comboBox_state.addItems(state_list)
         self.ui.comboBox_disstat.addItems(status_list)
 
@@ -2406,7 +2411,7 @@ class DistributorDetailsForm(QMainWindow):
             cursor = cnxn.cursor()
             cursor.execute("UPDATE Distributor SET DIS_NAME = ?, WAREHOUSE_ADDRESS = ?, CITY = ?, STATE_PROVINCE_ID = ?, "
                            "POSTAL_CODE = ?, DIS_STATUS_ID = ?, IS_DELETE = 0 WHERE DISTRIBUTOR_ID = ?", dis_name, dis_addr,
-                           dis_city, state_code, int(postal_code), status_id, dis_details[0][0])
+                           dis_city, state_code, postal_code, status_id, dis_details[0][0])
             cnxn.commit()
             # Re-query Table Data
             self.ui.comboBox_disname.clear()
@@ -2538,6 +2543,10 @@ class NewManufacturerForm(QMainWindow):
         cnxn.commit()
         msgbox = QtWidgets.QMessageBox()
         msgbox.information(None, 'New Manufacturer Added', f"{manu_name} has been added to the database.")
+        self.ui.lineEdit_man_name.clear()
+        self.ui.lineEdit_man_address.clear()
+        self.ui.lineEdit_email.clear()
+        self.ui.lineEdit_number.clear()
 
     def clear_form(self):
         msgbox = QtWidgets.QMessageBox()
@@ -2559,6 +2568,8 @@ class NewManufacturerContactForm(QMainWindow):
         self.ui.setupUi(self)
         self.man_data = self.load_data()
         self.display_data()
+        self.ui.save_Button_DC.clicked.connect(self.add_data)
+        self.ui.delete_Button_DC.clicked.connect(self.clear_form)
 
     @staticmethod
     def load_data():
@@ -2588,6 +2599,9 @@ class NewManufacturerContactForm(QMainWindow):
         cnxn.commit()
         msgbox = QtWidgets.QMessageBox()
         msgbox.information(None, 'New Manufacturer Contact Added', f"{mc_name} has been added to the database.")
+        self.ui.lineEdit_DisName.clear()
+        self.ui.lineEdit_email.clear()
+        self.ui.lineEdit_DisCN.clear()
 
     def clear_form(self):
         msgbox = QtWidgets.QMessageBox()
