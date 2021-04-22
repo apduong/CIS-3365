@@ -30,7 +30,7 @@ The main goal of this project phrase is to develop a fully functional GUI to int
 * Access to 40 reports from the database
 
 ## Status
-Project is: _in progress_
+Project is: _completed_
 
 #### Contributors
 

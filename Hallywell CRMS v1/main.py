@@ -4120,8 +4120,8 @@ class ReportView(QMainWindow):
 # ==> RESOURCES
 def server_connection():
     conn = pyodbc.connect('Driver={SQL Server};'  # Leave this as is
-                          'Server=FAITH;'  # Enter your local Server Name
-                          'Database=cis3365db;'  # Enter your Database Name
+                          'Server=;'  # Enter your local Server Name
+                          'Database=;'  # Enter your Database Name
                           'Trusted_Connection=yes;')  # Leave this as is
     return conn
 
