@@ -148,7 +148,6 @@ class MainScreen(QMainWindow):
         self.ui.edit_promodet.clicked.connect(self.open_PromotionDetailsForm)
         # ==> Channel Forms
         self.ui.addChannelButton.clicked.connect(self.open_NewChannelStausForm)
-        self.ui.edit_chandet.clicked.connect(self.open_channeldetailsform)
         # ==> Return Code Form
         self.ui.pushButton_EditReturnCodeStatus.clicked.connect(self.open_ReturnCodeDetail)
         # ==> Reports
@@ -165,14 +164,14 @@ class MainScreen(QMainWindow):
     # todo: add functions to open all forms
     # ==> CUSTOMER FORMS
     # NEW CUSTOMER FORM
-    def open_newcustomerform(self):  # FIXME: Make this function name lower case
+    def open_newcustomerform(self):
         self.form = NewCustomerForm()
         icon = self.set_icon()
         self.form.setWindowIcon(icon)
         self.form.showMaximized()
 
     # CUSTOMER DETAILS FORM
-    def open_customerdetailsform(self):  # FIXME: Make this function name lower case
+    def open_customerdetailsform(self):
         self.form = CustomerDetailsForm()
         icon = self.set_icon()
         self.form.setWindowIcon(icon)
@@ -187,7 +186,7 @@ class MainScreen(QMainWindow):
         self.form.show()
 
     # ==> RETURN CODE FORMS
-    # Return code status
+    # RETURN CODE STATUS
     def open_ReturnCodeDetail(self):
         self.form = ReturnCodeDetail()
         icon = self.set_icon()
@@ -376,12 +375,6 @@ class MainScreen(QMainWindow):
 
     # ==> Channel FORMS
     # CHANNEL DETAILS FORM
-    def open_channeldetailsform(self):  # FIXME: Make this function name lower case
-        self.form = channeldetailsform()
-        icon = self.set_icon()
-        self.form.setWindowIcon(icon)
-        self.form.show()
-
     # NEW CHANNEL FORM
     def open_NewChannelStausForm(self):
         self.form = NewChannelStatusForm()
@@ -1992,11 +1985,11 @@ class EmployeeDetailsForm(QMainWindow):
                         if state[0] == item:
                             self.ui.comboBox_StateProvince.setCurrentIndex(item - 1)
                 elif i == 8:
+                    self.ui.lineEdit_PostalCode.setText(str(item))
+                elif i == 9:
                     for x, country in enumerate(self.country_data):
                         if country[0] == item:
                             self.ui.comboBox_Country.setCurrentIndex(item - 1)
-                elif i == 9:
-                    self.ui.lineEdit_PostalCode.setText(str(item))
                 elif i == 10:
                     self.ui.lineEdit_DateOfBirth.setText(item)
                 elif i == 11:
@@ -2036,19 +2029,20 @@ class EmployeeDetailsForm(QMainWindow):
                 employee_details[0][11] = row[0]
         msgbox = QtWidgets.QMessageBox()
         box = msgbox.question(None, 'Save Chanes', 'Are you sure you want to save changes to this employee?',
-                              msgbox.StandardButtons.Yes | msgbox.StandardsButtons.No)
-        if box == msgbox.StandardsButtons.Yes:
+                              msgbox.StandardButtons.Yes | msgbox.StandardButtons.No)
+        if box == msgbox.StandardButtons.Yes:
             employeeconnection = server_connection()
             cursor = employeeconnection.cursor()
             cursor.execute(
-                "UPDATE Employee SET FIRST_NAME = ?, LAST_NAME = ?, MIDDLE_NAME = ?, ADDRESS_1 = ?, ADDRESS_2 = ?, CITY = ?, STATE_PROVINCE_ID = ?, COUNTRY_ID = ?, POSTAL_CODE = ?,"
+                "UPDATE Employee SET FIRST_NAME = ?, LAST_NAME = ?,  MIDDLE_NAME = ?, ADDRESS_1 = ?, ADDRESS_2 = ?, "
+                "CITY = ?, STATE_PROVINCE_ID = ?, COUNTRY_ID = ?, POSTAL_CODE = ?,"
                 "DATE_OF_BIRTH = ?, EMPLOYEE_STATUS_ID = ? WHERE EMP_ID = ?", employee_details[0][1],
                 employee_details[0][2], employee_details[0][3], employee_details[0][4],
-                employee_details[0][5], employee_details[0][6], employee_details[0][7], employee_details[0][8],
-                employee_details[0][9], employee_details[0][10],
+                employee_details[0][5], employee_details[0][6], employee_details[0][7], employee_details[0][9],
+                employee_details[0][8], employee_details[0][10],
                 employee_details[0][11], employee_details[0][0])
             employeeconnection.commit()
-            self.ui.comboBox_EmployeeStatusID.clear()
+            self.ui.comboBox_SelectEmployee.clear()
             self.table_data = self.load_data()[0]
             self.set_employeelist()
             self.display_data()
@@ -2791,7 +2785,7 @@ class ManufacturerDetailsForm(QMainWindow):
         for row in self.status_data:
             if row[1] == self.ui.comboBox_ManufacturerStatusID.currentText():
                 manufacturer_details[0][5] = row[0]
-        msgbox = QWidgets.QMessageBox()
+        msgbox = QtWidgets.QMessageBox()
         box = msgbox.question(None, 'Save Changes', "Are you sure want to save changes to this manufacturer?",
                               msgbox.StandardButtons.Yes | msgbox.StandardButtons.No)
         if box == msgbox.StandardButtons.Yes:
@@ -2803,7 +2797,7 @@ class ManufacturerDetailsForm(QMainWindow):
                 manufacturer_details[0][3],
                 manufacturer_details[0][4], manufacturer_details[0][5], manufacturer_details[0][0])
             manufacturerconnection.commit()
-            self.ui.comboBox_ManufacturerStatusID.clear()
+            self.ui.comboBox_SearchManufacturer.clear()
             self.table_data = self.load_data()[0]
             self.set_manufacturerlist()
             self.display_data()
@@ -2824,7 +2818,7 @@ class ManufacturerDetailsForm(QMainWindow):
             cursor = manufacturerconnection.cursor()
             cursor.execute("UPDATE Manufacturer SET IS_DELETE = 1 WHERE MANUFACTURER_ID = ?", manufacturer_details[0][0])
             manufacturerconnection.commit()
-            self.ui.comboBox_ManufacturerStatusID.clear()
+            self.ui.comboBox_SearchManufacturer.clear()
             self.table_data = self.load_data()[0]
             self.set_manufacturerlist()
             self.display_data()
@@ -2945,11 +2939,10 @@ class NewPromotionForm(QMainWindow):
         cursor.execute("INSERT INTO Promotion (DESCRIPTION, DISCOUNT_AMOUNT, SEASON_ID, IS_DELETE)"
                        "VALUES (?, ?, ?, 0)", description, discount_amount, season_id_code)
         cnxn.commit()
-        msgbox = QtWidgets.QMessagesBox()
+        msgbox = QtWidgets.QMessageBox()
         msgbox.information(None, 'You added a new promotion!', f"{description} coupon has been successfully added.")
         self.ui.lineEdit_PromotionDescription.clear()
         self.ui.lineEdit_DiscountAmount.clear()
-        self.ui.comboBox_SeasonID.clear()
         self.ui.lineEdit_PromotionDescription.clear()
 
 
@@ -2974,6 +2967,7 @@ class PromotionDetailsForm(QMainWindow):
         self.table_data = self.load_data()[0]
         self.season_data = self.load_data()[1]
         self.set_promotionlist()
+        self.display_data()
         self.ui.selectButton.clicked.connect(self.display_data)
         self.ui.save_Button.clicked.connect(self.save_data)
         self.ui.delete_Button.clicked.connect(self.delete_data)
@@ -3025,42 +3019,55 @@ class PromotionDetailsForm(QMainWindow):
     def get_data(self):
         selected_name = self.ui.comboBox_SelectPromotion.currentText()
         promotion_details = []
-        for i, row in enumerate(self.season_data):
+        for i, row in enumerate(self.table_data):
             if row[1] == selected_name:
                 promotion_details.append(row)
-            return promotion_details
+        return promotion_details
 
     def save_data(self):
         promotion_details = self.get_data()
         promotion_details[0][1] = self.ui.lineEdit_PromotionDescription.text()
-        promotion_details[0][1] = self.ui.lineEdit_DiscountAmount.text()
-        promotion_details[0][2] = int()
+        promotion_details[0][2] = self.ui.lineEdit_DiscountAmount.text()
+        promotion_details[0][3] = int()
         for row in self.season_data:
             if row[1] == self.ui.comboBox_SeasonID.currentText():
-                promotion_details[0][2] = row[0]
-        promotionconnection = server_connection()
-        cursor = promotionconnection.cursor()
-        cursor.execute(
-            "UPDATE Promotions SET DESCRIPTION = ?, DISCOUNT_AMOUNT = ?, SEASON_ID = ? WHERE CUSTOMER_PROMO_CODE = ? ",
-            promotion_details[0][1], promotion_details[0][2], promotion_details[0][3], promotion_details[0][0])
-        promotionconnection.commit()
-        self.ui.lineEdit_PromotionDescription.clear()
-        self.ui.lineEdit_DiscountAmount.clear()
-        self.ui.comboBox_SeasonID.clear()
-        self.table_data = self.load_data()
-        self.set_promotionlist()
+                promotion_details[0][3] = row[0]
+        msgbox = QtWidgets.QMessageBox()
+        box = msgbox.question(None, 'Save Changes', "Are you sure you want to save changes to this customer?",
+                              msgbox.StandardButtons.Yes | msgbox.StandardButtons.No)
+        if box == msgbox.StandardButtons.Yes:
+            promotionconnection = server_connection()
+            cursor = promotionconnection.cursor()
+            cursor.execute(
+                "UPDATE Promotion SET DESCRIPTION = ?, DISCOUNT_AMOUNT = ?, SEASON_ID = ? WHERE CUSTOMER_PROMO_CODE = ? ",
+                promotion_details[0][1], promotion_details[0][2], promotion_details[0][3], promotion_details[0][0])
+            promotionconnection.commit()
+            self.ui.comboBox_SelectPromotion.clear()
+            self.ui.comboBox_SeasonID.clear()
+            self.table_data = self.load_data()[0]
+            self.set_promotionlist()
+            msgbox = QtWidgets.QMessageBox()
+            msgbox.information(None, 'Changes made', f"Your changes have been successfully made.")
+        else:
+            msgbox = QtWidgets.QMessageBox()
+            msgbox.information(None, 'No changes', f"No changes were made.")
 
     def delete_data(self):
         promotion_details = self.get_data()
-        promotionconnection = server_connection()
-        cursor = promotionconnection.cursor()
-        cursor.execute("UPDATE Promotion SET IS_DELETE = 1 WHERE CUSTOMER_PROMO_CODE = ?", promotion_details[0][0])
-        promotionconnection.commit()
-        self.ui.lineEdit_PromotionDescription.clear()
-        self.ui.lineEdit_DiscountAmount.clear()
-        self.ui.comboBox_SeasonID.clear()
-        self.table_data = self.load_data()[0]
-        self.set_promotionlist()
+        msgbox = QtWidgets.QMessageBox()
+        box = msgbox.warning(None, 'Delete Promotion', f"Are you sure you want to delete this promotion?",
+                             msg.StandardButtons.Yes | msg.StandardButtons.No)
+        if box == msgbox.StandardButtons.Yes:
+            promotionconnection = server_connection()
+            cursor = promotionconnection.cursor()
+            cursor.execute("UPDATE Promotion SET IS_DELETE = 1 WHERE CUSTOMER_PROMO_CODE = ?", promotion_details[0][0])
+            promotionconnection.commit()
+            self.ui.comboBox_SeasonID.clear()
+            self.table_data = self.load_data()[0]
+            self.set_promotionlist()
+            self.display_data()
+        else:
+            pass
 
 
 # NEW CHANNEL FORM
@@ -3093,15 +3100,19 @@ class NewChannelStatusForm(QMainWindow):
         for row in self.status_data:
             if row[1] == self.ui.comboBox_StatusCode.currentText():
                 status_code = row[0]
-        cnxn = server_connection()
-        cursor = cnxn.cursor()
-        cursor.execute("INSERT INTO Channel (CHANNEL_DESCRIPTION, CHA_STATUS_CODE,"
-                       "IS_DELETE) VALUES (?, ?, 0)", description, status_code)
-        cnxn.commit()
         msgbox = QtWidgets.QMessageBox()
-        msgbox.information(None, 'New Channel Added', f"{description} has been added to the database.")
+        box = msgbox.question(None, 'Save changes?', 'Are you sure you want to save this form?',
+                              msgbox.StandardButtons.Yes | msgbox.StandardButtons.No)
+        if box == msgbox.StandardButtons.Yes:
+            cnxn = server_connection()
+            cursor = cnxn.cursor()
+            cursor.execute("INSERT INTO Channel (CHANNEL_DESCRIPTION, CHA_STATUS_CODE,"
+                           "IS_DELETE) VALUES (?, ?, 0)", description, status_code)
+            cnxn.commit()
+            msgbox = QtWidgets.QMessageBox()
+            msgbox.information(None, 'New Channel Added', f"{description} has been added to the database.")
         self.ui.lineEdit_ChannelDescription.clear()
-        self.ui.comboBox_StatusCode.clear()
+
 
     def clear_form(self):
         msgbox = QtWidgets.QMessageBox()
