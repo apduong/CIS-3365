@@ -39,13 +39,12 @@ from NewManufacturerForm import Ui_NewManufacturerForm
 from NewManufacturerContact import Ui_NewManufacturerContact
 from ManufacturerContactForm import Ui_ManufacturerContactForm
 from ManufacturerDetail import Ui_ManufacturerStatus
-from ManufacturerDetailsForm import Ui_ManufacturerDetails
+from ManuacturerDetailsForm import Ui_ManufacturerDetails
 # ==> Promotion Forms
-from PromotionDetailsForm import \
-    Ui_PromotionDetails
+from PromtionDetailsForm import Ui_PromotionDetails
 from NewPromotionForm import Ui_NewPromotionForm
 # ==> Channel Forms
-from ChannelDetailsForm import Ui_ChannelDetails
+#from ChannelDetailsForm import Ui_ChannelDetails
 from NewChannelStatusForm import Ui_NewChannelStatusForm
 
 counter = 0
@@ -1926,7 +1925,6 @@ class EmployeeDetailsForm(QMainWindow):
         self.state_data = self.load_data()[2]
         self.status_data = self.load_data()[3]
         self.set_employeelist()
-        #self.display_data()
         self.ui.selectButton.clicked.connect(self.display_data)
         self.ui.save_Button.clicked.connect(self.save_data)
         self.ui.delete_Button.clicked.connect(self.delete_data)
@@ -2039,29 +2037,29 @@ class EmployeeDetailsForm(QMainWindow):
         for row in self.status_data:
             if row[1] == self.ui.comboBox_EmployeeStatusID.currentText():
                 employee_details[0][11] = row[0]
-        employeeconnection = server_connection()
-        cursor = employeeconnection.cursor()
-        cursor.execute(
-            "UPDATE Employee SET FIRST_NAME = ?, LAST_NAME = ?, MIDDLE_NAME = ?, ADDRESS_1 = ?, ADDRESS_2 = ?, CITY = ?, STATE_PROVINCE_ID = ?, COUNTRY_ID = ?, POSTAL_CODE = ?,"
-            "DATE_OF_BIRTH = ?, EMPLOYEE_STATUS_ID = ? WHERE EMP_ID = ?", employee_details[0][1],
-            employee_details[0][2], employee_details[0][3], employee_details[0][4],
-            employee_details[0][5], employee_details[0][6], employee_details[0][7], employee_details[0][8],
-            employee_details[0][9], employee_details[0][10],
-            employee_details[0][11], employee_details[0][0])
-        employeeconnection.commit()
-        self.ui.lineEdit_FirstName.clear()
-        self.ui.lineEdit_LastName.clear()
-        self.ui.lineEdit_MiddleName.clear()
-        self.ui.lineEdit_Address1.clear()
-        self.ui.lineEdit_Address2.clear()
-        self.ui.lineEdit_City.clear()
-        self.ui.comboBox_StateProvince.clear()
-        self.ui.comboBox_Country.clear()
-        self.ui.lineEdit_PostalCode.clear()
-        self.ui.lineEdit_DateOfBirth.clear()
-        self.ui.comboBox_EmployeeStatusID.clear()
-        self.table_data = self.load_data()
-        self.set_employeelist()
+        msgbox = QtWidgets.QMessageBox()
+        box = msgbox.question(None, 'Save Chanes', 'Are you sure you want to save changes to this employee?',
+                              msgbox.StandardButtons.Yes | msgbox.StandardsButtons.No)
+        if box == msgbox.StandardsButtons.Yes:
+            employeeconnection = server_connection()
+            cursor = employeeconnection.cursor()
+            cursor.execute(
+                "UPDATE Employee SET FIRST_NAME = ?, LAST_NAME = ?, MIDDLE_NAME = ?, ADDRESS_1 = ?, ADDRESS_2 = ?, CITY = ?, STATE_PROVINCE_ID = ?, COUNTRY_ID = ?, POSTAL_CODE = ?,"
+                "DATE_OF_BIRTH = ?, EMPLOYEE_STATUS_ID = ? WHERE EMP_ID = ?", employee_details[0][1],
+                employee_details[0][2], employee_details[0][3], employee_details[0][4],
+                employee_details[0][5], employee_details[0][6], employee_details[0][7], employee_details[0][8],
+                employee_details[0][9], employee_details[0][10],
+                employee_details[0][11], employee_details[0][0])
+            employeeconnection.commit()
+            self.ui.comboBox_EmployeeStatusID.clear()
+            self.table_data = self.load_data()[0]
+            self.set_employeelist()
+            self.display_data()
+            msgbox = QtWidgets.QMessageBox()
+            msgbox.information(None, 'Changes Made', f"Your changes have been made successully made.")
+        else:
+            msgbox = QtWidgets.QMessageBox()
+            msgbox.information(None, 'No changes', f"No changes were made to this form.")
 
     def delete_data(self):
         employee_details = self.get_data()
@@ -2796,33 +2794,45 @@ class ManufacturerDetailsForm(QMainWindow):
         for row in self.status_data:
             if row[1] == self.ui.comboBox_ManufacturerStatusID.currentText():
                 manufacturer_details[0][5] = row[0]
-        manufacturerconnection = server_connection()
-        cursor = manufacturerconnection.cursor()
-        cursor.execute(
-            "UPDATE Manufacturer SET M_NAME = ?, M_ADDRESS = ?, M_EMAIL = ?, M_PHONE = ?, MANUFACTURER_STATUS_ID = ? "
-            "WHERE MANUFACTURER_ID = ?", manufacturer_details[0][1], manufacturer_details[0][2],
-            manufacturer_details[0][3],
-            manufacturer_details[0][4], manufacturer_details[0][5], manufacturer_details[0][0])
-        manufacturerconnection.commit()
-        self.ui.lineEdit_ManufacturerName.clear()
-        self.ui.lineEdit_ManufacturerAddress.clear()
-        self.ui.lineEdit_ManufacturerEmail.clear()
-        self.ui.comboBox_ManufacturerStatusID.clear()
-        self.table_data = self.load_data()
-        self.set_manufacturerlist()
+        msgbox = QWidgets.QMessageBox()
+        box = msgbox.question(None, 'Save Changes', "Are you sure want to save changes to this manufacturer?",
+                              msgbox.StandardButtons.Yes | msgbox.StandardButtons.No)
+        if box == msgbox.StandardButtons.Yes:
+            manufacturerconnection = server_connection()
+            cursor = manufacturerconnection.cursor()
+            cursor.execute(
+                "UPDATE Manufacturer SET M_NAME = ?, M_ADDRESS = ?, M_EMAIL = ?, M_PHONE = ?, MANUFACTURER_STATUS_ID = ? "
+                "WHERE MANUFACTURER_ID = ?", manufacturer_details[0][1], manufacturer_details[0][2],
+                manufacturer_details[0][3],
+                manufacturer_details[0][4], manufacturer_details[0][5], manufacturer_details[0][0])
+            manufacturerconnection.commit()
+            self.ui.comboBox_ManufacturerStatusID.clear()
+            self.table_data = self.load_data()[0]
+            self.set_manufacturerlist()
+            self.display_data()
+            msgbox = QtWidgets.QMessageBox()
+            msgbox.information(None, 'Changes Made', f"Your changes have been made successfully")
+        else:
+            msgbox.QtWidgets.QMessageBox()
+            msgbox.information(None, 'No Changes', f"No changes were made to this form.")
+
 
     def delete_data(self):
         manufacturer_details = self.get_data()
-        manufacturerconnection = server_connection()
-        cursor = manufacturerconnection.cursor()
-        cursor.execute("UPDATE Manufacturer SET IS_DELETE = 1 WHERE MANUFACTURER_ID = ?", manufacturer_details[0][0])
-        manufacturerconnection.commit()
-        self.ui.lineEdit_ManufacturerName.clear()
-        self.ui.lineEdit_ManufacturerAddress.clear()
-        self.ui.lineEdit_ManufacturerEmail.clear()
-        self.ui.comboBox_ManufacturerStatusID.clear()
-        self.table_data = self.load_data()[0]
-        self.set_manufacturerlist()
+        msgbox = QtWidgets.QMessageBox()
+        box = msgbox.warning(None, 'Delete Contact', f"Are you sure you want to delete this contact?",
+                             msgbox.StandardButtons.Yes | msgbox.StandardButtons.No)
+        if box == msgbox.StandardButtons.Yes:
+            manufacturerconnection = server_connection()
+            cursor = manufacturerconnection.cursor()
+            cursor.execute("UPDATE Manufacturer SET IS_DELETE = 1 WHERE MANUFACTURER_ID = ?", manufacturer_details[0][0])
+            manufacturerconnection.commit()
+            self.ui.comboBox_ManufacturerStatusID.clear()
+            self.table_data = self.load_data()[0]
+            self.set_manufacturerlist()
+            self.display_data()
+        else:
+            pass
 
 
 # Fully Functioning Form
@@ -2939,10 +2949,24 @@ class NewPromotionForm(QMainWindow):
         cursor.execute("INSERT INTO Promotion (DESCRIPTION, DISCOUNT_AMOUNT, SEASON_ID, IS_DELETE)"
                        "VALUES (?, ?, ?, 0)", description, discount_amount, season_id_code)
         cnxn.commit()
-
-    def clear_form(self):
+        msgbox = QtWidgets.QMessagesBox()
+        msgbox.information(None, 'You added a new promotion!', f"{description} coupon has been successfully added.")
         self.ui.lineEdit_PromotionDescription.clear()
         self.ui.lineEdit_DiscountAmount.clear()
+        self.ui.comboBox_SeasonID.clear()
+        self.ui.lineEdit_PromotionDescription.clear()
+
+
+    def clear_form(self):
+        msgbox = QtWidgets.QMessageBox()
+        msgbox.setStyleSheet("QMessageBox{background-color:white;}")
+        message = msgbox.question(None, 'Clear Form', 'Are you sure you want to clear this form?',
+                                   msgbox.StandardButtons.Yes | msgbox.StandardButtons.No)
+        if message == msgbox.StandardButtons.Yes:
+            self.ui.lineEdit_PromotionDescription.clear()
+            self.ui.lineEdit_DiscountAmount.clear()
+        else:
+            pass
 
 
 # Promotion
@@ -2951,8 +2975,8 @@ class PromotionDetailsForm(QMainWindow):
         super().__init__(*args, **kwargs)
         self.ui = Ui_PromotionDetails()
         self.ui.setupUi(self)
-        self.table_data = self.load_data()
-        self.season_data = self.load_data()
+        self.table_data = self.load_data()[0]
+        self.season_data = self.load_data()[1]
         self.set_promotionlist()
         self.ui.selectButton.clicked.connect(self.display_data)
         self.ui.save_Button.clicked.connect(self.save_data)
@@ -2982,7 +3006,7 @@ class PromotionDetailsForm(QMainWindow):
         for item in self.season_data:
             for row, name in enumerate(item):
                 if row == 1:
-                    seasonal_list.append(item[1])
+                    seasonal_list.append(name)
         self.ui.comboBox_SeasonID.addItems(seasonal_list)
 
     def display_data(self):
@@ -3043,38 +3067,6 @@ class PromotionDetailsForm(QMainWindow):
         self.set_promotionlist()
 
 
-# ==> CHANNEL FORMS CLASSES
-'''class ChannelDetailsForm(QMainWindow):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.ui = Ui_ChannelDetails()
-        self.ui.setupUi(self)
-
-
-    @staticmethod
-    def load_data(self):
-        cursor = server_connection()
-
-        data = cursor.execure('SELECT * FROM Channel WHEERE IS_DELETE = 0')
-        table_data = [[item for item in row] for row in data]
-
-        data = cursor.execute('SELECT * FROM Channel_Status IS_DELETE = 0')
-        channel_data = [[item for item in row] for row in data]
-
-        return table_data, channel_data
-
-    def set_channel_list(self):
-        channel_names = []
-        for row in self.table_data:
-            for i, name in enumerate(row):
-                if i == 1:
-                    channel_names.append(name)
-        self.ui.comboBox_selectChannel.addItems(channel_names)
-
-        channel_data = []
-        for i, item in enumerate'''
-
-
 # NEW CHANNEL FORM - Fully Functional
 class NewChannelStatusForm(QMainWindow):
     def __init__(self, *args, **kwargs):
@@ -3110,9 +3102,22 @@ class NewChannelStatusForm(QMainWindow):
         cursor.execute("INSERT INTO Channel (CHANNEL_DESCRIPTION, CHA_STATUS_CODE,"
                        "IS_DELETE) VALUES (?, ?, 0)", description, status_code)
         cnxn.commit()
+        msgbox = QtWidgets.QMessageBox()
+        msgbox.information(None, 'New Channel Added', f"{description} has been added to the database.")
+        self.ui.lineEdit_ChannelDescription.clear()
+        self.ui.comboBox_StatusCode.clear()
 
     def clear_form(self):
-        self.ui.lineEdit_ChannelDescription.clear()
+        msgbox = QtWidgets.QMessageBox()
+        msgbox.setStyleSheet("QMessaageBox{background-color:white;}")
+        message = msgbox.question(None, 'Clear Form', 'Are you sure you want to clear this form?',
+                                  msgbox.StandardButtons.Yes | msgbox.StandardButtons.No)
+        if message == msgbox.StandardButtons.Yes:
+            self.ui.lineEdit_ChannelDescription.clear()
+            self.ui.lineEdit_ChannelDescription.clear()
+        else:
+            pass
+
 
 
 # ==> RETURN CODE - Fully Functional
@@ -3156,11 +3161,11 @@ class ReturnCodeDetail(QMainWindow):
         for row in status_details:
             for i, item in enumerate(row):
                 if i == 1:
-                    self.ui.lineEdit_IDDescription.setText(item)
+                    self.ui.textEdit_StatusDesc.setText(item)
 
     def update_data(self):
         status_details = self.get_data()
-        status_details[0][1] = self.ui.lineEdit_IDDescription.text()
+        status_details[0][1] = self.ui.textEdit_StatusDesc.text()
         returncnxn = server_connection()
         cursor = returncnxn.cursor()
         cursor.execute("UPDATE Return_Code SET DESCRIPTION = ? WHERE RETURN_CODE_ID = ?",
@@ -3182,7 +3187,7 @@ class ReturnCodeDetail(QMainWindow):
         self.set_return_code_list()
 
     def add_data(self):
-        insert_data = self.ui.lineEdit_EnterNewID.text()
+        insert_data = self.ui.textEdit_AddDescription.text()
         returncnxn = server_connection()
         cursor = returncnxn.cursor()
         cursor.execute("INSERT INTO Return_Code (DESCRIPTION, IS_DELETE) VALUES (?,0)", insert_data)
@@ -3190,7 +3195,7 @@ class ReturnCodeDetail(QMainWindow):
         self.ui.comboBox_SelectID.clear()
         self.table_data = self.load_data()
         self.set_return_code_list()
-        self.ui.lineEdit_EnterNewID.clear()
+        self.ui.textEdit_AddDescription.clear()
 
 
 class ReportView(QMainWindow):
@@ -4096,8 +4101,8 @@ class ReportView(QMainWindow):
 # ==> RESOURCES
 def server_connection():
     conn = pyodbc.connect('Driver={SQL Server};'  # Leave this as is
-                          'Server=LAPTOP-S6PL64NB;'  # Enter your local Server Name
-                          'Database=CIS33655_Official;'  # Enter your Database Name
+                          'Server=FAITH;'  # Enter your local Server Name
+                          'Database=cis3365db;'  # Enter your Database Name
                           'Trusted_Connection=yes;')  # Leave this as is
     return conn
 
