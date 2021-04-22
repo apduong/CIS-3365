@@ -158,13 +158,13 @@ QPushButton::hover{border:2px solid white; background-color:#F27E14; color:white
             <widget class="QComboBox" name="comboBox_selectDis">
              <property name="minimumSize">
               <size>
-               <width>250</width>
+               <width>325</width>
                <height>25</height>
               </size>
              </property>
              <property name="maximumSize">
               <size>
-               <width>200</width>
+               <width>325</width>
                <height>25</height>
               </size>
              </property>
@@ -307,14 +307,14 @@ QPlainTextEdit{background-color:white;}
              <property name="font">
               <font>
                <family>Montserrat</family>
-               <pointsize>8</pointsize>
+               <pointsize>9</pointsize>
               </font>
              </property>
              <property name="maxLength">
               <number>15</number>
              </property>
              <property name="placeholderText">
-              <string>Enter Contact Number (no spaces)</string>
+              <string>Enter Contact Number</string>
              </property>
             </widget>
            </item>

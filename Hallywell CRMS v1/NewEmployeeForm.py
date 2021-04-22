@@ -276,7 +276,7 @@ class Ui_NewEmployeeForm(object):
         self.lineEdit_Address1 = QtWidgets.QLineEdit(self.frame_4)
         self.lineEdit_Address1.setMinimumSize(QtCore.QSize(400, 25))
         self.lineEdit_Address1.setMaximumSize(QtCore.QSize(400, 25))
-        self.lineEdit_Address1.setMaxLength(10)
+        self.lineEdit_Address1.setMaxLength(100)
         self.lineEdit_Address1.setObjectName("lineEdit_Address1")
         self.gridLayout_2.addWidget(self.lineEdit_Address1, 6, 2, 1, 1)
         self.lineEdit_LastName = QtWidgets.QLineEdit(self.frame_4)

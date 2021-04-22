@@ -704,7 +704,7 @@ QPlainTextEdit{background-color:white;}
               </size>
              </property>
              <property name="maxLength">
-              <number>10</number>
+              <number>100</number>
              </property>
              <property name="placeholderText">
               <string>Enter Address 1</string>
