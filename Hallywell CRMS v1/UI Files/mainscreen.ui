@@ -186,7 +186,7 @@ QPushButton::hover{border:3px solid #FFF3E8; border-radius:50px;background-color
                     <property name="frameShadow">
                      <enum>QFrame::Raised</enum>
                     </property>
-                    <layout class="QGridLayout" name="gridLayout_3" rowstretch="0,0,0,0">
+                    <layout class="QGridLayout" name="gridLayout_3" rowstretch="0,0">
                      <property name="horizontalSpacing">
                       <number>60</number>
                      </property>
@@ -230,7 +230,7 @@ QPushButton::hover{border:3px solid #FFF3E8; border-radius:50px;background-color
                           </property>
                           <property name="icon">
                            <iconset>
-                            <normaloff>../../../../Desktop/Icons/Group 106.png</normaloff>../../../../Desktop/Icons/Group 106.png</iconset>
+                            <normaloff>Customer.png</normaloff>Customer.png</iconset>
                           </property>
                           <property name="iconSize">
                            <size>
@@ -307,7 +307,7 @@ QPushButton::hover{border:3px solid #FFF3E8; border-radius:50px;background-color
                           </property>
                           <property name="icon">
                            <iconset>
-                            <normaloff>../../../../Desktop/Icons/Group 99.png</normaloff>../../../../Desktop/Icons/Group 99.png</iconset>
+                            <normaloff>Detail.png</normaloff>Detail.png</iconset>
                           </property>
                           <property name="iconSize">
                            <size>
@@ -451,7 +451,7 @@ QPushButton::hover{border:3px solid #FFF3E8; border-radius:50px;background-color
                            </property>
                            <property name="icon">
                             <iconset>
-                             <normaloff>../../../../Desktop/Icons/Group 115.png</normaloff>../../../../Desktop/Icons/Group 115.png</iconset>
+                             <normaloff>ProductThread.png</normaloff>ProductThread.png</iconset>
                            </property>
                            <property name="iconSize">
                             <size>
@@ -516,7 +516,7 @@ QPushButton::hover{border:3px solid #FFF3E8; border-radius:50px;background-color
                            </property>
                            <property name="icon">
                             <iconset>
-                             <normaloff>../../../../Desktop/Icons/Group 114.png</normaloff>../../../../Desktop/Icons/Group 114.png</iconset>
+                             <normaloff>ProductType.png</normaloff>ProductType.png</iconset>
                            </property>
                            <property name="iconSize">
                             <size>
@@ -641,7 +641,7 @@ QPushButton::hover{border:3px solid #FFF3E8; border-radius:50px;background-color
                            </property>
                            <property name="icon">
                             <iconset>
-                             <normaloff>../../../../Desktop/Icons/Group 103.png</normaloff>../../../../Desktop/Icons/Group 103.png</iconset>
+                             <normaloff>Material.png</normaloff>Material.png</iconset>
                            </property>
                            <property name="iconSize">
                             <size>
@@ -703,7 +703,7 @@ QPushButton::hover{border:3px solid #FFF3E8; border-radius:50px;background-color
                            </property>
                            <property name="icon">
                             <iconset>
-                             <normaloff>../../../../Desktop/Icons/Group 112.png</normaloff>../../../../Desktop/Icons/Group 112.png</iconset>
+                             <normaloff>Size.png</normaloff>Size.png</iconset>
                            </property>
                            <property name="iconSize">
                             <size>
@@ -768,7 +768,7 @@ QPushButton::hover{border:3px solid #FFF3E8; border-radius:50px;background-color
                            </property>
                            <property name="icon">
                             <iconset>
-                             <normaloff>../../../../Desktop/Icons/Group 109.png</normaloff>../../../../Desktop/Icons/Group 109.png</iconset>
+                             <normaloff>Rating.png</normaloff>Rating.png</iconset>
                            </property>
                            <property name="iconSize">
                             <size>
@@ -803,7 +803,7 @@ QPushButton::hover{border:3px solid #FFF3E8; border-radius:50px;background-color
                            </property>
                            <property name="icon">
                             <iconset>
-                             <normaloff>../../../../Desktop/Icons/Group 105.png</normaloff>../../../../Desktop/Icons/Group 105.png</iconset>
+                             <normaloff>History.png</normaloff>History.png</iconset>
                            </property>
                            <property name="iconSize">
                             <size>
@@ -838,7 +838,7 @@ QPushButton::hover{border:3px solid #FFF3E8; border-radius:50px;background-color
                            </property>
                            <property name="icon">
                             <iconset>
-                             <normaloff>../../../../Desktop/Icons/Group 104.png</normaloff>../../../../Desktop/Icons/Group 104.png</iconset>
+                             <normaloff>Color.png</normaloff>Color.png</iconset>
                            </property>
                            <property name="iconSize">
                             <size>
@@ -936,7 +936,7 @@ QPushButton::hover{border:3px solid #FFF3E8; border-radius:50px;background-color
                            </property>
                            <property name="icon">
                             <iconset>
-                             <normaloff>../../../../Desktop/Icons/Group 101.png</normaloff>../../../../Desktop/Icons/Group 101.png</iconset>
+                             <normaloff>NewProduct.png</normaloff>NewProduct.png</iconset>
                            </property>
                            <property name="iconSize">
                             <size>
@@ -971,7 +971,7 @@ QPushButton::hover{border:3px solid #FFF3E8; border-radius:50px;background-color
                            </property>
                            <property name="icon">
                             <iconset>
-                             <normaloff>../../../../Desktop/Icons/Group 99.png</normaloff>../../../../Desktop/Icons/Group 99.png</iconset>
+                             <normaloff>Detail.png</normaloff>Detail.png</iconset>
                            </property>
                            <property name="iconSize">
                             <size>
@@ -1033,7 +1033,7 @@ QPushButton::hover{border:3px solid #FFF3E8; border-radius:50px;background-color
                            </property>
                            <property name="icon">
                             <iconset>
-                             <normaloff>../../../../Desktop/Icons/Group 102.png</normaloff>../../../../Desktop/Icons/Group 102.png</iconset>
+                             <normaloff>Status.png</normaloff>Status.png</iconset>
                            </property>
                            <property name="iconSize">
                             <size>
@@ -1222,7 +1222,7 @@ QPushButton::hover{border:3px solid #FFF3E8; border-radius:50px;background-color
                        </property>
                        <property name="icon">
                         <iconset>
-                         <normaloff>../../../../Desktop/Icons/Group 113.png</normaloff>../../../../Desktop/Icons/Group 113.png</iconset>
+                         <normaloff>OrderStatus.png</normaloff>OrderStatus.png</iconset>
                        </property>
                        <property name="iconSize">
                         <size>
@@ -1328,7 +1328,7 @@ QPushButton::hover{border:3px solid #FFF3E8; border-radius:50px;background-color
                        </property>
                        <property name="icon">
                         <iconset>
-                         <normaloff>../../../../Desktop/Icons/Group 102.png</normaloff>../../../../Desktop/Icons/Group 102.png</iconset>
+                         <normaloff>Status.png</normaloff>Status.png</iconset>
                        </property>
                        <property name="iconSize">
                         <size>
@@ -1456,7 +1456,7 @@ QPushButton::hover{border:3px solid #FFF3E8; border-radius:50px;background-color
                        </property>
                        <property name="icon">
                         <iconset>
-                         <normaloff>../../../../Desktop/Group 98.png</normaloff>../../../../Desktop/Group 98.png</iconset>
+                         <normaloff>Employee.png</normaloff>Employee.png</iconset>
                        </property>
                        <property name="iconSize">
                         <size>
@@ -1491,7 +1491,7 @@ QPushButton::hover{border:3px solid #FFF3E8; border-radius:50px;background-color
                        </property>
                        <property name="icon">
                         <iconset>
-                         <normaloff>../../../../Desktop/Icons/Group 99.png</normaloff>../../../../Desktop/Icons/Group 99.png</iconset>
+                         <normaloff>Detail.png</normaloff>Detail.png</iconset>
                        </property>
                        <property name="iconSize">
                         <size>
@@ -1575,7 +1575,7 @@ QPushButton::hover{border:3px solid #FFF3E8; border-radius:50px;background-color
 </string>
                     </property>
                     <property name="currentIndex">
-                     <number>1</number>
+                     <number>0</number>
                     </property>
                     <widget class="QWidget" name="tab_12">
                      <attribute name="title">
@@ -1648,7 +1648,7 @@ QPushButton::hover{border:3px solid #FFF3E8; border-radius:50px;background-color
                                </property>
                                <property name="icon">
                                 <iconset>
-                                 <normaloff>../../../../Desktop/Icons/Group 102.png</normaloff>../../../../Desktop/Icons/Group 102.png</iconset>
+                                 <normaloff>Status.png</normaloff>Status.png</iconset>
                                </property>
                                <property name="iconSize">
                                 <size>
@@ -1680,7 +1680,7 @@ QPushButton::hover{border:3px solid #FFF3E8; border-radius:50px;background-color
                                </property>
                                <property name="icon">
                                 <iconset>
-                                 <normaloff>../../../../Desktop/Icons/Group 107.png</normaloff>../../../../Desktop/Icons/Group 107.png</iconset>
+                                 <normaloff>NewDistributor.png</normaloff>NewDistributor.png</iconset>
                                </property>
                                <property name="iconSize">
                                 <size>
@@ -1745,7 +1745,7 @@ QPushButton::hover{border:3px solid #FFF3E8; border-radius:50px;background-color
                                </property>
                                <property name="icon">
                                 <iconset>
-                                 <normaloff>../../../../Desktop/Icons/Group 99.png</normaloff>../../../../Desktop/Icons/Group 99.png</iconset>
+                                 <normaloff>Detail.png</normaloff>Detail.png</iconset>
                                </property>
                                <property name="iconSize">
                                 <size>
@@ -1807,7 +1807,7 @@ QPushButton::hover{border:3px solid #FFF3E8; border-radius:50px;background-color
                                </property>
                                <property name="icon">
                                 <iconset>
-                                 <normaloff>../../../../Desktop/Icons/Group 100.png</normaloff>../../../../Desktop/Icons/Group 100.png</iconset>
+                                 <normaloff>Contact.png</normaloff>Contact.png</iconset>
                                </property>
                                <property name="iconSize">
                                 <size>
@@ -1875,7 +1875,7 @@ QPushButton::hover{border:3px solid #FFF3E8; border-radius:50px;background-color
                                </property>
                                <property name="icon">
                                 <iconset>
-                                 <normaloff>../../../../Desktop/Icons/Group 99.png</normaloff>../../../../Desktop/Icons/Group 99.png</iconset>
+                                 <normaloff>Detail.png</normaloff>Detail.png</iconset>
                                </property>
                                <property name="iconSize">
                                 <size>
@@ -2110,7 +2110,7 @@ QPushButton::hover{border:3px solid #FFF3E8; border-radius:50px;background-color
                                </property>
                                <property name="icon">
                                 <iconset>
-                                 <normaloff>../../../../Desktop/Icons/Group 99.png</normaloff>../../../../Desktop/Icons/Group 99.png</iconset>
+                                 <normaloff>Detail.png</normaloff>Detail.png</iconset>
                                </property>
                                <property name="iconSize">
                                 <size>
@@ -2172,7 +2172,7 @@ QPushButton::hover{border:3px solid #FFF3E8; border-radius:50px;background-color
                                </property>
                                <property name="icon">
                                 <iconset>
-                                 <normaloff>../../../../Desktop/Icons/Group 100.png</normaloff>../../../../Desktop/Icons/Group 100.png</iconset>
+                                 <normaloff>Contact.png</normaloff>Contact.png</iconset>
                                </property>
                                <property name="iconSize">
                                 <size>
@@ -2210,7 +2210,7 @@ QPushButton::hover{border:3px solid #FFF3E8; border-radius:50px;background-color
                                </property>
                                <property name="icon">
                                 <iconset>
-                                 <normaloff>../../../../Desktop/Icons/Group 99.png</normaloff>../../../../Desktop/Icons/Group 99.png</iconset>
+                                 <normaloff>Detail.png</normaloff>Detail.png</iconset>
                                </property>
                                <property name="iconSize">
                                 <size>
@@ -2242,7 +2242,7 @@ QPushButton::hover{border:3px solid #FFF3E8; border-radius:50px;background-color
                                </property>
                                <property name="icon">
                                 <iconset>
-                                 <normaloff>../../../../Desktop/Icons/Group 116.png</normaloff>../../../../Desktop/Icons/Group 116.png</iconset>
+                                 <normaloff>NewManu.png</normaloff>NewManu.png</iconset>
                                </property>
                                <property name="iconSize">
                                 <size>
@@ -2334,7 +2334,7 @@ QPushButton::hover{border:3px solid #FFF3E8; border-radius:50px;background-color
                                </property>
                                <property name="icon">
                                 <iconset>
-                                 <normaloff>../../../../Desktop/Icons/Group 102.png</normaloff>../../../../Desktop/Icons/Group 102.png</iconset>
+                                 <normaloff>Status.png</normaloff>Status.png</iconset>
                                </property>
                                <property name="iconSize">
                                 <size>
@@ -2452,7 +2452,7 @@ QPushButton::hover{border:3px solid #FFF3E8; border-radius:50px;background-color
                            </property>
                            <property name="icon">
                             <iconset>
-                             <normaloff>../../../../Desktop/Icons/Group 120.png</normaloff>../../../../Desktop/Icons/Group 120.png</iconset>
+                             <normaloff>NewPromo.png</normaloff>NewPromo.png</iconset>
                            </property>
                            <property name="iconSize">
                             <size>
@@ -2487,7 +2487,7 @@ QPushButton::hover{border:3px solid #FFF3E8; border-radius:50px;background-color
                            </property>
                            <property name="icon">
                             <iconset>
-                             <normaloff>../../../../Desktop/Icons/Group 99.png</normaloff>../../../../Desktop/Icons/Group 99.png</iconset>
+                             <normaloff>Detail.png</normaloff>Detail.png</iconset>
                            </property>
                            <property name="iconSize">
                             <size>
@@ -2585,7 +2585,37 @@ QPushButton::hover{border:3px solid #FFF3E8; border-radius:50px;background-color
                          <property name="verticalSpacing">
                           <number>20</number>
                          </property>
-                         <item row="1" column="0">
+                         <item row="3" column="1">
+                          <widget class="QLabel" name="label_41">
+                           <property name="minimumSize">
+                            <size>
+                             <width>250</width>
+                             <height>50</height>
+                            </size>
+                           </property>
+                           <property name="maximumSize">
+                            <size>
+                             <width>260</width>
+                             <height>50</height>
+                            </size>
+                           </property>
+                           <property name="font">
+                            <font>
+                             <family>Montserrat</family>
+                             <pointsize>11</pointsize>
+                             <weight>75</weight>
+                             <bold>true</bold>
+                            </font>
+                           </property>
+                           <property name="text">
+                            <string>NEW CHANNEL STATUS</string>
+                           </property>
+                           <property name="alignment">
+                            <set>Qt::AlignCenter</set>
+                           </property>
+                          </widget>
+                         </item>
+                         <item row="2" column="1">
                           <widget class="QPushButton" name="addChannelButton">
                            <property name="minimumSize">
                             <size>
@@ -2605,9 +2635,12 @@ QPushButton::hover{border:3px solid #FFF3E8; border-radius:50px;background-color
                              <pointsize>11</pointsize>
                             </font>
                            </property>
+                           <property name="cursor">
+                            <cursorShape>PointingHandCursor</cursorShape>
+                           </property>
                            <property name="icon">
                             <iconset>
-                             <normaloff>../../../../Desktop/Icons/Group 122.png</normaloff>../../../../Desktop/Icons/Group 122.png</iconset>
+                             <normaloff>Channel.png</normaloff>Channel.png</iconset>
                            </property>
                            <property name="iconSize">
                             <size>
@@ -2618,36 +2651,32 @@ QPushButton::hover{border:3px solid #FFF3E8; border-radius:50px;background-color
                           </widget>
                          </item>
                          <item row="2" column="0">
-                          <widget class="QLabel" name="label_40">
-                           <property name="minimumSize">
+                          <spacer name="horizontalSpacer_11">
+                           <property name="orientation">
+                            <enum>Qt::Horizontal</enum>
+                           </property>
+                           <property name="sizeHint" stdset="0">
                             <size>
-                             <width>220</width>
-                             <height>50</height>
+                             <width>40</width>
+                             <height>20</height>
                             </size>
                            </property>
-                           <property name="maximumSize">
-                            <size>
-                             <width>220</width>
-                             <height>50</height>
-                            </size>
-                           </property>
-                           <property name="font">
-                            <font>
-                             <family>Montserrat</family>
-                             <pointsize>11</pointsize>
-                             <weight>75</weight>
-                             <bold>true</bold>
-                            </font>
-                           </property>
-                           <property name="text">
-                            <string>ADD NEW CHANNEL</string>
-                           </property>
-                           <property name="alignment">
-                            <set>Qt::AlignCenter</set>
-                           </property>
-                          </widget>
+                          </spacer>
                          </item>
-                         <item row="0" column="0" colspan="2">
+                         <item row="2" column="2">
+                          <spacer name="horizontalSpacer_12">
+                           <property name="orientation">
+                            <enum>Qt::Horizontal</enum>
+                           </property>
+                           <property name="sizeHint" stdset="0">
+                            <size>
+                             <width>40</width>
+                             <height>20</height>
+                            </size>
+                           </property>
+                          </spacer>
+                         </item>
+                         <item row="0" column="0" colspan="3">
                           <widget class="QLabel" name="label_42">
                            <property name="minimumSize">
                             <size>
@@ -2674,71 +2703,6 @@ QPushButton::hover{border:3px solid #FFF3E8; border-radius:50px;background-color
                            </property>
                            <property name="text">
                             <string>Channel Information</string>
-                           </property>
-                           <property name="alignment">
-                            <set>Qt::AlignCenter</set>
-                           </property>
-                          </widget>
-                         </item>
-                         <item row="1" column="1">
-                          <widget class="QPushButton" name="edit_chandet">
-                           <property name="minimumSize">
-                            <size>
-                             <width>220</width>
-                             <height>150</height>
-                            </size>
-                           </property>
-                           <property name="maximumSize">
-                            <size>
-                             <width>220</width>
-                             <height>150</height>
-                            </size>
-                           </property>
-                           <property name="font">
-                            <font>
-                             <family>Montserrat</family>
-                             <pointsize>11</pointsize>
-                            </font>
-                           </property>
-                           <property name="cursor">
-                            <cursorShape>PointingHandCursor</cursorShape>
-                           </property>
-                           <property name="icon">
-                            <iconset>
-                             <normaloff>../../../../Desktop/Icons/Group 99.png</normaloff>../../../../Desktop/Icons/Group 99.png</iconset>
-                           </property>
-                           <property name="iconSize">
-                            <size>
-                             <width>150</width>
-                             <height>150</height>
-                            </size>
-                           </property>
-                          </widget>
-                         </item>
-                         <item row="2" column="1">
-                          <widget class="QLabel" name="label_41">
-                           <property name="minimumSize">
-                            <size>
-                             <width>220</width>
-                             <height>50</height>
-                            </size>
-                           </property>
-                           <property name="maximumSize">
-                            <size>
-                             <width>220</width>
-                             <height>50</height>
-                            </size>
-                           </property>
-                           <property name="font">
-                            <font>
-                             <family>Montserrat</family>
-                             <pointsize>11</pointsize>
-                             <weight>75</weight>
-                             <bold>true</bold>
-                            </font>
-                           </property>
-                           <property name="text">
-                            <string>CHANNEL DETAILS</string>
                            </property>
                            <property name="alignment">
                             <set>Qt::AlignCenter</set>
@@ -2785,7 +2749,7 @@ QPushButton::hover{border:3px solid #FFF3E8; border-radius:50px;background-color
                            </property>
                            <property name="icon">
                             <iconset>
-                             <normaloff>../../../../Desktop/Icons/Group 110.png</normaloff>../../../../Desktop/Icons/Group 110.png</iconset>
+                             <normaloff>Return.png</normaloff>Return.png</iconset>
                            </property>
                            <property name="iconSize">
                             <size>
@@ -2900,18 +2864,24 @@ QPushButton#pushButton_SelectReport::hover{color:#F17300; background-color: blac
                   <widget class="QComboBox" name="comboBox_Report">
                    <property name="minimumSize">
                     <size>
-                     <width>315</width>
-                     <height>30</height>
+                     <width>400</width>
+                     <height>35</height>
                     </size>
                    </property>
                    <property name="maximumSize">
                     <size>
-                     <width>315</width>
-                     <height>30</height>
+                     <width>400</width>
+                     <height>35</height>
                     </size>
                    </property>
                    <property name="styleSheet">
-                    <string notr="true">border: 3px solid #F17300; border-radius:10px;padding: 10px;</string>
+                    <string notr="true">border: 3px solid #F17300; border-radius:10px;</string>
+                   </property>
+                   <property name="iconSize">
+                    <size>
+                     <width>32</width>
+                     <height>35</height>
+                    </size>
                    </property>
                   </widget>
                  </item>
@@ -3003,7 +2973,7 @@ QPushButton#pushButton_SelectReport::hover{color:#F17300; background-color: blac
                    </property>
                    <property name="icon">
                     <iconset>
-                     <normaloff>../../../../Desktop/Icons/Group 124.png</normaloff>../../../../Desktop/Icons/Group 124.png</iconset>
+                     <normaloff>Report.png</normaloff>Report.png</iconset>
                    </property>
                    <property name="iconSize">
                     <size>

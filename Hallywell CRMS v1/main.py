@@ -39,12 +39,11 @@ from NewManufacturerForm import Ui_NewManufacturerForm
 from NewManufacturerContact import Ui_NewManufacturerContact
 from ManufacturerContactForm import Ui_ManufacturerContactForm
 from ManufacturerDetail import Ui_ManufacturerStatus
-from ManuacturerDetailsForm import Ui_ManufacturerDetails
+from ManufacturerDetailsForm import Ui_ManufacturerDetails
 # ==> Promotion Forms
 from PromtionDetailsForm import Ui_PromotionDetails
 from NewPromotionForm import Ui_NewPromotionForm
 # ==> Channel Forms
-#from ChannelDetailsForm import Ui_ChannelDetails
 from NewChannelStatusForm import Ui_NewChannelStatusForm
 
 counter = 0
@@ -151,7 +150,6 @@ class MainScreen(QMainWindow):
         self.ui.edit_promodet.clicked.connect(self.open_PromotionDetailsForm)
         # ==> Channel Forms
         self.ui.addChannelButton.clicked.connect(self.open_NewChannelStausForm)
-        self.ui.edit_chandet.clicked.connect(self.open_ChannelDetailsForm)
         # ==> Return Code Form
         self.ui.pushButton_EditReturnCodeStatus.clicked.connect(self.open_ReturnCodeDetail)
         # ==> Reports
@@ -372,14 +370,6 @@ class MainScreen(QMainWindow):
     # PROMOTION DETAILS
     def open_PromotionDetailsForm(self):
         self.form = PromotionDetailsForm()
-        icon = self.set_icon()
-        self.form.setWindowIcon(icon)
-        self.form.show()
-
-    # ==> Channel FORMS
-    # CHANNEL DETAILS FORM
-    def open_ChannelDetailsForm(self):  # FIXME: Make this function name lower case
-        self.form = ChannelDetailsForm()
         icon = self.set_icon()
         self.form.setWindowIcon(icon)
         self.form.show()
@@ -4101,8 +4091,8 @@ class ReportView(QMainWindow):
 # ==> RESOURCES
 def server_connection():
     conn = pyodbc.connect('Driver={SQL Server};'  # Leave this as is
-                          'Server=FAITH;'  # Enter your local Server Name
-                          'Database=cis3365db;'  # Enter your Database Name
+                          'Server=LAPTOP-S6PL64NB;'  # Enter your local Server Name
+                          'Database=GUI_Test;'  # Enter your Database Name
                           'Trusted_Connection=yes;')  # Leave this as is
     return conn
 
