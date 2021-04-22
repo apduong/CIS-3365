@@ -39,12 +39,11 @@ from NewManufacturerForm import Ui_NewManufacturerForm
 from NewManufacturerContact import Ui_NewManufacturerContact
 from ManufacturerContactForm import Ui_ManufacturerContactForm
 from ManufacturerDetail import Ui_ManufacturerStatus
-from ManuacturerDetailsForm import Ui_ManufacturerDetails
+from ManufacturerDetailsForm import Ui_ManufacturerDetails
 # ==> Promotion Forms
 from PromtionDetailsForm import Ui_PromotionDetails
 from NewPromotionForm import Ui_NewPromotionForm
 # ==> Channel Forms
-#from ChannelDetailsForm import Ui_ChannelDetails
 from NewChannelStatusForm import Ui_NewChannelStatusForm
 
 counter = 0
@@ -116,8 +115,6 @@ class MainScreen(QMainWindow):
         # ==> Customer Forms
         self.ui.addCusButton.clicked.connect(self.open_newcustomerform)
         self.ui.edit_cus.clicked.connect(self.open_customerdetailsform)
-        # ==> Order Forms
-        # self.ui.addOrdButton.clicked.connect()  # TODO: Create Order Class and Open Function
         self.ui.edit_order_status.clicked.connect(self.open_OrderDetail)
         # ==> Product Forms
         self.ui.addButton.clicked.connect(self.open_productform)
@@ -151,11 +148,12 @@ class MainScreen(QMainWindow):
         self.ui.edit_promodet.clicked.connect(self.open_PromotionDetailsForm)
         # ==> Channel Forms
         self.ui.addChannelButton.clicked.connect(self.open_NewChannelStausForm)
-        self.ui.edit_chandet.clicked.connect(self.open_ChannelDetailsForm)
+        self.ui.edit_chandet.clicked.connect(self.open_channeldetailsform)
         # ==> Return Code Form
         self.ui.pushButton_EditReturnCodeStatus.clicked.connect(self.open_ReturnCodeDetail)
         # ==> Reports
         self.ui.pushButton_SelectReport.clicked.connect(self.open_report)
+
 
     @staticmethod
     def set_icon():
@@ -378,8 +376,8 @@ class MainScreen(QMainWindow):
 
     # ==> Channel FORMS
     # CHANNEL DETAILS FORM
-    def open_ChannelDetailsForm(self):  # FIXME: Make this function name lower case
-        self.form = ChannelDetailsForm()
+    def open_channeldetailsform(self):  # FIXME: Make this function name lower case
+        self.form = channeldetailsform()
         icon = self.set_icon()
         self.form.setWindowIcon(icon)
         self.form.show()
@@ -675,7 +673,6 @@ class CustomerDetailsForm(QMainWindow):
 
 
 # ==> ORDER FORMS CLASSES
-# ORDER STATUS - Fully Functional
 class OrderDetail(QMainWindow):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -1833,8 +1830,8 @@ class NewEmployeeForm(QMainWindow):
             pass
 
 
-# TODO: Test function
-# STATUS - Fully Functioning
+
+# EMPLOYEE STATUS
 class EmployeeDetail(QMainWindow):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -1913,7 +1910,7 @@ class EmployeeDetail(QMainWindow):
         self.ui.lineEdit_EnterNewStatus.clear()
 
 
-# Fully Functional
+
 class EmployeeDetailsForm(QMainWindow):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -2835,7 +2832,6 @@ class ManufacturerDetailsForm(QMainWindow):
             pass
 
 
-# Fully Functioning Form
 class ManufacturerDetail(QMainWindow):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -2969,7 +2965,7 @@ class NewPromotionForm(QMainWindow):
             pass
 
 
-# Promotion
+# PROMOTION DETAILS
 class PromotionDetailsForm(QMainWindow):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -3067,7 +3063,7 @@ class PromotionDetailsForm(QMainWindow):
         self.set_promotionlist()
 
 
-# NEW CHANNEL FORM - Fully Functional
+# NEW CHANNEL FORM
 class NewChannelStatusForm(QMainWindow):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -3120,7 +3116,7 @@ class NewChannelStatusForm(QMainWindow):
 
 
 
-# ==> RETURN CODE - Fully Functional
+# ==> RETURN CODE
 class ReturnCodeDetail(QMainWindow):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
